@@ -1,6 +1,9 @@
 import { ipcMain, dialog, shell, BrowserWindow } from 'electron';
+import path from 'node:path';
+import fs from 'node:fs';
 import { getDb } from './db';
 import { logger } from './logger';
+import { getPaths } from './paths';
 import { AppError } from './services/_helpers';
 import { ctxFromToken, destroySession, login, runSetup, isSetupComplete, changePassword, getBusiness } from './services/authService';
 import * as products from './services/productService';
@@ -218,19 +221,46 @@ export function registerIpc(): void {
     }
   });
 
-  ipcMain.handle('merqo:shell', async (_event, action: string, target: string) => {
+  ipcMain.handle('merqo:shell', async (event, action: string, target: string) => {
     try {
-      if (action === 'openPath') {
-        const err = await shell.openPath(target);
-        return { ok: !err, error: err || undefined };
-      }
+      if (!isMainSender(event)) return { ok: false, error: 'UNKNOWN_ACTION' };
+      // Least privilege: only reveal files the app itself wrote inside userData.
+      // `openPath` (execute arbitrary programs/URLs) is intentionally not exposed.
       if (action === 'showItem') {
-        shell.showItemInFolder(target);
+        if (typeof target !== 'string' || !target) return { ok: false, error: 'PATH_NOT_ALLOWED' };
+        const resolved = path.resolve(target);
+        const root = path.resolve(getPaths().userData);
+        if (resolved !== root && !resolved.startsWith(root + path.sep)) {
+          logger.warn('security', `shell target outside userData blocked: ${resolved.slice(0, 160)}`);
+          return { ok: false, error: 'PATH_NOT_ALLOWED' };
+        }
+        if (!fs.existsSync(resolved)) return { ok: false, error: 'PATH_NOT_ALLOWED' };
+        shell.showItemInFolder(resolved);
         return { ok: true };
       }
       return { ok: false, error: 'UNKNOWN_ACTION' };
     } catch (e) {
-      return { ok: false, error: String(e).slice(0, 200) };
+      logger.error('shell', 'shell action failed', String(e));
+      return { ok: false, error: 'DB_ERROR' };
     }
   });
+}
+
+/**
+ * Only the app's main window may drive business IPC. Print/preview helper
+ * windows (data: URLs, no preload) can never become confused deputies.
+ */
+function isMainSender(event: Electron.IpcMainInvokeEvent): boolean {
+  try {
+    const wins = BrowserWindow.getAllWindows();
+    const main = wins.find((w) => {
+      try {
+        const u = w.webContents.getURL();
+        return u.startsWith('http://127.0.0.1:5174/') || u.startsWith('http://localhost:5174/') || u.includes('index.html');
+      } catch { return false; }
+    });
+    return !!main && event.sender === main.webContents;
+  } catch {
+    return false;
+  }
 }

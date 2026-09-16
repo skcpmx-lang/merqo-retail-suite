@@ -607,12 +607,14 @@ function DataSection(): React.ReactElement {
       )}
       <hr className="mq-divider" />
       <p className="mq-card-title">এক্সপোর্ট (CSV)</p>
+      {can('report.export') ? (
       <div className="mq-btn-row">
         <button className="mq-btn" onClick={() => exportCsv('products')}>পণ্য</button>
         <button className="mq-btn" onClick={() => exportCsv('sales')}>বিক্রয়</button>
         <button className="mq-btn" onClick={() => exportCsv('customers')}>কাস্টমার</button>
         <button className="mq-btn" onClick={() => exportCsv('suppliers')}>সরবরাহকারী</button>
       </div>
+      ) : <p className="mq-empty">এক্সপোর্টের অনুমতি নেই।</p>}
     </div>
   );
 }

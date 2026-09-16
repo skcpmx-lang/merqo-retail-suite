@@ -198,6 +198,9 @@ function csvCell(v: unknown): string {
 }
 
 export function exportCsv(db: Db, ctx: Ctx, kind: string, from?: string, to?: string): { file: string } {
+  requirePerm(ctx, 'report.export');
+  const CSV_KINDS = ['products', 'sales', 'customers', 'suppliers'] as const;
+  if (!CSV_KINDS.includes(kind as (typeof CSV_KINDS)[number])) throw new AppError('UNKNOWN_ACTION');
   const paths = getPaths();
   const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
   const file = path.join(paths.exportDir, `merqo-${kind}-${stamp}.csv`);
@@ -243,13 +246,20 @@ export function exportCsv(db: Db, ctx: Ctx, kind: string, from?: string, to?: st
 }
 
 export async function exportExcel(db: Db, ctx: Ctx, kind: string, title: string, headers: string[], rows: unknown[][]): Promise<{ file: string }> {
+  requirePerm(ctx, 'report.export');
+  const slug = String(kind ?? 'report').replace(/[^a-z0-9-_]+/gi, '_').slice(0, 40) || 'report';
+  if (!Array.isArray(headers) || !Array.isArray(rows)) throw new AppError('DB_ERROR');
+  if (headers.length > 60 || rows.length > 50000) throw new AppError('DB_ERROR');
+  const safeHeaders = headers.map((h) => String(h ?? '').slice(0, 200));
+  const safeRows = rows.map((r) => (Array.isArray(r) ? r.slice(0, 60).map((c) => (typeof c === 'number' || typeof c === 'string' ? c : String(c ?? '')).toString().slice(0, 2000)) : []));
   const paths = getPaths();
   const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-  const file = path.join(paths.exportDir, `merqo-${kind}-${stamp}.xlsx`);
+  const file = path.join(paths.exportDir, `merqo-${slug}-${stamp}.xlsx`);
   const wb = new ExcelJS.Workbook();
   wb.creator = 'MERQO Retail Suite';
-  const ws = wb.addWorksheet(title.slice(0, 31) || 'রিপোর্ট');
-  ws.addRow([title]);
+  const safeTitle = String(title ?? '').slice(0, 120) || 'রিপোর্ট';
+  const ws = wb.addWorksheet(safeTitle.slice(0, 31));
+  ws.addRow([safeTitle]);
   ws.addRow([`তৈরির সময়: ${new Date().toLocaleString('bn-BD')}`]);
   ws.addRow([]);
   ws.addRow(headers);
@@ -261,8 +271,9 @@ export async function exportExcel(db: Db, ctx: Ctx, kind: string, title: string,
 }
 
 export function downloadTemplate(kind: 'products' | 'customers' | 'suppliers'): { file: string } {
-  const paths = getPaths();
   const map = { products: PRODUCT_TEMPLATE, customers: CUSTOMER_TEMPLATE, suppliers: SUPPLIER_TEMPLATE };
+  if (!Object.prototype.hasOwnProperty.call(map, kind)) throw new AppError('UNKNOWN_ACTION');
+  const paths = getPaths();
   const file = path.join(paths.exportDir, `merqo-template-${kind}.csv`);
   fs.writeFileSync(file, '\uFEFF' + map[kind].join(',') + '\n', 'utf8');
   return { file };

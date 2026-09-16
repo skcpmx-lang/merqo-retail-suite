@@ -132,16 +132,37 @@ export function runSetup(db: Db, payload: SetupPayload): Session {
   return { token, user: toSafeUser(userRow), permissions: [...DEFAULT_ROLE_PERMISSIONS.owner], business: getBusiness(db, businessId) };
 }
 
+// In-memory login throttle: 5 failures within 10 minutes locks the username for 10 minutes.
+const loginAttempts = new Map<string, { fails: number; firstAt: number; lockedUntil: number }>();
+const LOGIN_WINDOW_MS = 10 * 60 * 1000;
+const LOGIN_MAX_FAILS = 5;
+
 export function login(db: Db, username: string, password: string): Session {
   const uname = username?.trim().toLowerCase();
   if (!uname || !password) throw new AppError('INVALID_CREDENTIALS');
+  const nowMs = Date.now();
+  const rec = loginAttempts.get(uname);
+  if (rec && rec.lockedUntil > nowMs) throw new AppError('AUTH_LOCKED');
+  if (rec && nowMs - rec.firstAt > LOGIN_WINDOW_MS) loginAttempts.delete(uname);
+  const fail = (): never => {
+    const r = loginAttempts.get(uname) ?? { fails: 0, firstAt: nowMs, lockedUntil: 0 };
+    r.fails += 1;
+    if (r.fails >= LOGIN_MAX_FAILS) {
+      r.lockedUntil = nowMs + LOGIN_WINDOW_MS;
+      loginAttempts.set(uname, r);
+      throw new AppError('AUTH_LOCKED');
+    }
+    loginAttempts.set(uname, r);
+    throw new AppError('INVALID_CREDENTIALS');
+  };
   const row = db.prepare('SELECT * FROM users WHERE username = ?').get(uname) as Record<string, unknown> | undefined;
-  if (!row) throw new AppError('INVALID_CREDENTIALS');
+  if (!row) return fail();
   if (!row.active) throw new AppError('USER_INACTIVE');
   const hash = hashPassword(password, row.password_salt as string);
   const a = Buffer.from(hash, 'hex');
   const b = Buffer.from(row.password_hash as string, 'hex');
-  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) throw new AppError('INVALID_CREDENTIALS');
+  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return fail();
+  loginAttempts.delete(uname);
   const businessId = row.business_id as number;
   db.prepare('UPDATE users SET last_login_at = ?, updated_at = ? WHERE id = ?').run(nowIso(), nowIso(), row.id);
   const token = createSession(row.id as number, businessId);

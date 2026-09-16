@@ -5,6 +5,7 @@ import { openDatabase, closeDatabase } from './db';
 import { registerIpc } from './ipc';
 import { logger } from './logger';
 import { getPaths } from './paths';
+import { hardenContents, isAllowedPage, renderInHiddenWindow, renderPdfBuffer, withFonts } from './printService';
 
 const isDev = !app.isPackaged;
 
@@ -13,6 +14,10 @@ let mainWindow: BrowserWindow | null = null;
 function rendererUrl(): string {
   if (isDev) return 'http://127.0.0.1:5174/';
   return `file://${path.join(__dirname, '../renderer/index.html')}`;
+}
+
+function isMainSender(contents: Electron.WebContents): boolean {
+  return !!mainWindow && !mainWindow.isDestroyed() && contents === mainWindow.webContents;
 }
 
 function createMainWindow(): void {
@@ -28,63 +33,33 @@ function createMainWindow(): void {
       preload: path.join(__dirname, '../preload/preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
-      sandbox: false,
+      sandbox: true,
+      webSecurity: true,
+      allowRunningInsecureContent: false,
     },
   });
+  hardenContents(mainWindow.webContents, { allowDevServer: isDev });
   mainWindow.loadURL(rendererUrl());
   mainWindow.on('closed', () => { mainWindow = null; });
-  if (isDev) {
-    // Keep devtools closed by default; toggle with Ctrl+Shift+I
-  }
 }
 
 // ---------- Print service: hidden window renders document HTML, then print / PDF ----------
 
-let fontCssCache: string | null = null;
+const MAX_PRINT_HTML = 3 * 1024 * 1024;
 
-/**
- * Print/preview windows load data: URLs, so bundled webfonts are unavailable.
- * Embed Noto Sans Bengali (OFL) as base64 @font-face so invoices/receipts/PDFs
- * always render Bengali correctly, offline.
- */
-function printFontCss(): string {
-  if (fontCssCache !== null) return fontCssCache;
-  const candidates = [
-    path.join(process.resourcesPath || '', 'assets', 'fonts'),
-    path.join(app.getAppPath(), '..', 'assets', 'fonts'),
-    path.join(__dirname, '..', '..', 'assets', 'fonts'),
-  ];
-  for (const dir of candidates) {
-    try {
-      const r = path.join(dir, 'noto-sans-bengali-bengali-400-normal.woff2');
-      const b = path.join(dir, 'noto-sans-bengali-bengali-700-normal.woff2');
-      if (fs.existsSync(r) && fs.existsSync(b)) {
-        const rb = fs.readFileSync(r).toString('base64');
-        const bb = fs.readFileSync(b).toString('base64');
-        fontCssCache = `@font-face{font-family:'Noto Sans Bengali';font-weight:400;font-style:normal;src:url(data:font/woff2;base64,${rb}) format('woff2');}`
-          + `@font-face{font-family:'Noto Sans Bengali';font-weight:700;font-style:normal;src:url(data:font/woff2;base64,${bb}) format('woff2');}`;
-        return fontCssCache;
-      }
-    } catch { /* try next */ }
+function checkedHtml(payload: unknown): string {
+  const html = (payload as { html?: unknown })?.html;
+  if (typeof html !== 'string' || html.length === 0 || html.length > MAX_PRINT_HTML) {
+    throw new Error('bad print payload');
   }
-  logger.warn('print', 'bundled Bengali font not found; print output may fall back to system fonts');
-  fontCssCache = '';
-  return fontCssCache;
+  return html;
 }
 
-function withFonts(html: string): string {
-  return html.replace('/*__MQ_FONT__*/', printFontCss());
-}
-
-async function renderInHiddenWindow(html: string): Promise<BrowserWindow> {
-  const win = new BrowserWindow({
-    show: false,
-    width: 900,
-    height: 1200,
-    webPreferences: { contextIsolation: true, nodeIntegration: false },
-  });
-  await win.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(withFonts(html))}`);
-  return win;
+function checkedPrinterName(payload: unknown): string | undefined {
+  const n = (payload as { printerName?: unknown })?.printerName;
+  if (n === undefined || n === null || n === '') return undefined;
+  if (typeof n !== 'string' || n.length > 260) throw new Error('bad printer name');
+  return n;
 }
 
 function registerPrintIpc(): void {
@@ -99,17 +74,18 @@ function registerPrintIpc(): void {
     }
   });
 
-  ipcMain.handle('merqo:print', async (_event, payload: { html: string; printerName?: string; silent?: boolean; landscape?: boolean; paperWidthMicrons?: number }) => {
+  ipcMain.handle('merqo:print', async (event, payload: { html: string; printerName?: string; silent?: boolean; landscape?: boolean; paperWidthMicrons?: number }) => {
     let win: BrowserWindow | null = null;
     try {
-      win = await renderInHiddenWindow(payload.html);
+      if (!isMainSender(event.sender)) return { ok: false, error: 'UNKNOWN_ACTION' };
+      win = await renderInHiddenWindow(checkedHtml(payload));
       await new Promise((r) => setTimeout(r, 350)); // allow fonts/layout
       await new Promise<void>((resolve, reject) => {
         win!.webContents.print(
           {
             silent: payload.silent ?? false,
             printBackground: true,
-            deviceName: payload.printerName || undefined,
+            deviceName: checkedPrinterName(payload),
             landscape: payload.landscape ?? false,
           },
           (success, reason) => (success ? resolve() : reject(new Error(reason || 'print failed'))),
@@ -124,19 +100,11 @@ function registerPrintIpc(): void {
     }
   });
 
-  ipcMain.handle('merqo:pdf', async (_event, payload: { html: string; landscape?: boolean; pageSize?: string; widthMicrons?: number; heightMicrons?: number }) => {
-    let win: BrowserWindow | null = null;
+  ipcMain.handle('merqo:pdf', async (event, payload: { html: string; landscape?: boolean; pageSize?: string; widthMicrons?: number; heightMicrons?: number }) => {
     try {
+      if (!isMainSender(event.sender)) return { ok: false, error: 'UNKNOWN_ACTION' };
       const paths = getPaths();
-      win = await renderInHiddenWindow(payload.html);
-      await new Promise((r) => setTimeout(r, 350));
-      const pdfOptions: Electron.PrintToPDFOptions = {
-        printBackground: true,
-        landscape: payload.landscape ?? false,
-        pageSize: (payload.pageSize as Electron.PrintToPDFOptions['pageSize']) ?? 'A4',
-        margins: { top: 0.4, bottom: 0.4, left: 0.4, right: 0.4 },
-      };
-      const data = await win.webContents.printToPDF(pdfOptions);
+      const data = await renderPdfBuffer(checkedHtml(payload), { landscape: payload.landscape, pageSize: payload.pageSize });
       const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
       const file = path.join(paths.exportDir, `merqo-doc-${stamp}.pdf`);
       fs.writeFileSync(file, data);
@@ -144,8 +112,6 @@ function registerPrintIpc(): void {
     } catch (e) {
       logger.error('print', 'PDF failed', String(e));
       return { ok: false, error: 'PRINT_FAILED' };
-    } finally {
-      if (win && !win.isDestroyed()) win.close();
     }
   });
 
@@ -167,7 +133,35 @@ function registerPrintIpc(): void {
   });
 }
 
+// Release smoke modes (see src/main/smoke.ts). Handled before the single-instance
+// lock so CI can run them deterministically on a clean machine.
+const smokeOut = (() => {
+  const i = process.argv.indexOf('--smoke-out');
+  return i >= 0 && process.argv[i + 1] ? process.argv[i + 1] : null;
+})();
+if (process.argv.includes('--merqo-smoke-gui')) {
+  void import('./smoke').then((m) => m.runGuiSmoke(smokeOut ?? process.cwd()));
+} else if (process.argv.includes('--merqo-smoke')) {
+  void import('./smoke').then((m) => m.runHeadlessSmoke(smokeOut ?? process.cwd()));
+}
+
+// Single instance: protects the SQLite database from multi-process writes.
+const gotLock = process.argv.includes('--merqo-smoke') || process.argv.includes('--merqo-smoke-gui') ? true : app.requestSingleInstanceLock();
+if (!gotLock) {
+  app.quit();
+} else {
+  app.on('second-instance', () => {
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore();
+      mainWindow.focus();
+    }
+  });
+}
+
+const isSmokeMode = process.argv.includes('--merqo-smoke') || process.argv.includes('--merqo-smoke-gui');
+
 app.whenReady().then(() => {
+  if (isSmokeMode) return; // smoke harness owns startup sequencing
   try {
     getPaths();
   } catch (e) {
@@ -182,10 +176,17 @@ app.whenReady().then(() => {
   // Block all remote content — offline-first, no CDN at runtime.
   session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
     const url = details.url;
-    if (url.startsWith('http://127.0.0.1:5174/') || url.startsWith('file://') || url.startsWith('data:') || url.startsWith('devtools://') || url.startsWith('chrome-extension://')) {
+    if (url.startsWith('data:') || url.startsWith('devtools://') || url.startsWith('chrome-extension://')) {
       callback({});
+    } else if (url.startsWith('file://')) {
+      // Only the app's own files may load.
+      if (isAllowedPage(url, false)) callback({});
+      else {
+        logger.warn('security', `blocked file request: ${url.slice(0, 160)}`);
+        callback({ cancel: true });
+      }
     } else if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('ws://') || url.startsWith('wss://')) {
-      // Allow vite HMR websocket in dev only
+      // Dev server + vite HMR in dev only.
       if (isDev && (url.includes('127.0.0.1') || url.includes('localhost'))) callback({});
       else {
         logger.warn('security', `blocked remote request: ${url.slice(0, 120)}`);

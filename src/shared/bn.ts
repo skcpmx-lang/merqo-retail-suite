@@ -105,6 +105,8 @@ export function bnError(codeOrMessage: string): string {
     INSUFFICIENT_BALANCE: 'নির্বাচিত হিসাবে পর্যাপ্ত ব্যালেন্স নেই।',
     SAME_ACCOUNT: 'একই হিসাবে স্থানান্তর করা যাবে না। ভিন্ন হিসাব নির্বাচন করুন।',
     INVALID_CREDENTIALS: 'ইউজারনাম অথবা পাসওয়ার্ড সঠিক নয়।',
+    AUTH_LOCKED: 'অনেকবার ভুল চেষ্টা হয়েছে। ১০ মিনিট পর আবার চেষ্টা করুন।',
+    PATH_NOT_ALLOWED: 'এই ফাইলটি খোলার অনুমতি নেই।',
     USER_INACTIVE: 'এই ব্যবহারকারীর অ্যাকাউন্ট নিষ্ক্রিয় করা হয়েছে।',
     USER_NOT_FOUND: 'ব্যবহারকারী খুঁজে পাওয়া যায়নি।',
     NO_PERMISSION: 'এই কাজটি করার অনুমতি আপনার নেই।',

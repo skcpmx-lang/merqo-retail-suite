@@ -1,5 +1,8 @@
 name: Release (Windows)
 
+# Final release gate: clean Windows build -> install -> packaged-exe verification
+# (headless business scenario + GUI screenshots + Bengali PDF) -> uninstall.
+# Artifacts + reports are uploaded for human review before any GitHub Release.
 on:
   push:
     tags: ['v*']
@@ -8,6 +11,9 @@ on:
 jobs:
   build-windows:
     runs-on: windows-latest
+    env:
+      SMOKE_OUT: ${{ runner.temp }}\merqo-smoke
+      INSTALL_DIR: ${{ runner.temp }}\merqo-install
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -23,7 +29,80 @@ jobs:
       # verification, then package the installer + portable builds.
       - run: npm run rebuild
       - run: npx electron-builder --win nsis portable
+
+      - name: Verify artifacts
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $setup = Get-ChildItem release\*-Setup-*.exe | Select-Object -First 1
+          $portable = Get-ChildItem release\*-Portable-*.exe | Select-Object -First 1
+          if (-not $setup) { throw 'Setup exe missing' }
+          if (-not $portable) { throw 'Portable exe missing' }
+          Write-Host "SETUP: $($setup.Name) $([math]::Round($setup.Length/1MB,1)) MB"
+          Write-Host "PORTABLE: $($portable.Name) $([math]::Round($portable.Length/1MB,1)) MB"
+          if ($setup.Length -lt 20MB) { throw 'Setup exe suspiciously small' }
+          if ($portable.Length -lt 20MB) { throw 'Portable exe suspiciously small' }
+          Get-FileHash $setup.FullName -Algorithm SHA256 | Format-List
+          Get-FileHash $portable.FullName -Algorithm SHA256 | Format-List
+          "SETUP_PATH=$($setup.FullName)" >> $env:GITHUB_ENV
+          "PORTABLE_PATH=$($portable.FullName)" >> $env:GITHUB_ENV
+
+      - name: Silent install (NSIS)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          New-Item -ItemType Directory -Force -Path $env:SMOKE_OUT | Out-Null
+          Start-Process -FilePath $env:SETUP_PATH -ArgumentList '/S', "/D=$($env:INSTALL_DIR)" -Wait
+          $exe = Join-Path $env:INSTALL_DIR 'MERQO Retail Suite.exe'
+          if (-not (Test-Path $exe)) { throw "Installed exe not found: $exe" }
+          Write-Host "INSTALLED: $exe"
+          "INSTALLED_EXE=$exe" >> $env:GITHUB_ENV
+
+      - name: Packaged headless smoke (installed exe)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          & $env:INSTALLED_EXE --merqo-smoke --smoke-out $env:SMOKE_OUT
+          if ($LASTEXITCODE -ne 0) { throw "headless smoke exited $LASTEXITCODE" }
+          $rep = Get-Content (Join-Path $env:SMOKE_OUT 'smoke-report.json') -Raw | ConvertFrom-Json
+          if (-not $rep.ok) { throw "headless smoke report not ok: $($rep.error)" }
+          Write-Host "HEADLESS SMOKE OK: $($rep.steps.Count) steps, v$($rep.version) $($rep.platform)"
+
+      - name: Packaged GUI smoke (installed exe)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          & $env:INSTALLED_EXE --merqo-smoke-gui --smoke-out $env:SMOKE_OUT
+          if ($LASTEXITCODE -ne 0) { throw "GUI smoke exited $LASTEXITCODE" }
+          $rep = Get-Content (Join-Path $env:SMOKE_OUT 'gui-report.json') -Raw | ConvertFrom-Json
+          if (-not $rep.ok) { throw "GUI smoke report not ok: $($rep.error)" }
+          Write-Host "GUI SMOKE OK: $($rep.steps.Count) steps"
+          Get-ChildItem $env:SMOKE_OUT | Format-Table Name, Length
+
+      - name: Portable smoke
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $pdir = Join-Path $env:RUNNER_TEMP 'merqo-portable'
+          New-Item -ItemType Directory -Force -Path $pdir | Out-Null
+          Copy-Item $env:PORTABLE_PATH (Join-Path $pdir 'merqo-portable.exe')
+          & (Join-Path $pdir 'merqo-portable.exe') --merqo-smoke --smoke-out (Join-Path $pdir 'out')
+          if ($LASTEXITCODE -ne 0) { throw "portable smoke exited $LASTEXITCODE" }
+          Write-Host 'PORTABLE SMOKE OK'
+
+      - name: Silent uninstall
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $un = Get-ChildItem "$env:INSTALL_DIR\Uninstall*.exe" | Select-Object -First 1
+          if (-not $un) { throw 'Uninstaller not found' }
+          Start-Process -FilePath $un.FullName -ArgumentList '/S' -Wait
+          Start-Sleep -Seconds 3
+          if (Test-Path $env:INSTALLED_EXE) { throw 'Uninstall left the exe behind' }
+          Write-Host 'UNINSTALL OK'
+
       - name: Release notes
+        shell: pwsh
         run: node scripts/release-notes.js "${{ github.ref_name }}" > release-notes.md
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -32,6 +111,11 @@ jobs:
           path: |
             release/*.exe
             release-notes.md
+      - name: Upload verification evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: merqo-verification
+          path: ${{ runner.temp }}\merqo-smoke
       - name: GitHub Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2

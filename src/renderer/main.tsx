@@ -15,3 +15,9 @@ createRoot(el).render(
     <App />
   </React.StrictMode>,
 );
+
+// Release-smoke readiness flag (read by the packaged GUI harness only).
+window.addEventListener('load', () => {
+  setTimeout(() => { (window as unknown as { __MERQO_READY__: boolean }).__MERQO_READY__ = true; }, 600);
+});
+setTimeout(() => { (window as unknown as { __MERQO_READY__: boolean }).__MERQO_READY__ = true; }, 5000);
