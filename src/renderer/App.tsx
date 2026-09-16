@@ -1,3 +1,4 @@
+import logoUrl from '../../assets/logo.svg';
 import React from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppProvider, useApp } from './store';
@@ -23,7 +24,7 @@ function Gate(): React.ReactElement {
   if (!sessionChecked || setupComplete === null) {
     return (
       <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
-        <div className="mq-brand-mark" style={{ width: 52, height: 52, fontSize: 28 }}>M</div>
+        <img src={logoUrl} alt="MERQO" style={{ width: 52, height: 52, display: "block", margin: "0 auto" }} />
         <Spinner />
         <p className="mq-muted">MERQO লোড হচ্ছে…</p>
       </div>

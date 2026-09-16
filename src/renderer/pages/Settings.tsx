@@ -1,3 +1,4 @@
+import logoUrl from '../../../assets/logo.svg';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   Store, Receipt, Printer as PrinterIcon, ShoppingCart, Boxes, Percent, ShieldCheck,
@@ -710,7 +711,7 @@ function SystemSection(): React.ReactElement {
       </div>
       <hr className="mq-divider" />
       <div className="mq-empty" style={{ padding: '20px' }}>
-        <div className="mq-brand-mark" style={{ margin: '0 auto' }}>M</div>
+        <img src={logoUrl} alt="MERQO" style={{ width: 48, height: 48, display: "block", margin: "0 auto" }} />
         <p className="mq-empty-title" style={{ marginTop: 10 }}>MERQO Retail Suite</p>
         <p className="mq-empty-sub">সংস্করণ 1.0.0 • © ২০২৬ MERQO. সর্বস্বত্ব সংরক্ষিত।<br />অফলাইন-ফার্স্ট • বাংলা • লাইট মোড</p>
         <button className="mq-btn sm ghost" onClick={() => notify('success', 'MERQO Retail Suite v1.0.0 — প্রোডাকশন বিল্ড')}>বিল্ড তথ্য</button>
