@@ -90,6 +90,7 @@ export function bnError(codeOrMessage: string): string {
     PHONE_DUPLICATE: 'এই মোবাইল নম্বরটি ইতিমধ্যে ব্যবহার করা হয়েছে।',
     INVALID_PHONE: 'মোবাইল নম্বরটি সঠিক নয়। উদাহরণ: 017XXXXXXXX অথবা +88017XXXXXXXX।',
     INVALID_EMAIL: 'ইমেইল ঠিকানাটি সঠিক নয়। যাচাই করে আবার চেষ্টা করুন।',
+    INVALID_LOGO: 'লোগো ফাইলটি গ্রহণযোগ্য নয়। PNG/JPG/WebP/SVG (base64, সর্বোচ্চ ~৩০০ কেবি) ব্যবহার করুন।',
     USERNAME_DUPLICATE: 'এই ইউজারনামটি ইতিমধ্যে ব্যবহার করা হয়েছে।',
     INSUFFICIENT_STOCK: 'স্টকে পর্যাপ্ত পণ্য নেই।',
     NEGATIVE_STOCK_BLOCKED: 'স্টক শূন্যের নিচে নেওয়া যাবে না। সেটিংস থেকে নীতি পরিবর্তন করুন অথবা স্টক যোগ করুন।',

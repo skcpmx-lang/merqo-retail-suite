@@ -16,15 +16,21 @@ export function updateBusinessProfile(
     name: string; owner_name: string | null; phone: string | null; email: string | null; address: string | null;
     business_type: string | null; invoice_prefix: string; footer: string | null; terms: string | null;
     tax_default_bp: number; tax_mode: string; negative_stock_allowed: boolean; overpayment_policy: string;
-    digit_locale: string; receipt_width: string; timezone: string;
+    digit_locale: string; receipt_width: string; timezone: string; logo: string | null;
   }>,
 ): Business {
   requirePerm(ctx, 'settings.edit');
   const old = getBusinessProfile(db, ctx);
   if (input.name !== undefined && !input.name.trim()) throw new AppError('REQUIRED');
+  if (input.logo !== undefined && input.logo !== null) {
+    // Logo is stored inline as a data URL so invoices/receipts can embed it offline.
+    if (!/^data:image\/(png|jpeg|jpg|webp|svg\+xml);base64,[A-Za-z0-9+/=]+$/.test(input.logo) || input.logo.length > 400_000) {
+      throw new AppError('INVALID_LOGO');
+    }
+  }
   db.prepare(
     `UPDATE businesses SET name = COALESCE(?, name), owner_name = ?, phone = ?, email = ?, address = ?, business_type = ?,
-     invoice_prefix = COALESCE(?, invoice_prefix), footer = ?, terms = ?,
+     invoice_prefix = COALESCE(?, invoice_prefix), footer = ?, terms = ?, logo_path = ?,
      tax_default_bp = COALESCE(?, tax_default_bp), tax_mode = COALESCE(?, tax_mode),
      negative_stock_allowed = COALESCE(?, negative_stock_allowed), overpayment_policy = COALESCE(?, overpayment_policy),
      digit_locale = COALESCE(?, digit_locale), receipt_width = COALESCE(?, receipt_width), timezone = COALESCE(?, timezone),
@@ -39,6 +45,7 @@ export function updateBusinessProfile(
     input.invoice_prefix?.trim() || null,
     input.footer !== undefined ? sanitizeText(input.footer, 1000) : old.footer,
     input.terms !== undefined ? sanitizeText(input.terms, 2000) : old.terms,
+    input.logo !== undefined ? input.logo : old.logo_path,
     input.tax_default_bp ?? null,
     input.tax_mode ?? null,
     input.negative_stock_allowed === undefined ? null : input.negative_stock_allowed ? 1 : 0,
@@ -48,7 +55,9 @@ export function updateBusinessProfile(
     input.timezone ?? null,
     nowIso(), ctx.businessId,
   );
-  audit(db, ctx, 'settings.business_update', 'business', ctx.businessId, null, input);
+  // Audit without the (potentially large) inline logo payload.
+  const { logo: _logo, ...auditInput } = input;
+  audit(db, ctx, 'settings.business_update', 'business', ctx.businessId, null, { ...auditInput, logo: input.logo !== undefined ? (input.logo ? 'set' : 'removed') : undefined });
   return getBusinessProfile(db, ctx);
 }
 
