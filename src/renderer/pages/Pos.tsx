@@ -5,7 +5,7 @@ import {
   RotateCcw, Ban, Eye, CheckCircle2, ShoppingCart, ListOrdered, Undo2,
 } from 'lucide-react';
 import { Layout } from '../components/Layout';
-import { PageHeader, Modal, Confirm, EmptyState, Badge, paymentBadge, Pagination, Field, Spinner, useDebouncedValue } from '../components/ui';
+import { PageHeader, Modal, Confirm, EmptyState, Badge, paymentBadge, Pagination, Field, Spinner, useDebouncedValue, PayMethodGrid } from '../components/ui';
 import { useDateRange } from '../components/DateRange';
 import { call, api } from '../api';
 import { useApp, useMoney } from '../store';
@@ -21,8 +21,6 @@ interface CartLine {
   price: number; // paisa per unit
   discount: number; // paisa per line
 }
-
-const PAY_METHODS: { id: PaymentMethod; label: string }[] = (Object.keys(PAYMENT_METHOD_BN) as PaymentMethod[]).map((m) => ({ id: m, label: PAYMENT_METHOD_BN[m] }));
 
 export function Pos(): React.ReactElement {
   const [tab, setTab] = useState<'pos' | 'invoices' | 'held' | 'returns'>('pos');
@@ -72,6 +70,7 @@ function PosTerminal({ restoreId }: { restoreId?: number }): React.ReactElement 
   const [done, setDone] = useState<{ id: number; invoice_no: string; change_amount: number; total: number; paid: number; due: number } | null>(null);
   const [heldSourceId, setHeldSourceId] = useState<number | null>(restoreId ?? null);
   const barcodeRef = useRef<HTMLInputElement>(null);
+  const customerRef = useRef<HTMLSelectElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const tenderRef = useRef<HTMLInputElement>(null);
   const debouncedSearch = useDebouncedValue(search, 200);
@@ -151,10 +150,18 @@ function PosTerminal({ restoreId }: { restoreId?: number }): React.ReactElement 
     finally { setBarcode(''); }
   }, [addProduct, fail, notify]);
 
-  // F8 = payment focus, F9 = hold, F10 = complete
+  // While POS terminal is mounted, global F2/F3/F4 navigation yields to POS-local shortcuts
+  useEffect(() => {
+    (window as unknown as { __mqPosActive?: boolean }).__mqPosActive = true;
+    return () => { (window as unknown as { __mqPosActive?: boolean }).__mqPosActive = false; };
+  }, []);
+
+  // F2 = search, F4 = customer, F8 = payment focus, F9 = hold, F10 = complete
   useEffect(() => {
     const onKey = (e: KeyboardEvent): void => {
-      if (e.key === 'F8') { e.preventDefault(); tenderRef.current?.focus(); tenderRef.current?.select(); }
+      if (e.key === 'F2') { e.preventDefault(); searchRef.current?.focus(); }
+      else if (e.key === 'F4') { e.preventDefault(); customerRef.current?.focus(); }
+      else if (e.key === 'F8') { e.preventDefault(); tenderRef.current?.focus(); tenderRef.current?.select(); }
       else if (e.key === 'F9') { e.preventDefault(); if (cart.length) setHoldOpen(true); }
       else if (e.key === 'F10') { e.preventDefault(); void doComplete(); }
     };
@@ -346,7 +353,7 @@ function PosTerminal({ restoreId }: { restoreId?: number }): React.ReactElement 
         <div className="mq-card" style={{ position: 'sticky', top: 0 }}>
           <div style={{ padding: '14px 16px', borderBottom: '1px solid var(--mq-border)' }}>
             <Field label="কাস্টমার (বকেয়ার জন্য আবশ্যক)">
-              <select className="mq-select" value={customerId ?? ''} onChange={(e) => setCustomerId(e.target.value ? Number(e.target.value) : null)}>
+              <select ref={customerRef} className="mq-select" value={customerId ?? ''} onChange={(e) => setCustomerId(e.target.value ? Number(e.target.value) : null)}>
                 <option value="">ওয়াক-ইন (সাধারণ)</option>
                 {customers.map((c) => <option key={c.id} value={c.id}>{c.name}{c.phone ? ` • ${c.phone}` : ''}</option>)}
               </select>
@@ -364,16 +371,7 @@ function PosTerminal({ restoreId }: { restoreId?: number }): React.ReactElement 
             <div className="row"><span>ছাড়</span><strong>-{fmt(totals.invDisc)}</strong></div>
             <div className="row grand"><span>সর্বমোট</span><span>{fmt(totals.total)}</span></div>
             <div className="row"><span>পেমেন্ট মাধ্যম</span></div>
-            <div className="mq-paygrid">
-              {PAY_METHODS.map((m) => (
-                <button key={m.id} className={`mq-paybtn${payMethod === m.id ? ' active' : ''}`} onClick={() => {
-                  setPayMethod(m.id);
-                  const map: Record<string, string> = { cash: 'CASH', bank: 'BANK', bkash: 'BKASH', nagad: 'NAGAD', rocket: 'ROCKET', upay: 'UPAY', card: 'CARD', other: 'OTHER' };
-                  const a = accounts.find((x) => x.code === map[m.id]);
-                  if (a) setPayAccountId(a.id);
-                }}>{m.label}</button>
-              ))}
-            </div>
+            <PayMethodGrid value={payMethod} onChange={setPayMethod} accounts={accounts} onAutoAccount={setPayAccountId} />
             <Field label="হিসাব">
               <select className="mq-select" value={payAccountId ?? ''} onChange={(e) => setPayAccountId(Number(e.target.value))}>
                 {accounts.map((a) => <option key={a.id} value={a.id}>{a.name} ({fmt(a.current_balance ?? 0)})</option>)}
@@ -408,6 +406,13 @@ function PosTerminal({ restoreId }: { restoreId?: number }): React.ReactElement 
             <div className="mq-btn-row">
               <button className="mq-btn" style={{ flex: 1 }} onClick={() => setHoldOpen(true)} disabled={!cart.length}><Pause /> হোল্ড (F9)</button>
               <button className="mq-btn ghost" style={{ flex: 1 }} onClick={() => { setCart([]); setPayments([]); setTendered(''); }}><Trash2 /> বাতিল</button>
+            </div>
+            <div className="mq-hints">
+              <span><kbd className="mq-kbd">F2</kbd> খোঁজা</span>
+              <span><kbd className="mq-kbd">F4</kbd> কাস্টমার</span>
+              <span><kbd className="mq-kbd">F8</kbd> প্রাপ্ত টাকা</span>
+              <span><kbd className="mq-kbd">F9</kbd> হোল্ড</span>
+              <span><kbd className="mq-kbd">F10</kbd> সম্পন্ন</span>
             </div>
           </div>
         </div>

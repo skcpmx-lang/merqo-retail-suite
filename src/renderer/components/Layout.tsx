@@ -74,9 +74,11 @@ export function Layout({ children, title, sub }: { children: React.ReactNode; ti
   useEffect(() => {
     const onKey = (e: KeyboardEvent): void => {
       if (e.key === 'F1' || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k')) { e.preventDefault(); setSearchOpen(true); }
-      else if (e.key === 'F2') { e.preventDefault(); navigate('/sales'); }
-      else if (e.key === 'F3') { e.preventDefault(); navigate('/products?new=1'); }
-      else if (e.key === 'F4') { e.preventDefault(); navigate('/customers'); }
+      else if (!(window as unknown as { __mqPosActive?: boolean }).__mqPosActive) {
+        if (e.key === 'F2') { e.preventDefault(); navigate('/sales'); }
+        else if (e.key === 'F3') { e.preventDefault(); navigate('/products?new=1'); }
+        else if (e.key === 'F4') { e.preventDefault(); navigate('/customers'); }
+      }
       else if (e.key === 'F5' && e.ctrlKey === false) { /* allow default refresh? prevent accidental: keep default */ }
     };
     window.addEventListener('keydown', onKey);
