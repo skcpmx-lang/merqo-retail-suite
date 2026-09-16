@@ -1,0 +1,1848 @@
+  • electron-builder  version=25.1.8 os=10.0.26100
+  • loaded configuration  file=package.json ("build" field)
+  • effective config  config=directories:
+  output: release
+  buildResources: installer
+appId: com.merqo.retailsuite
+productName: MERQO Retail Suite
+copyright: Copyright © 2026 MERQO. All rights reserved.
+asar: true
+files:
+  - filter:
+      - dist/**/*
+      - package.json
+extraResources:
+  - from: assets/fonts
+    to: assets/fonts
+  - filter:
+      - installer/license.txt
+win:
+  icon: installer/icon.ico
+  target:
+    - nsis
+    - portable
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: MERQO Retail Suite
+  license: installer/license.txt
+  artifactName: ${productName}-Setup-${version}.${ext}
+portable:
+  artifactName: ${productName}-Portable-${version}.${ext}
+npmRebuild: false
+
+  • skipped dependencies rebuild  reason=npmRebuild is set to false
+  • packaging       platform=win32 arch=x64 electron=33.4.11 appOutDir=release\win-unpacked
+  • spawning        command=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\app-builder-bin\win\x64\app-builder.exe unpack-electron --configuration [{"platform":"win32","arch":"x64","version":"33.4.11"}] --output D:\a\merqo-retail-suite\merqo-retail-suite\release\win-unpacked --distMacOsAppName Electron.app
+  • map async       taskCount=2
+  • map async       taskCount=1
+  • computing effective URL  initialUrl=https://github.com/electron/electron/releases/download/v33.4.11/electron-v33.4.11-win32-x64.zip
+                             currentUrl=https://release-assets.githubusercontent.com/github-production-release-asset/9384267/4877801e-7e4a-40ac-bf15-02495e98317c?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-09-16T08%3A52%3A44Z&rscd=attachment%3B+filename%3Delectron-v33.4.11-win32-x64.zip&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-09-16T07%3A52%3A31Z&ske=2026-09-16T08%3A52%3A44Z&sks=b&skv=2018-11-09&sig=tp1ifzB6Z2xCB25X2nLzxax269YGFf%2FPpU5fVFW6Xn8%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc4OTU1MDA0MSwibmJmIjoxNzg5NTQ2NDQxLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.f-i6tY2WOzsoGFuDMSkp9SOnCrKWL8Se_Kqx5F9yxfo&response-content-disposition=attachment%3B%20filename%3Delectron-v33.4.11-win32-x64.zip&response-content-type=application%2Foctet-stream
+  • downloading     url=https://github.com/electron/electron/releases/download/v33.4.11/electron-v33.4.11-win32-x64.zip length=115028145 contentType=application/octet-stream
+  • downloading     url=https://github.com/electron/electron/releases/download/v33.4.11/electron-v33.4.11-win32-x64.zip size=115 MB parts=8
+  • map async       taskCount=8
+  • download part   range=bytes=100649626-115028144 index=7
+  • download part   range=bytes=43135554-57514071 index=3
+  • download part   range=bytes=0-14378517 index=0
+  • download part   range=bytes=14378518-28757035 index=1
+  • download part   range=bytes=28757036-43135553 index=2
+  • download part   range=bytes=71892590-86271107 index=5
+  • download part   range=bytes=57514072-71892589 index=4
+  • download part   range=bytes=86271108-100649625 index=6
+  • downloaded      url=https://github.com/electron/electron/releases/download/v33.4.11/electron-v33.4.11-win32-x64.zip duration=589ms
+  • map async       taskCount=73
+  • exited          command=app-builder.exe code=0 pid=1416
+  • spawning        command=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\app-builder-bin\win\x64\app-builder.exe node-dep-tree --dir D:\a\merqo-retail-suite\merqo-retail-suite --flatten
+  • unresolved deps  unresolved=mkdirp-classicpumptar-stream nodeModuleDir=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules round=0
+  • unresolved deps  unresolved=globgraceful-fslazystreamlodash.defaultslodash.differencelodash.flattenlodash.isplainobjectlodash.unionnormalize-path
+                     nodeModuleDir=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules
+                     round=0
+  • unresolved deps  unresolved=core-util-isinheritsisarrayprocess-nextick-argsutil-deprecate nodeModuleDir=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules round=0
+  • unresolved deps  unresolved=fs.realpathinflightinheritsoncepath-is-absolute nodeModuleDir=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules round=0
+  • unresolved deps  unresolved=concat-map nodeModuleDir=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules round=0
+  • unresolved deps  unresolved=core-util-isinheritsisarrayprocess-nextick-argsutil-deprecate nodeModuleDir=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules round=0
+  • unresolved deps  unresolved=compress-commonsreadable-stream nodeModuleDir=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules round=0
+  • unresolved deps  unresolved=globgraceful-fslazystreamlodash.defaultslodash.differencelodash.flattenlodash.isplainobjectlodash.unionnormalize-pathreadable-stream
+                     nodeModuleDir=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules
+                     round=0
+  • unresolved deps  unresolved=lodash.escaperegexplodash.isbooleanlodash.isequallodash.isfunctionlodash.isnil nodeModuleDir=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules round=0
+  • unresolved deps  unresolved=lodash.escaperegexplodash.groupbylodash.isfunctionlodash.isnillodash.isundefinedlodash.uniq nodeModuleDir=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules round=0
+  • unresolved deps  unresolved=liepakosetimmediate nodeModuleDir=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules round=0
+  • unresolved deps  unresolved=core-util-isinheritsisarrayprocess-nextick-argsutil-deprecate nodeModuleDir=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules round=0
+  • unresolved deps  unresolved=big-integerbinarybuffer-indexof-polyfillduplexer2fstreamgraceful-fslistenercountsetimmediate nodeModuleDir=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules round=0
+  • unresolved deps  unresolved=core-util-isinheritsisarrayprocess-nextick-argsutil-deprecate nodeModuleDir=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules round=0
+  • unresolved deps  unresolved=core-util-isinheritsisarrayprocess-nextick-argsutil-deprecate nodeModuleDir=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules round=0
+  • unresolved deps  unresolved=graceful-fsinherits nodeModuleDir=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules round=0
+  • unresolved deps  unresolved=minimist nodeModuleDir=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules round=0
+  • unresolved deps  unresolved=glob nodeModuleDir=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules round=0
+  • exited          command=app-builder.exe code=0 pid=8360 out=[{"name":"@fast-csv/format","version":"4.3.5","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\@fast-csv\\format"},{"name":"@fast-csv/parse","version":"4.3.6","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\@fast-csv\\parse"},{"name":"archiver","version":"5.3.2","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\archiver","conflictDependency":[{"name":"archiver-utils","version":"2.1.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\archiver-utils","conflictDependency":[{"name":"readable-stream","version":"2.3.8","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\archiver-utils\\node_modules\\readable-stream"},{"name":"safe-buffer","version":"5.1.2","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\archiver-utils\\node_modules\\safe-buffer"},{"name":"string_decoder","version":"1.1.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\archiver-utils\\node_modules\\string_decoder"}]}]},{"name":"async","version":"3.2.6","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\async"},{"name":"base64-js","version":"1.5.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\base64-js"},{"name":"better-sqlite3","version":"11.10.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\better-sqlite3","hasPrebuildInstall":true},{"name":"big-integer","version":"1.6.52","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\big-integer"},{"name":"binary","version":"0.3.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\binary"},{"name":"bindings","version":"1.5.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\bindings"},{"name":"bl","version":"4.1.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\bl"},{"name":"buffer","version":"5.7.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\buffer"},{"name":"buffer-crc32","version":"0.2.13","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\buffer-crc32"},{"name":"buffer-indexof-polyfill","version":"1.0.2","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\buffer-indexof-polyfill"},{"name":"buffers","version":"0.1.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\buffers"},{"name":"chainsaw","version":"0.1.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\chainsaw"},{"name":"compress-commons","version":"4.1.2","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\compress-commons"},{"name":"concat-map","version":"0.0.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\concat-map"},{"name":"core-util-is","version":"1.0.2","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\core-util-is"},{"name":"crc-32","version":"1.2.2","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\crc-32"},{"name":"crc32-stream","version":"4.0.3","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\crc32-stream"},{"name":"dayjs","version":"1.11.23","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\dayjs"},{"name":"decompress-response","version":"6.0.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\decompress-response","conflictDependency":[{"name":"mimic-response","version":"3.1.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\decompress-response\\node_modules\\mimic-response"}]},{"name":"deep-extend","version":"0.6.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\deep-extend"},{"name":"detect-libc","version":"2.1.2","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\detect-libc"},{"name":"duplexer2","version":"0.1.4","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\duplexer2","conflictDependency":[{"name":"readable-stream","version":"2.3.8","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\duplexer2\\node_modules\\readable-stream"},{"name":"safe-buffer","version":"5.1.2","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\duplexer2\\node_modules\\safe-buffer"},{"name":"string_decoder","version":"1.1.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\duplexer2\\node_modules\\string_decoder"}]},{"name":"end-of-stream","version":"1.4.5","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\end-of-stream"},{"name":"exceljs","version":"4.4.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\exceljs"},{"name":"expand-template","version":"2.0.3","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\expand-template"},{"name":"fast-csv","version":"4.3.6","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\fast-csv"},{"name":"file-uri-to-path","version":"1.0.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\file-uri-to-path"},{"name":"fs-constants","version":"1.0.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\fs-constants"},{"name":"fs.realpath","version":"1.0.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\fs.realpath"},{"name":"fstream","version":"1.0.12","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\fstream","conflictDependency":[{"name":"mkdirp","version":"0.5.6","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\fstream\\node_modules\\mkdirp"},{"name":"rimraf","version":"2.7.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\fstream\\node_modules\\rimraf"}]},{"name":"github-from-package","version":"0.0.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\github-from-package"},{"name":"glob","version":"7.2.3","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\glob","conflictDependency":[{"name":"balanced-match","version":"1.0.2","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\glob\\node_modules\\balanced-match"},{"name":"brace-expansion","version":"1.1.21","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\glob\\node_modules\\brace-expansion"},{"name":"minimatch","version":"3.1.5","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\glob\\node_modules\\minimatch"}]},{"name":"graceful-fs","version":"4.2.11","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\graceful-fs"},{"name":"ieee754","version":"1.2.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\ieee754"},{"name":"immediate","version":"3.0.6","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\immediate"},{"name":"inflight","version":"1.0.6","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\inflight"},{"name":"inherits","version":"2.0.4","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\inherits"},{"name":"ini","version":"1.3.8","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\ini"},{"name":"isarray","version":"1.0.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\isarray"},{"name":"jszip","version":"3.10.2","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\jszip","conflictDependency":[{"name":"readable-stream","version":"2.3.8","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\jszip\\node_modules\\readable-stream"},{"name":"safe-buffer","version":"5.1.2","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\jszip\\node_modules\\safe-buffer"},{"name":"string_decoder","version":"1.1.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\jszip\\node_modules\\string_decoder"}]},{"name":"lazystream","version":"1.0.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\lazystream","conflictDependency":[{"name":"readable-stream","version":"2.3.8","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\lazystream\\node_modules\\readable-stream"},{"name":"safe-buffer","version":"5.1.2","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\lazystream\\node_modules\\safe-buffer"},{"name":"string_decoder","version":"1.1.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\lazystream\\node_modules\\string_decoder"}]},{"name":"lie","version":"3.3.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\lie"},{"name":"listenercount","version":"1.0.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\listenercount"},{"name":"lodash.defaults","version":"4.2.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\lodash.defaults"},{"name":"lodash.difference","version":"4.5.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\lodash.difference"},{"name":"lodash.escaperegexp","version":"4.1.2","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\lodash.escaperegexp"},{"name":"lodash.flatten","version":"4.4.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\lodash.flatten"},{"name":"lodash.groupby","version":"4.6.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\lodash.groupby"},{"name":"lodash.isboolean","version":"3.0.3","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\lodash.isboolean"},{"name":"lodash.isequal","version":"4.5.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\lodash.isequal"},{"name":"lodash.isfunction","version":"3.0.9","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\lodash.isfunction"},{"name":"lodash.isnil","version":"4.0.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\lodash.isnil"},{"name":"lodash.isplainobject","version":"4.0.6","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\lodash.isplainobject"},{"name":"lodash.isundefined","version":"3.0.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\lodash.isundefined"},{"name":"lodash.union","version":"4.6.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\lodash.union"},{"name":"lodash.uniq","version":"4.5.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\lodash.uniq"},{"name":"minimist","version":"1.2.8","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\minimist"},{"name":"mkdirp-classic","version":"0.5.3","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\mkdirp-classic"},{"name":"napi-build-utils","version":"2.0.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\napi-build-utils","napiVersions":[2,2,3,10]},{"name":"node-abi","version":"3.96.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\node-abi","conflictDependency":[{"name":"semver","version":"7.8.5","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\node-abi\\node_modules\\semver"}]},{"name":"normalize-path","version":"3.0.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\normalize-path"},{"name":"once","version":"1.4.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\once"},{"name":"pako","version":"1.0.11","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\pako"},{"name":"path-is-absolute","version":"1.0.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\path-is-absolute"},{"name":"prebuild-install","version":"7.1.3","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\prebuild-install"},{"name":"process-nextick-args","version":"2.0.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\process-nextick-args"},{"name":"pump","version":"3.0.4","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\pump"},{"name":"rc","version":"1.2.8","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\rc"},{"name":"readable-stream","version":"3.6.2","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\readable-stream"},{"name":"readdir-glob","version":"1.1.3","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\readdir-glob","conflictDependency":[{"name":"balanced-match","version":"1.0.2","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\readdir-glob\\node_modules\\balanced-match"},{"name":"brace-expansion","version":"2.1.7","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\readdir-glob\\node_modules\\brace-expansion"},{"name":"minimatch","version":"5.1.9","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\readdir-glob\\node_modules\\minimatch"}]},{"name":"safe-buffer","version":"5.2.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\safe-buffer"},{"name":"saxes","version":"5.0.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\saxes"},{"name":"setimmediate","version":"1.0.5","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\setimmediate"},{"name":"simple-concat","version":"1.0.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\simple-concat"},{"name":"simple-get","version":"4.0.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\simple-get"},{"name":"string_decoder","version":"1.3.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\string_decoder"},{"name":"strip-json-comments","version":"2.0.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\strip-json-comments"},{"name":"tar-fs","version":"2.1.5","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\tar-fs","conflictDependency":[{"name":"chownr","version":"1.1.4","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\tar-fs\\node_modules\\chownr"}]},{"name":"tar-stream","version":"2.2.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\tar-stream"},{"name":"tmp","version":"0.2.7","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\tmp"},{"name":"traverse","version":"0.3.9","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\traverse"},{"name":"tunnel-agent","version":"0.6.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\tunnel-agent"},{"name":"unzipper","version":"0.10.14","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\unzipper","conflictDependency":[{"name":"bluebird","version":"3.4.7","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\unzipper\\node_modules\\bluebird"},{"name":"readable-stream","version":"2.3.8","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\unzipper\\node_modules\\readable-stream"},{"name":"safe-buffer","version":"5.1.2","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\unzipper\\node_modules\\safe-buffer"},{"name":"string_decoder","version":"1.1.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\unzipper\\node_modules\\string_decoder"}]},{"name":"util-deprecate","version":"1.0.2","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\util-deprecate"},{"name":"uuid","version":"8.3.2","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\uuid"},{"name":"wrappy","version":"1.0.2","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\wrappy"},{"name":"xmlchars","version":"2.2.0","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\xmlchars"},{"name":"zip-stream","version":"4.1.1","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\zip-stream","conflictDependency":[{"name":"archiver-utils","version":"3.0.4","dir":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\node_modules\\zip-stream\\node_modules\\archiver-utils"}]}]
+  • not packed into asar archive  file=node_modules\better-sqlite3\build\Release\better_sqlite3.node reason=contains executable code
+  • updating asar integrity executable resource  executablePath=release\win-unpacked\MERQO Retail Suite.exe
+  • copying files using pattern  matcher=from: D:\a\merqo-retail-suite\merqo-retail-suite\assets\fonts, to: D:\a\merqo-retail-suite\merqo-retail-suite\release\win-unpacked\resources\assets\fonts, patterns: **/*
+  • copying         src=D:\a\merqo-retail-suite\merqo-retail-suite\assets\fonts destination=D:\a\merqo-retail-suite\merqo-retail-suite\release\win-unpacked\resources\assets\fonts
+  • copying files using pattern  matcher=from: D:\a\merqo-retail-suite\merqo-retail-suite, to: D:\a\merqo-retail-suite\merqo-retail-suite\release\win-unpacked\resources, patterns: installer/license.txt
+  • copying         src=D:\a\merqo-retail-suite\merqo-retail-suite destination=D:\a\merqo-retail-suite\merqo-retail-suite\release\win-unpacked\resources
+  • getPublishConfigsForUpdateInfo: no publishConfigs, detect using repository info
+2026-09-16T08:14:37.635Z electron-builder:publish getPublishConfigsForUpdateInfo: {
+  "domain": "github.com",
+  "type": "github",
+  "user": "skcpmx-lang",
+  "project": "merqo-retail-suite"
+}
+  • calling getInfo  reason=owner or project is not specified explicitly provider=github owner=undefined project=undefined
+2026-09-16T08:14:37.637Z electron-builder:publish getPublishConfigsForUpdateInfo: resolve to publish config {
+  "owner": "skcpmx-lang",
+  "repo": "merqo-retail-suite",
+  "provider": "github"
+}
+  • spawning        command=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\app-builder-bin\win\x64\app-builder.exe icon --format ico --root D:\a\merqo-retail-suite\merqo-retail-suite\installer --root D:\a\merqo-retail-suite\merqo-retail-suite --out D:\a\merqo-retail-suite\merqo-retail-suite\release\.icon-ico --input installer/icon.ico
+  • path doesn't exist  path=D:\a\merqo-retail-suite\merqo-retail-suite\installer\installer\icon.ico
+  • path resolved   path=D:\a\merqo-retail-suite\merqo-retail-suite\installer\icon.ico outputFormat=ico
+  • exited          command=app-builder.exe code=0 pid=8968 out={"icons":[{"file":"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\installer\\icon.ico","size":256}],"isFallback":false}
+  • spawning        command=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\app-builder-bin\win\x64\app-builder.exe rcedit --args ["D:\\a\\merqo-retail-suite\\merqo-retail-suite\\release\\win-unpacked\\MERQO Retail Suite.exe","--set-version-string","FileDescription","MERQO Retail Suite — A production-grade Windows desktop business management system for grocery stores, super shops, mini marts, general stores, and modern retail businesses.","--set-version-string","ProductName","MERQO Retail Suite","--set-version-string","LegalCopyright","Copyright © 2026 MERQO. All rights reserved.","--set-file-version","1.0.0","--set-product-version","1.0.0.0","--set-version-string","InternalName","MERQO Retail Suite","--set-version-string","OriginalFilename","","--set-version-string","CompanyName","MERQO.","--set-icon","D:\\a\\merqo-retail-suite\\merqo-retail-suite\\installer\\icon.ico"]
+  • computing effective URL  initialUrl=https://github.com/electron-userland/electron-builder-binaries/releases/download/winCodeSign-2.6.0/winCodeSign-2.6.0.7z
+                             currentUrl=https://release-assets.githubusercontent.com/github-production-release-asset/65527128/f73f2200-5d53-11ea-8264-ddd345f11ee4?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-09-16T08%3A53%3A45Z&rscd=attachment%3B+filename%3DwinCodeSign-2.6.0.7z&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-09-16T07%3A52%3A56Z&ske=2026-09-16T08%3A53%3A45Z&sks=b&skv=2018-11-09&sig=ZXGKTv3MWjoxwTw62qdUUgomzH8q6SHTlHahMPZ4Ifs%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc4OTU0Njc3NywibmJmIjoxNzg5NTQ2NDc3LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.83O2MFs9MLEb7CtdJaj8egOL9IF1ayjRel8DRVPhdCU&response-content-disposition=attachment%3B%20filename%3DwinCodeSign-2.6.0.7z&response-content-type=application%2Foctet-stream
+  • downloading     url=https://github.com/electron-userland/electron-builder-binaries/releases/download/winCodeSign-2.6.0/winCodeSign-2.6.0.7z length=5635384 contentType=application/octet-stream
+  • downloading     url=https://github.com/electron-userland/electron-builder-binaries/releases/download/winCodeSign-2.6.0/winCodeSign-2.6.0.7z size=5.6 MB parts=1
+  • map async       taskCount=1
+  • download part   range=bytes=0-5635383 index=0
+  • downloaded      url=https://github.com/electron-userland/electron-builder-binaries/releases/download/winCodeSign-2.6.0/winCodeSign-2.6.0.7z duration=442ms
+  • execute command  command='D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\7zip-bin\win\x64\7za.exe' x -snld -bd 'C:\Users\runneradmin\AppData\Local\electron-builder\Cache\winCodeSign\235034923.7z' '-oC:\Users\runneradmin\AppData\Local\electron-builder\Cache\winCodeSign\235034923'
+                     workingDirectory=C:\Users\runneradmin\AppData\Local\electron-builder\Cache\winCodeSign
+  • command executed  executable=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\7zip-bin\win\x64\7za.exe
+                      out=
+    7-Zip (a) 21.07 (x64) : Copyright (c) 1999-2021 Igor Pavlov : 2021-12-26
+    
+    Scanning the drive for archives:
+    1 file, 5635384 bytes (5504 KiB)
+    
+    Extracting archive: C:\Users\runneradmin\AppData\Local\electron-builder\Cache\winCodeSign\235034923.7z
+    --
+    Path = C:\Users\runneradmin\AppData\Local\electron-builder\Cache\winCodeSign\235034923.7z
+    Type = 7z
+    Physical Size = 5635384
+    Headers Size = 1492
+    Method = LZMA2:24m LZMA:20 BCJ2
+    Solid = +
+    Blocks = 2
+    
+    Everything is Ok
+    
+    Folders: 13
+    Files: 83
+    Size:       24762883
+    Compressed: 5635384
+    
+  • execute command  command='C:\Users\runneradmin\AppData\Local\electron-builder\Cache\winCodeSign\winCodeSign-2.6.0\rcedit-x64.exe' 'D:\a\merqo-retail-suite\merqo-retail-suite\release\win-unpacked\MERQO Retail Suite.exe' --set-version-string FileDescription 'MERQO Retail Suite — A production-grade Windows desktop business management system for grocery stores, super shops, mini marts, general stores, and modern retail businesses.' --set-version-string ProductName 'MERQO Retail Suite' --set-version-string LegalCopyright 'Copyright © 2026 MERQO. All rights reserved.' --set-file-version 1.0.0 --set-product-version 1.0.0.0 --set-version-string InternalName 'MERQO Retail Suite' --set-version-string OriginalFilename '' --set-version-string CompanyName MERQO. --set-icon 'D:\a\merqo-retail-suite\merqo-retail-suite\installer\icon.ico'
+                     workingDirectory=
+  • command executed  executable=C:\Users\runneradmin\AppData\Local\electron-builder\Cache\winCodeSign\winCodeSign-2.6.0\rcedit-x64.exe
+  • exited          command=app-builder.exe code=0 pid=3984
+  • signing with signtool.exe  path=release\win-unpacked\MERQO Retail Suite.exe
+  • no signing info identified, signing is skipped  signHook=false cscInfo=null
+wine&sign: 1s 379ms
+  • building        target=nsis file=release\MERQO Retail Suite-Setup-1.0.0.exe archs=x64 oneClick=false perMachine=false
+  • spawning        command=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\app-builder-bin\win\x64\app-builder.exe download-artifact --name nsis-3.0.4.1 --url https://github.com/electron-userland/electron-builder-binaries/releases/download/nsis-3.0.4.1/nsis-3.0.4.1.7z --sha512 VKMiizYdmNdJOWpRGz4trl4lD++BvYP2irAXpMilheUP0pc93iKlWAoP843Vlraj8YG19CVn0j+dCo/hURz9+Q==
+  • computing effective URL  initialUrl=https://github.com/electron-userland/electron-builder-binaries/releases/download/nsis-3.0.4.1/nsis-3.0.4.1.7z
+                             currentUrl=https://release-assets.githubusercontent.com/github-production-release-asset/65527128/10518a80-10f6-11ea-8d2f-403bab81b4cd?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-09-16T08%3A50%3A14Z&rscd=attachment%3B+filename%3Dnsis-3.0.4.1.7z&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-09-16T07%3A49%3A57Z&ske=2026-09-16T08%3A50%3A14Z&sks=b&skv=2018-11-09&sig=4LFifsmcp%2BsCmq4upFlQ1XUnvoED0LG9qAJRzVSu1pk%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc4OTU0NjcwNiwibmJmIjoxNzg5NTQ2NDA2LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.0_pZ_N2EyYak-WcOPzbdzDQSZGWYFY7VFeX4u_AbX3o&response-content-disposition=attachment%3B%20filename%3Dnsis-3.0.4.1.7z&response-content-type=application%2Foctet-stream
+  • downloading     url=https://github.com/electron-userland/electron-builder-binaries/releases/download/nsis-3.0.4.1/nsis-3.0.4.1.7z length=1287512 contentType=application/octet-stream
+  • downloading     url=https://github.com/electron-userland/electron-builder-binaries/releases/download/nsis-3.0.4.1/nsis-3.0.4.1.7z size=1.3 MB parts=1
+  • map async       taskCount=1
+  • download part   range=bytes=0-1287511 index=0
+  • downloaded      url=https://github.com/electron-userland/electron-builder-binaries/releases/download/nsis-3.0.4.1/nsis-3.0.4.1.7z duration=321ms
+  • execute command  command='D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\7zip-bin\win\x64\7za.exe' x -snld -bd 'C:\Users\runneradmin\AppData\Local\electron-builder\Cache\nsis\857387135.7z' '-oC:\Users\runneradmin\AppData\Local\electron-builder\Cache\nsis\857387135'
+                     workingDirectory=C:\Users\runneradmin\AppData\Local\electron-builder\Cache\nsis
+  • command executed  executable=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\7zip-bin\win\x64\7za.exe
+                      out=
+    7-Zip (a) 21.07 (x64) : Copyright (c) 1999-2021 Igor Pavlov : 2021-12-26
+    
+    Scanning the drive for archives:
+    1 file, 1287512 bytes (1258 KiB)
+    
+    Extracting archive: C:\Users\runneradmin\AppData\Local\electron-builder\Cache\nsis\857387135.7z
+    --
+    Path = C:\Users\runneradmin\AppData\Local\electron-builder\Cache\nsis\857387135.7z
+    Type = 7z
+    Physical Size = 1287512
+    Headers Size = 4285
+    Method = LZMA2:23 LZMA:20 BCJ2
+    Solid = +
+    Blocks = 2
+    
+    Everything is Ok
+    
+    Folders: 23
+    Files: 343
+    Size:       7280179
+    Compressed: 1287512
+    
+  • exited          command=app-builder.exe code=0 pid=8432 out=C:\Users\runneradmin\AppData\Local\electron-builder\Cache\nsis\nsis-3.0.4.1
+  • signing with signtool.exe  path=release\win-unpacked\resources\elevate.exe
+  • no signing info identified, signing is skipped  signHook=false cscInfo=null
+  • executing       file=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\7zip-bin\win\x64\7za.exe args=a -bd -bb -mx=9 -md=1m -mtc=off -ms=off -mtm=off -mta=off D:\a\merqo-retail-suite\merqo-retail-suite\release\merqo-retail-suite-1.0.0-x64.nsis.7z . -xr!*.avi -xr!*.mov -xr!*.m4v -xr!*.mp4 -xr!*.m4p -xr!*.qt -xr!*.mkv -xr!*.webm -xr!*.vmdk cwd=D:\a\merqo-retail-suite\merqo-retail-suite\release\win-unpacked
+  • executed        file=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\7zip-bin\win\x64\7za.exe stdout=
+7-Zip (a) 21.07 (x64) : Copyright (c) 1999-2021 Igor Pavlov : 2021-12-26
+                      Scanning the drive:
+16 folders, 105 files, 322465694 bytes (308 MiB)
+                      Creating archive: D:\a\merqo-retail-suite\merqo-retail-suite\release\merqo-retail-suite-1.0.0-x64.nsis.7z
+                      Add new data to archive: 16 folders, 105 files, 322465694 bytes (308 MiB)
+                      + chrome_100_percent.pak
++ chrome_200_percent.pak
++ icudtl.dat
++ LICENSE.electron.txt
++ LICENSES.chromium.html
++ locales\af.pak
++ locales\am.pak
++ locales\ar.pak
++ locales\bg.pak
++ locales\bn.pak
++ locales\ca.pak
++ locales\cs.pak
++ locales\da.pak
++ locales\de.pak
++ locales\el.pak
++ locales\en-GB.pak
++ locales\en-US.pak
++ locales\es-419.pak
++ locales\es.pak
++ locales\et.pak
++ locales\fa.pak
++ locales\fi.pak
++ locales\fil.pak
++ locales\fr.pak
++ locales\gu.pak
++ locales\he.pak
++ locales\hi.pak
++ locales\hr.pak
++ locales\hu.pak
++ locales\id.pak
++ locales\it.pak
++ locales\ja.pak
++ locales\kn.pak
++ locales\ko.pak
++ locales\lt.pak
++ locales\lv.pak
++ locales\ml.pak
++ locales\mr.pak
++ locales\ms.pak
++ locales\nb.pak
++ locales\nl.pak
++ locales\pl.pak
++ locales\pt-BR.pak
++ locales\pt-PT.pak
++ locales\ro.pak
++ locales\ru.pak
++ locales\sk.pak
++ locales\sl.pak
++ locales\sr.pak
++ locales\sv.pak
++ locales\sw.pak
++ locales\ta.pak
++ locales\te.pak
++ locales\th.pak
++ locales\tr.pak
++ locales\uk.pak
++ locales\ur.pak
++ locales\vi.pak
++ locales\zh-CN.pak
++ locales\zh-TW.pak
++ resources\app-update.yml
++ resources\app.asar
++ resources\app.asar.unpacked\node_modules\better-sqlite3\build\Release\better_sqlite3.node
++ resources\app.asar.unpacked\node_modules\better-sqlite3\deps\common.gypi
++ resources\app.asar.unpacked\node_modules\better-sqlite3\deps\copy.js
++ resources\app.asar.unpacked\node_modules\better-sqlite3\deps\defines.gypi
++ resources\app.asar.unpacked\node_modules\better-sqlite3\deps\download.sh
++ resources\app.asar.unpacked\node_modules\better-sqlite3\deps\patches\1208.patch
++ resources\app.asar.unpacked\node_modules\better-sqlite3\deps\sqlite3\sqlite3.c
++ resources\app.asar.unpacked\node_modules\better-sqlite3\deps\sqlite3\sqlite3.h
++ resources\app.asar.unpacked\node_modules\better-sqlite3\deps\sqlite3\sqlite3ext.h
++ resources\app.asar.unpacked\node_modules\better-sqlite3\deps\sqlite3.gyp
++ resources\app.asar.unpacked\node_modules\better-sqlite3\deps\test_extension.c
++ resources\app.asar.unpacked\node_modules\better-sqlite3\lib\database.js
++ resources\app.asar.unpacked\node_modules\better-sqlite3\lib\index.js
++ resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\aggregate.js
++ resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\backup.js
++ resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\function.js
++ resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\inspect.js
++ resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\pragma.js
++ resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\serialize.js
++ resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\table.js
++ resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\transaction.js
++ resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\wrappers.js
++ resources\app.asar.unpacked\node_modules\better-sqlite3\lib\sqlite-error.js
++ resources\app.asar.unpacked\node_modules\better-sqlite3\lib\util.js
++ resources\app.asar.unpacked\node_modules\better-sqlite3\LICENSE
++ resources\app.asar.unpacked\node_modules\better-sqlite3\package.json
++ resources\app.asar.unpacked\node_modules\better-sqlite3\src\better_sqlite3.cpp
++ resources\app.asar.unpacked\node_modules\better-sqlite3\src\better_sqlite3.hpp
++ resources\assets\fonts\noto-sans-bengali-bengali-400-normal.woff2
++ resources\assets\fonts\noto-sans-bengali-bengali-700-normal.woff2
++ resources\installer\license.txt
++ resources.pak
++ snapshot_blob.bin
++ v8_context_snapshot.bin
++ vk_swiftshader_icd.json
++ d3dcompiler_47.dll
++ ffmpeg.dll
++ libEGL.dll
++ libGLESv2.dll
++ MERQO Retail Suite.exe
++ resources\elevate.exe
++ vk_swiftshader.dll
++ vulkan-1.dll
+                      Files read from disk: 105
+Archive size: 89074173 bytes (85 MiB)
+Everything is Ok
+
+nsis package, x64: 29s 93ms
+  • executing       file=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\7zip-bin\win\x64\7za.exe args=l D:\a\merqo-retail-suite\merqo-retail-suite\release\merqo-retail-suite-1.0.0-x64.nsis.7z
+  • executed        file=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\7zip-bin\win\x64\7za.exe stdout=
+7-Zip (a) 21.07 (x64) : Copyright (c) 1999-2021 Igor Pavlov : 2021-12-26
+                      Scanning the drive for archives:
+1 file, 89074173 bytes (85 MiB)
+                      Listing archive: D:\a\merqo-retail-suite\merqo-retail-suite\release\merqo-retail-suite-1.0.0-x64.nsis.7z
+                      --
+Path = D:\a\merqo-retail-suite\merqo-retail-suite\release\merqo-retail-suite-1.0.0-x64.nsis.7z
+Type = 7z
+Physical Size = 89074173
+Headers Size = 2119
+Method = LZMA2:20 LZMA:20 BCJ2
+Solid = -
+Blocks = 105
+                         Date      Time    Attr         Size   Compressed  Name
+------------------- ----- ------------ ------------  ------------------------
+                    D....            0            0  locales
+                    D....            0            0  resources
+                    D....            0            0  resources\app.asar.unpacked
+                    D....            0            0  resources\app.asar.unpacked\node_modules
+                    D....            0            0  resources\app.asar.unpacked\node_modules\better-sqlite3
+                    D....            0            0  resources\app.asar.unpacked\node_modules\better-sqlite3\build
+                    D....            0            0  resources\app.asar.unpacked\node_modules\better-sqlite3\build\Release
+                    D....            0            0  resources\app.asar.unpacked\node_modules\better-sqlite3\deps
+                    D....            0            0  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\patches
+                    D....            0            0  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\sqlite3
+                    D....            0            0  resources\app.asar.unpacked\node_modules\better-sqlite3\lib
+                    D....            0            0  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods
+                    D....            0            0  resources\app.asar.unpacked\node_modules\better-sqlite3\src
+                    D....            0            0  resources\assets
+                    D....            0            0  resources\assets\fonts
+                    D....            0            0  resources\installer
+                    ....A       151599       140724  chrome_100_percent.pak
+                    ....A       228644       214257  chrome_200_percent.pak
+                    ....A     10468208      3447093  icudtl.dat
+                    ....A         1096          690  LICENSE.electron.txt
+                    ....A      9170910       240578  LICENSES.chromium.html
+                    ....A       533447       129881  locales\af.pak
+                    ....A       860998       146625  locales\am.pak
+                    ....A       943105       150344  locales\ar.pak
+                    ....A       982837       145839  locales\bg.pak
+                    ....A      1267377       152065  locales\bn.pak
+                    ....A       598914       133101  locales\ca.pak
+                    ....A       617061       143336  locales\cs.pak
+                    ....A       558874       130452  locales\da.pak
+                    ....A       596668       137452  locales\de.pak
+                    ....A      1076226       153636  locales\el.pak
+                    ....A       485870       120287  locales\en-GB.pak
+                    ....A       490357       120649  locales\en-US.pak
+                    ....A       589661       132546  locales\es-419.pak
+                    ....A       589252       132210  locales\es.pak
+                    ....A       536353       133681  locales\et.pak
+                    ....A       875804       141993  locales\fa.pak
+                    ....A       547254       133268  locales\fi.pak
+                    ....A       618873       132838  locales\fil.pak
+                    ....A       637402       137421  locales\fr.pak
+                    ....A      1247883       151106  locales\gu.pak
+                    ....A       769514       139229  locales\he.pak
+                    ....A      1316123       155994  locales\hi.pak
+                    ....A       595033       138749  locales\hr.pak
+                    ....A       640919       145109  locales\hu.pak
+                    ....A       529377       120948  locales\id.pak
+                    ....A       581039       131086  locales\it.pak
+                    ....A       708056       126970  locales\ja.pak
+                    ....A      1424041       152928  locales\kn.pak
+                    ....A       599155       123303  locales\ko.pak
+                    ....A       644271       141236  locales\lt.pak
+                    ....A       643341       142413  locales\lv.pak
+                    ....A      1481389       156798  locales\ml.pak
+                    ....A      1222183       147781  locales\mr.pak
+                    ....A       554828       123091  locales\ms.pak
+                    ....A       537826       127359  locales\nb.pak
+                    ....A       556192       130697  locales\nl.pak
+                    ....A       619358       143882  locales\pl.pak
+                    ....A       581605       132408  locales\pt-BR.pak
+                    ....A       585543       131248  locales\pt-PT.pak
+                    ....A       606334       135008  locales\ro.pak
+                    ....A       996183       153123  locales\ru.pak
+                    ....A       626642       146368  locales\sk.pak
+                    ....A       601760       138759  locales\sl.pak
+                    ....A       924879       146016  locales\sr.pak
+                    ....A       541011       127384  locales\sv.pak
+                    ....A       570564       130802  locales\sw.pak
+                    ....A      1468553       152392  locales\ta.pak
+                    ....A      1359284       152745  locales\te.pak
+                    ....A      1142647       134087  locales\th.pak
+                    ....A       581314       132073  locales\tr.pak
+                    ....A       996327       151219  locales\uk.pak
+                    ....A       870802       142319  locales\ur.pak
+                    ....A       689431       131844  locales\vi.pak
+                    ....A       496347       122726  locales\zh-CN.pak
+                    ....A       491043       121131  locales\zh-TW.pak
+                    ....A          109           93  resources\app-update.yml
+                    ....A     29363791      5112866  resources\app.asar
+                    ....A      1720320       757481  resources\app.asar.unpacked\node_modules\better-sqlite3\build\Release\better_sqlite3.node
+                    ....A         1584          576  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\common.gypi
+                    ....A          897          437  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\copy.js
+                    ....A         1128          424  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\defines.gypi
+                    ....A         3888         1704  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\download.sh
+                    ....A          597          271  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\patches\1208.patch
+                    ....A      9234104      1796695  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\sqlite3\sqlite3.c
+                    ....A       658960       136432  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\sqlite3\sqlite3.h
+                    ....A        38149         5817  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\sqlite3\sqlite3ext.h
+                    ....A         2542          734  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\sqlite3.gyp
+                    ....A          587          382  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\test_extension.c
+                    ....A         4116         1433  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\database.js
+                    ....A          110           87  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\index.js
+                    ....A         1932          775  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\aggregate.js
+                    ....A         2380          939  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\backup.js
+                    ....A         1396          594  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\function.js
+                    ....A          174          136  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\inspect.js
+                    ....A          536          332  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\pragma.js
+                    ....A          625          338  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\serialize.js
+                    ....A         7144         2055  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\table.js
+                    ....A         2792          987  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\transaction.js
+                    ....A         1145          351  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\wrappers.js
+                    ....A          717          371  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\sqlite-error.js
+                    ....A          331          247  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\util.js
+                    ....A         1078          687  resources\app.asar.unpacked\node_modules\better-sqlite3\LICENSE
+                    ....A          789          425  resources\app.asar.unpacked\node_modules\better-sqlite3\package.json
+                    ....A       132535        15854  resources\app.asar.unpacked\node_modules\better-sqlite3\src\better_sqlite3.cpp
+                    ....A        43385         5969  resources\app.asar.unpacked\node_modules\better-sqlite3\src\better_sqlite3.hpp
+                    ....A        44352        44356  resources\assets\fonts\noto-sans-bengali-bengali-400-normal.woff2
+                    ....A        47788        47792  resources\assets\fonts\noto-sans-bengali-bengali-700-normal.woff2
+                    ....A          624          414  resources\installer\license.txt
+                    ....A      5756465      5700304  resources.pak
+                    ....A       316538        55327  snapshot_blob.bin
+                    ....A       687473       120747  v8_context_snapshot.bin
+                    ....A          106           96  vk_swiftshader_icd.json
+                    ....A      4916728      1561984  d3dcompiler_47.dll
+                    ....A      2927616       904574  ffmpeg.dll
+                    ....A       493056       171230  libEGL.dll
+                    ....A      8417792      2267894  libGLESv2.dll
+                    ....A    188866048     57099496  MERQO Retail Suite.exe
+                    ....A       107520        49095  resources\elevate.exe
+                    ....A      5533184      1312617  vk_swiftshader.dll
+                    ....A       894976       259339  vulkan-1.dll
+------------------- ----- ------------ ------------  ------------------------
+                             322465694     89072054  105 files, 16 folders
+
+2026-09-16T08:15:09.097Z electron-builder:nsis {
+  APP_ID: 'com.merqo.retailsuite',
+  APP_GUID: '98b77fbf-b20e-5975-8030-c0fa8b97f7e8',
+  UNINSTALL_APP_KEY: '98b77fbf-b20e-5975-8030-c0fa8b97f7e8',
+  PRODUCT_NAME: 'MERQO Retail Suite',
+  PRODUCT_FILENAME: 'MERQO Retail Suite',
+  APP_FILENAME: 'MERQO Retail Suite',
+  APP_DESCRIPTION: 'MERQO Retail Suite — A production-grade Windows desktop business management system for grocery stores, super shops, mini marts, general stores, and modern retail businesses.',
+  VERSION: '1.0.0',
+  PROJECT_DIR: 'D:\\a\\merqo-retail-suite\\merqo-retail-suite',
+  BUILD_RESOURCES_DIR: 'D:\\a\\merqo-retail-suite\\merqo-retail-suite\\installer',
+  APP_PACKAGE_NAME: 'merqo-retail-suite',
+  MUI_ICON: 'D:\\a\\merqo-retail-suite\\merqo-retail-suite\\installer\\icon.ico',
+  MUI_UNICON: 'D:\\a\\merqo-retail-suite\\merqo-retail-suite\\installer\\icon.ico',
+  APP_64: 'D:\\a\\merqo-retail-suite\\merqo-retail-suite\\release\\merqo-retail-suite-1.0.0-x64.nsis.7z',
+  APP_64_NAME: 'merqo-retail-suite-1.0.0-x64.nsis.7z',
+  APP_64_HASH: '7F1DA68C1A327F45FE2DB2A7AE86E500F52232CD135D8E7D7EC68C65B15B63D669CD98081110967A46FB2BDC4B06F0D9B761D06A23AE999CC7C5D393C91499A9',
+  APP_64_UNPACKED_SIZE: '314908',
+  COMPANY_NAME: 'MERQO.',
+  APP_INSTALLER_STORE_FILE: 'merqo-retail-suite-updater\\installer.exe',
+  COMPRESSION_METHOD: '7z',
+  MULTIUSER_INSTALLMODE_ALLOW_ELEVATION: null,
+  INSTALL_MODE_PER_ALL_USERS_REQUIRED: null,
+  allowToChangeInstallationDirectory: null,
+  SHORTCUT_NAME: 'MERQO Retail Suite',
+  UNINSTALL_DISPLAY_NAME: 'MERQO Retail Suite 1.0.0',
+  MUI_WELCOMEFINISHPAGE_BITMAP: '${NSISDIR}\\Contrib\\Graphics\\Wizard\\nsis3-metro.bmp',
+  MUI_UNWELCOMEFINISHPAGE_BITMAP: '${NSISDIR}\\Contrib\\Graphics\\Wizard\\nsis3-metro.bmp',
+  ESTIMATED_SIZE: 314908,
+  COMPRESS: 'auto'
+}
+2026-09-16T08:15:09.098Z electron-builder:nsis {
+  OutFile: '"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\release\\MERQO Retail Suite-Setup-1.0.0.exe"',
+  VIProductVersion: '1.0.0.0',
+  VIAddVersionKey: [
+    '/LANG=1033 ProductName "MERQO Retail Suite"',
+    '/LANG=1033 ProductVersion "1.0.0"',
+    '/LANG=1033 LegalCopyright "Copyright © 2026 MERQO. All rights reserved."',
+    '/LANG=1033 FileDescription "MERQO Retail Suite — A production-grade Windows desktop business management system for grocery stores, super shops, mini marts, general stores, and modern retail businesses."',
+    '/LANG=1033 FileVersion "1.0.0"',
+    '/LANG=1033 CompanyName "MERQO."'
+  ],
+  Unicode: true,
+  SetCompressor: 'zlib'
+}
+  • spawning        command=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\app-builder-bin\win\x64\app-builder.exe download-artifact --name nsis-resources-3.4.1 --url https://github.com/electron-userland/electron-builder-binaries/releases/download/nsis-resources-3.4.1/nsis-resources-3.4.1.7z --sha512 Dqd6g+2buwwvoG1Vyf6BHR1b+25QMmPcwZx40atOT57gH27rkjOei1L0JTldxZu4NFoEmW4kJgZ3DlSWVON3+Q==
+2026-09-16T08:15:09.114Z electron-builder:nsis LangString win7Required 1033 "Windows 7 and above is required"
+LangString win7Required 1031 "Windows 7 oder höher wird vorausgesetzt"
+LangString win7Required 1040 "È necessario disporre del sistema operativo Windows 7 e successivi"
+LangString win7Required 1036 "Windows 7 (ou une version ultérieure) est requis"
+LangString win7Required 1041 "Windows 7 以降が必要です"
+LangString win7Required 1042 "Windows 7 이상이 필요합니다"
+LangString win7Required 1049 "Требуется Windows 7 и выше"
+LangString win7Required 1051 "Iba Windows 7 a vyššie je podporovaný"
+LangString win7Required 1029 "Jsou podporovány pouze Windows 7 a vyšší"
+LangString win7Required 1038 "Windows 7 vagy újabb szükséges"
+LangString win7Required 1045 "Windows 7 lub nowszy jest wymagany"
+LangString win7Required 1046 "Requer Windows 7 ou superior"
+LangString win7Required 2052 "需要 Windows 7 或以上系统"
+LangString win7Required 1028 "需要 Windows 7 或更新的系統"
+LangString win7Required 1055 "Windows 7 ve üstü gereklidir"
+LangString win7Required 1053 "Windows 7 eller högre krävs"
+LangString win7Required 1043 "Windows 7 en hoger is vereist"
+LangString win7Required 1035 "Windows 7 tai uudempi vaaditaan"
+LangString win7Required 3082 "Se necesita Windows 7 o una versión superior."
+LangString win7Required 1030 "Windows 7 og højere er nødvendig"
+LangString win7Required 1044 "Windows 7 and above is required"
+LangString win7Required 2070 "Windows 7 and above is required"
+LangString win7Required 1058 "Windows 7 and above is required"
+LangString win7Required 1025 "Windows 7 and above is required"
+LangString win7Required 1054 "Windows 7 and above is required"
+LangString win7Required 1066 "Windows 7 and above is required"
+LangString x64WinRequired 1033 "64-bit Windows is required"
+LangString x64WinRequired 1031 "64-Bit-Windows wird vorausgesetzt"
+LangString x64WinRequired 1040 "È necessario disporre di un sistema operativo Windows a 64 bit"
+LangString x64WinRequired 1036 "Windows 64 bits est requis"
+LangString x64WinRequired 1041 "64 ビット バージョンの Windows が必要です"
+LangString x64WinRequired 1042 "64 비트 버전의 Windows가 필요합니다"
+LangString x64WinRequired 1049 "Требуется Windows 64-bit"
+LangString x64WinRequired 1051 "Potrebujete 64-bit Windows"
+LangString x64WinRequired 1029 "Potřebujete 64-bit Windows"
+LangString x64WinRequired 1038 "64-bit Windows szükséges"
+LangString x64WinRequired 1045 "Windows 64-bitowy jest wymagany"
+LangString x64WinRequired 1046 "Requer Windows 64 bits"
+LangString x64WinRequired 2052 "需要 64 位 Windows 系统"
+LangString x64WinRequired 1028 "需要 64 位元 Windows 系統"
+LangString x64WinRequired 1055 "64 bit Windows gerekli"
+LangString x64WinRequired 1053 "64-bitars Windows krävs"
+LangString x64WinRequired 1043 "64-bit Windows is vereist"
+LangString x64WinRequired 1035 "64-bittinen Windows on pakollinen"
+LangString x64WinRequired 3082 "Windows de 64 bits es requerido"
+LangString x64WinRequired 1030 "64-bit Windows er påkrævet"
+LangString x64WinRequired 1044 "64-bit Windows is required"
+LangString x64WinRequired 2070 "64-bit Windows is required"
+LangString x64WinRequired 1058 "64-bit Windows is required"
+LangString x64WinRequired 1025 "64-bit Windows is required"
+LangString x64WinRequired 1054 "64-bit Windows is required"
+LangString x64WinRequired 1066 "64-bit Windows is required"
+LangString appRunning 1033 "${PRODUCT_NAME} is running.$\r$\nClick OK to close it.$\r$\nIf it doesn't close, try closing it manually."
+LangString appRunning 1025 "‫إن ${PRODUCT_NAME} يعمل حاليا.$\r$\n‫يُرجى الضغط على « موافق » لغلقه.$\r$\n‫إذا لم يُغلَق، يُرجى محاولة إغلاقه يدويا."
+LangString appRunning 1029 "${PRODUCT_NAME} běží.$\r$\nPotvrďte zavření stisknutím OK.$\r$\nPokud se aplikace nezavře sama, zavřete ji ručně."
+LangString appRunning 1030 "${PRODUCT_NAME} kører.$\r$\nKlik OK for at lukke den.$\r$\nHvis den ikke lukker, kan du prøve at lukke den manuelt."
+LangString appRunning 1031 "${PRODUCT_NAME} wird gerade ausgeführt.$\r$\nKlicke auf »OK«, um es zu schließen.$\r$\nFalls es sich nicht schließen lässt, versuche es manuell zu schließen."
+LangString appRunning 3082 "${PRODUCT_NAME} está activa.$\r$\nHaz clic en Aceptar para cerrarla.$\r$\nSi no se cierra, inténtalo manualmente."
+LangString appRunning 1035 "${PRODUCT_NAME} on käynnissä.$\r$\nValitse OK sulkeaksesi sen.$\r$\nJos se ei sulkeudu, yritä sulkea se manuaalisesti."
+LangString appRunning 1036 "${PRODUCT_NAME} est en cours d’utilisation. $\r$\nCliquez sur «OK» pour fermer ce programme."
+LangString appRunning 1038 "A ${PRODUCT_NAME} alkalmazás fut.$\r$\nKattints az OK gombra a bezárásához.$\r$\nHa így sem áll le, zárd be manuálisan."
+LangString appRunning 1040 "${PRODUCT_NAME} è in esecuzione.$\r$\nClicca su OK per chiuderla.$\r$\nSe non si chiude, prova a chiuderla manualmente."
+LangString appRunning 1041 "${PRODUCT_NAME} が起動しています。$\r$\nOKをクリックして、閉じてください。$\r$\n閉じない場合は、手動で閉じてください。"
+LangString appRunning 1042 "${PRODUCT_NAME}이(가) 실행 중입니다. $\r$\nOK을 클릭하면 종료됩니다."
+LangString appRunning 1043 "${PRODUCT_NAME} is nog actief.$\r$\nKlik op OK om de applicatie te sluiten.$\r$\nAls de applicatie vervolgens nog niet sluit, probeer dan om de applicatie zelf te sluiten."
+LangString appRunning 1045 "Aplikacja ${PRODUCT_NAME} jest uruchomiona.$\r$\nKliknij OK, aby ją zamknąć.$\r$\nJeśli nie zostanie zamknięta, spróbuj zamknąć ją ręcznie."
+LangString appRunning 1046 "${PRODUCT_NAME} está funcionando.$\r$\nClique no OK para fechar.$\r$\nSe não fechar, tente fechá-lo manualmente."
+LangString appRunning 2070 "${PRODUCT_NAME} está a correr.$\r$\nClique em OK para o encerrar.$\r$\nSe não encerrar, tente encerrá-lo manualmente."
+LangString appRunning 1049 "Приложение ${PRODUCT_NAME} запущено.$\r$\nНажмите «OK», чтобы закрыть его.$\r$\nЕсли оно не закрывается, попробуйте закрыть его вручную."
+LangString appRunning 1051 "${PRODUCT_NAME} beží.$\r$\nKliknutím na tlačidlo OK ho zatvoríte.$\r$\nAk sa nezavrie, skúste ho zatvoriť ručne."
+LangString appRunning 1053 "${PRODUCT_NAME} är igång.$\r$\nKlicka på OK för att stänga det.$\r$\nOm det inte stängs, försök att stänga det manuellt."
+LangString appRunning 1055 "${PRODUCT_NAME} çalışıyor.$\r$\nKapatmak için Tamam'ı tıklayın."
+LangString appRunning 1058 "${PRODUCT_NAME} запущено.$\r$\nКлацніть ОК для завершення.$\r$\nЯкщо завершення не вдалось — спробуйте вручну."
+LangString appRunning 2052 "${PRODUCT_NAME} 正在运行.$\r$\n点击“确定”关闭."
+LangString appRunning 1028 "${PRODUCT_NAME} 正在執行。$\r$\n點擊 OK 關閉。$\r$\n如果無法關閉，試著手動關閉。"
+LangString appRunning 1044 "${PRODUCT_NAME} is running.$\r$\nClick OK to close it.$\r$\nIf it doesn't close, try closing it manually."
+LangString appRunning 1054 "${PRODUCT_NAME} is running.$\r$\nClick OK to close it.$\r$\nIf it doesn't close, try closing it manually."
+LangString appRunning 1066 "${PRODUCT_NAME} is running.$\r$\nClick OK to close it.$\r$\nIf it doesn't close, try closing it manually."
+LangString appCannotBeClosed 1033 "${PRODUCT_NAME} cannot be closed. $\r$\nPlease close it manually and click Retry to continue."
+LangString appCannotBeClosed 1025 "‫لم يتمكن من إغلاق ${PRODUCT_NAME} $\r$\nيُرجى إغلاقه يدويا ثم الضغط مرة أخرى على إعادة المحاولة للاستمرار.‏"
+LangString appCannotBeClosed 1029 "Aplikaci ${PRODUCT_NAME} se nepodařilo zavřít. $\r$\nZavřete ji ručně a poté klikněte na Opakovat pro pokračování."
+LangString appCannotBeClosed 1030 "${PRODUCT_NAME} kan ikke afsluttes $\r$\nLuk den manuelt og klik Prøv igen for at fortsætte"
+LangString appCannotBeClosed 1031 "${PRODUCT_NAME} kann nicht geschlossen werden. $\r$\nSchließ es bitte manuell und klicke auf »Wiederholen«, um fortzufahren."
+LangString appCannotBeClosed 3082 "No se puede cerrar ${PRODUCT_NAME}. $\r$\nPor favor cierra la aplicación manualmente y haz clic en reintentar para continuar."
+LangString appCannotBeClosed 1035 "${PRODUCT_NAME} ei voi sulkea. $\r$\nSulje se itse ja napsauta Yritä uudelleen jatkaaksesi."
+LangString appCannotBeClosed 1036 "${PRODUCT_NAME} ne peut pas être fermé. $\r$\nVeuillez la fermer manuellement et cliquez sur Réessayer pour continuer."
+LangString appCannotBeClosed 1038 "Nem sikerült bezárni a ${PRODUCT_NAME}t. $\r$\nZárd be kézzel, majd kattints az Újra gombra a folytatáshoz!"
+LangString appCannotBeClosed 1040 "${PRODUCT_NAME} non può essere chiuso. $\r$\nPer favore, chiudilo manualmente e clicca su Riprova per continuare."
+LangString appCannotBeClosed 1041 "${PRODUCT_NAME}が終了できません。$\r$\n手動で閉じて、『再試行』をクリックしてください。"
+LangString appCannotBeClosed 1043 "${PRODUCT_NAME} kan niet automatisch worden afgesloten. $\r$\nSluit zelf de ${PRODUCT_NAME} app en klik vervolgens op ‘Opnieuw proberen’."
+LangString appCannotBeClosed 1045 "Nie można zamknąć ${PRODUCT_NAME}. $\r$\nZamknij aplikację i kliknij Ponów, aby kontynuować."
+LangString appCannotBeClosed 1046 "Não é possível fechar o ${PRODUCT_NAME}. $\r$\nFeche a janela do ${PRODUCT_NAME} e clique em Repetir para continuar."
+LangString appCannotBeClosed 2070 "Não é possível fechar o ${PRODUCT_NAME}. $\r$\nPor favor, feche-o manualmente e clique em ´Tentar novamente' para continuar."
+LangString appCannotBeClosed 1049 "Не удалось закрыть ${PRODUCT_NAME}. $\r$\nПожалуйста, закройте ${PRODUCT_NAME} вручную и нажмите «Повторить», чтобы продолжить."
+LangString appCannotBeClosed 1051 "${PRODUCT_NAME} nie je možné zatvoriť. $\r$\nZatvorte ho ručne a pokračujte kliknutím na položku Opakovať."
+LangString appCannotBeClosed 1053 "${PRODUCT_NAME} går inte att stängas. $\r$\nVänligen stäng det manuellt och klicka på Försök igen för att fortsätta."
+LangString appCannotBeClosed 1055 "${PRODUCT_NAME} kapatılamaz. $\r$\nLütfen elle kapatın ve devam etmek için Tekrar'a tıklayın"
+LangString appCannotBeClosed 1058 "Неможливо закрити ${PRODUCT_NAME}. $\r$\nЗакрийте його вручну та натисніть Повторити, щоб продовжити."
+LangString appCannotBeClosed 1066 "${PRODUCT_NAME} không thể đóng $\r$\nVui lòng đóng nó theo cách thủ công và nhấp vào Thử lại để tiếp tục."
+LangString appCannotBeClosed 2052 "${PRODUCT_NAME} 无法关闭。$\r$\n请手动关闭它，然后单击重试以继续。"
+LangString appCannotBeClosed 1028 "${PRODUCT_NAME} 無法關閉。$\r$\n請手動關閉它，然後按一下重試以繼續。"
+LangString appCannotBeClosed 1042 "${PRODUCT_NAME} cannot be closed. $\r$\nPlease close it manually and click Retry to continue."
+LangString appCannotBeClosed 1044 "${PRODUCT_NAME} cannot be closed. $\r$\nPlease close it manually and click Retry to continue."
+LangString appCannotBeClosed 1054 "${PRODUCT_NAME} cannot be closed. $\r$\nPlease close it manually and click Retry to continue."
+LangString installing 1033 "Installing, please wait..."
+LangString installing 1031 "Installation läuft, bitte warten..."
+LangString installing 1040 "Attendere prego. Installazione in corso..."
+LangString installing 1036 "En cours d’installation... Veuillez patienter s'il vous plaît."
+LangString installing 1041 "インストールしています。しばらくお待ちください..."
+LangString installing 1042 "설치하고 있습니다. 잠시 기다려주십시오..."
+LangString installing 1049 "Установка, пожалуйста, подождите..."
+LangString installing 1051 "Inštalujem, prosím počkajte..."
+LangString installing 1029 "Instaluje se, prosím vyčkejte..."
+LangString installing 1038 "Telepítés, kérem várjon..."
+LangString installing 1045 "Zaczekaj na ukończenie instalacji..."
+LangString installing 1046 "Instalando, por favor aguarde..."
+LangString installing 2052 "正在安装, 请稍候..."
+LangString installing 1028 "正在安裝, 請稍候..."
+LangString installing 1055 "Yükleniyor, lütfen bekleyin..."
+LangString installing 1053 "Installerar, vänligen vänta..."
+LangString installing 1043 "Installeren, even geduld..."
+LangString installing 1035 "Asennetaan, odota..."
+LangString installing 3082 "Instalando, espera un momento..."
+LangString installing 1030 "Installerer, vent venligst..."
+LangString installing 1044 "Installing, please wait..."
+LangString installing 2070 "Installing, please wait..."
+LangString installing 1058 "Installing, please wait..."
+LangString installing 1025 "Installing, please wait..."
+LangString installing 1054 "Installing, please wait..."
+LangString installing 1066 "Installing, please wait..."
+LangString areYouSureToUninstall 1033 "Are you sure you want to uninstall ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1031 "Sind Sie sicher, dass Sie ${PRODUCT_NAME} deinstallieren möchten?"
+LangString areYouSureToUninstall 1040 "Sicuro di voler procedere alla disinstallazione di ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1036 "Etes-vous sûr(e) de vouloir désinstaller ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1041 "${PRODUCT_NAME} をアンインストールしてもよろしいですか？"
+LangString areYouSureToUninstall 1042 "${PRODUCT_NAME}을(를) 제거 하시겠습니까?"
+LangString areYouSureToUninstall 1049 "Вы уверены, что хотите удалить ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1051 "Ste si istý že chcete odinštalovať ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1029 "Jste si jisti, že chcete odinstalovat ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1038 "Biztos benne, hogy szeretné eltávolítani a ${PRODUCT_NAME} alkalmazást?"
+LangString areYouSureToUninstall 1045 "Czy na pewno chcesz odinstalować ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1046 "Tem certeza que deseja desinstalar ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 2052 "确定卸载 ${PRODUCT_NAME} 吗？"
+LangString areYouSureToUninstall 1028 "確定解除安裝 ${PRODUCT_NAME} 嗎？"
+LangString areYouSureToUninstall 1055 "${PRODUCT_NAME} kaldırmak istediğinize Eminmisiniz?"
+LangString areYouSureToUninstall 1053 "Är du säker på att du vill avinstallera ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1043 "Weet je zeker dat je ${PRODUCT_NAME} wilt verwijderen?"
+LangString areYouSureToUninstall 1035 "Oletko varma, että haluat poistaa ${PRODUCT_NAME} asennuksen?"
+LangString areYouSureToUninstall 3082 "¿Seguro que quieres desinstalar ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1030 "Er du sikker på, at du vil afinstallere ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1044 "Are you sure you want to uninstall ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 2070 "Are you sure you want to uninstall ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1058 "Are you sure you want to uninstall ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1025 "Are you sure you want to uninstall ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1054 "Are you sure you want to uninstall ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1066 "Are you sure you want to uninstall ${PRODUCT_NAME}?"
+LangString decompressionFailed 1033 "Failed to decompress files. Please try running the installer again."
+LangString decompressionFailed 1025 "‫لقد فشل وينْدوزْ في فك ضغط الملفات. يُرجى محاولة تشغيل أداة التثبيت مرة أخرى."
+LangString decompressionFailed 1029 "Nepodařilo se rozbalit soubory. Zkuste prosím instalátor spustit znovu."
+LangString decompressionFailed 1030 "Det lykkedes ikke at udpakke filer. Prøv venligst at køre installationsprogrammet igen."
+LangString decompressionFailed 1031 "Die Dateien konnten nicht entpackt werden. Bitte versuche, das Installationsprogramm erneut auszuführen."
+LangString decompressionFailed 3082 "Fallo al descomprimir archivos. Inténtalo de nuevo más tarde."
+LangString decompressionFailed 1035 "Tiedostojen purkaminen ei onnistunut. Yritä ajaa asennusohjelma uudelleen."
+LangString decompressionFailed 1036 "Échec de décompression des fichiers. Veuillez réessayer d’exécuter l'installeur."
+LangString decompressionFailed 1038 "Kicsomagolási hiba. Kérlek futtasd a telepítőt újra!"
+LangString decompressionFailed 1040 "Impossibile decomprimere i file. Per favore, prova ad eseguire di nuovo il programma di installazione."
+LangString decompressionFailed 1041 "ファイルの解凍に失敗しました。もう一度インストーラーを実行してみてください。"
+LangString decompressionFailed 1043 "Het decomprimeren van bestanden is mislukt. Voer het installatiebestand opnieuw uit om te proberen dit probleem te verhelpen."
+LangString decompressionFailed 1045 "Nie udało się rozpakować plików. Spróbuj ponownie uruchomić instalator."
+LangString decompressionFailed 1046 "Falha ao descompactar os arquivos. Por favor, tente iniciar o instalador novamente."
+LangString decompressionFailed 2070 "Falha ao descomprimir ficheiros. Por favor, experimente correr o instalador de novo."
+LangString decompressionFailed 1049 "Не удалось разархивировать файлы. Пожалуйста, попробуйте запустить установщик заново."
+LangString decompressionFailed 1051 "Nepodarilo sa rozbaliť súbory. Skúste znova spustiť inštalačný program."
+LangString decompressionFailed 1053 "Det gick inte att dekomprimera filer. Försök att köra installationsprogrammet igen."
+LangString decompressionFailed 1058 "Не вдалось розархівувати файли. Будь ласка, спробуйте запустити встановлювач знов."
+LangString decompressionFailed 1028 "解壓縮檔案失敗。 請嘗試再次執行安裝程式。"
+LangString decompressionFailed 2052 "Failed to decompress files. Please try running the installer again."
+LangString decompressionFailed 1042 "Failed to decompress files. Please try running the installer again."
+LangString decompressionFailed 1044 "Failed to decompress files. Please try running the installer again."
+LangString decompressionFailed 1055 "Failed to decompress files. Please try running the installer again."
+LangString decompressionFailed 1054 "Failed to decompress files. Please try running the installer again."
+LangString decompressionFailed 1066 "Failed to decompress files. Please try running the installer again."
+LangString uninstallFailed 1033 "Failed to uninstall old application files. Please try running the installer again."
+LangString uninstallFailed 1025 "‫لقد فشل إلغاء التثبيت ملفات التطبيق. يُرجى محاولة تشغيل أداة التثبيت مرة أخرى."
+LangString uninstallFailed 1029 "Nepodařilo se odinstalovat staré soubory aplikace. Zkuste prosím instalátor spustit znovu."
+LangString uninstallFailed 1030 "Det lykkedes ikke at afinstallere gamle applikationsfiler. Prøv venligst at køre installationsprogrammet igen."
+LangString uninstallFailed 1031 "Die alten Anwendungsdateien konnten nicht deinstalliert werden. Bitte versuche, das Installationsprogramm erneut auszuführen."
+LangString uninstallFailed 3082 "Fallo al desinstalar archivos antiguos de la aplicación. Inténtalo de nuevo más tarde."
+LangString uninstallFailed 1035 "Vanhojen sovellustiedostojen poisto epäonnistui. Yritä ajaa asennusohjelma uudelleen."
+LangString uninstallFailed 1036 "Échec de désinstallation des anciens fichiers d'application . Veuillez réessayer d’exécuter l'installeur."
+LangString uninstallFailed 1038 "A régi alkalmazás állományait nem sikerült törölni. Kérlek futtasd a telepítőt újra!"
+LangString uninstallFailed 1040 "Impossibile disinstallare i vecchi file dell'applicazione. Per favore, prova ad eseguire di nuovo il programma di installazione."
+LangString uninstallFailed 1041 "古いアプリケーションファイルのアンインストールに失敗しました。もう一度インストーラーを実行してみてください。"
+LangString uninstallFailed 1043 "Het deïnstalleren van oude applicatiebestanden is mislukt. Voer het installatiebestand opnieuw uit om te proberen dit probleem te verhelpen."
+LangString uninstallFailed 1045 "Nie udało się usunąć plików starej wersji aplikacji. Spróbuj ponownie uruchomić instalator."
+LangString uninstallFailed 1046 "Falha ao desinstalar os arquivos do aplicativo antigo. Por favor, tente iniciar o instalador novamente."
+LangString uninstallFailed 2070 "Falha ao desinstalar os ficheiros da aplicação antiga. Por favor, experimente correr novamente o instalador."
+LangString uninstallFailed 1049 "Не удалось удалить старые файлы приложения. Пожалуйста, попробуйте запустить установщик заново."
+LangString uninstallFailed 1051 "Nepodarilo sa odinštalovať staré súbory aplikácie. Skúste znova spustiť inštalačný program."
+LangString uninstallFailed 1053 "Det gick inte att avinstallera gamla programfiler. Försök att köra installationsprogrammet igen."
+LangString uninstallFailed 1058 "Не вдалось видалити старі файли застосунку. Будь ласка, спробуйте запустити встановлювач знов."
+LangString uninstallFailed 1028 "無法俺安裝舊的應用程式檔案。 請嘗試再次執行安裝程式。"
+LangString uninstallFailed 2052 "Failed to uninstall old application files. Please try running the installer again."
+LangString uninstallFailed 1042 "Failed to uninstall old application files. Please try running the installer again."
+LangString uninstallFailed 1044 "Failed to uninstall old application files. Please try running the installer again."
+LangString uninstallFailed 1055 "Failed to uninstall old application files. Please try running the installer again."
+LangString uninstallFailed 1054 "Failed to uninstall old application files. Please try running the installer again."
+LangString uninstallFailed 1066 "Failed to uninstall old application files. Please try running the installer again."
+2026-09-16T08:15:09.122Z electron-builder:nsis LangString chooseInstallationOptions 1033 "Choose Installation Options"
+LangString chooseInstallationOptions 1031 "Installationsoption wählen"
+LangString chooseInstallationOptions 1049 "Выберите опции установки"
+LangString chooseInstallationOptions 1051 "Vyberte možnosti inštalácie"
+LangString chooseInstallationOptions 1029 "Vyberte možnosti instalace"
+LangString chooseInstallationOptions 1036 "Choisis les options d'installation"
+LangString chooseInstallationOptions 1038 "Telepítési opciók kiválasztása"
+LangString chooseInstallationOptions 1046 "Escolha uma opção de instalação"
+LangString chooseInstallationOptions 2052 "安装选项"
+LangString chooseInstallationOptions 1028 "安裝選項"
+LangString chooseInstallationOptions 1055 "Yükleme Ayarlarını Seçin"
+LangString chooseInstallationOptions 1053 "Välj alternativ för installation"
+LangString chooseInstallationOptions 1045 "Wybierz opcje instalacji"
+LangString chooseInstallationOptions 1043 "Kies installatie-opties"
+LangString chooseInstallationOptions 1040 "Scegli opzioni di installazione"
+LangString chooseInstallationOptions 1035 "Valitse asennusvaihtoehdot"
+LangString chooseInstallationOptions 3082 "Elegir opciones de instalación"
+LangString chooseInstallationOptions 1030 "Vælg Installeringsmuligheder"
+LangString chooseInstallationOptions 1041 "インストールオプションの選択"
+LangString chooseInstallationOptions 1042 "설치 옵션 선택"
+LangString chooseInstallationOptions 1044 "Choose Installation Options"
+LangString chooseInstallationOptions 2070 "Choose Installation Options"
+LangString chooseInstallationOptions 1058 "Choose Installation Options"
+LangString chooseInstallationOptions 1025 "Choose Installation Options"
+LangString chooseInstallationOptions 1054 "Choose Installation Options"
+LangString chooseInstallationOptions 1066 "Choose Installation Options"
+LangString chooseUninstallationOptions 1033 "Choose Uninstallation Options"
+LangString chooseUninstallationOptions 1031 "Deinstallationsoption wählen"
+LangString chooseUninstallationOptions 1049 "Выберите опции удаления"
+LangString chooseUninstallationOptions 1051 "Vyberte možnosti odinštalovania"
+LangString chooseUninstallationOptions 1029 "Vyberte možnosti odinstalace"
+LangString chooseUninstallationOptions 1036 "Choisis les options de désinstallation"
+LangString chooseUninstallationOptions 1038 "Eltávolítási opciók kiválasztása"
+LangString chooseUninstallationOptions 1046 "Escolha uma opção de desinstalação"
+LangString chooseUninstallationOptions 2052 "卸载选项"
+LangString chooseUninstallationOptions 1028 "解除安裝選項"
+LangString chooseUninstallationOptions 1055 "Kaldırma Ayarlarını Seçin"
+LangString chooseUninstallationOptions 1053 "Välj alternativ för avinstallation"
+LangString chooseUninstallationOptions 1045 "Wybierz opcje dezinstalacji"
+LangString chooseUninstallationOptions 1043 "Kies verwijderings-opties"
+LangString chooseUninstallationOptions 1040 "Scegli opzioni di disinstallazione"
+LangString chooseUninstallationOptions 1035 "Valitse asennuksen poistovaihtoehdot"
+LangString chooseUninstallationOptions 3082 "Elegir opciones de desinstalación"
+LangString chooseUninstallationOptions 1030 "Vælg Afinstalleringsmuligheder"
+LangString chooseUninstallationOptions 1041 "アンインストールオプションの選択"
+LangString chooseUninstallationOptions 1042 "제거 옵션 선택"
+LangString chooseUninstallationOptions 1044 "Choose Uninstallation Options"
+LangString chooseUninstallationOptions 2070 "Choose Uninstallation Options"
+LangString chooseUninstallationOptions 1058 "Choose Uninstallation Options"
+LangString chooseUninstallationOptions 1025 "Choose Uninstallation Options"
+LangString chooseUninstallationOptions 1054 "Choose Uninstallation Options"
+LangString chooseUninstallationOptions 1066 "Choose Uninstallation Options"
+LangString whichInstallationShouldBeRemoved 1033 "Which installation should be removed?"
+LangString whichInstallationShouldBeRemoved 1031 "Welche Installation soll entfernt werden?"
+LangString whichInstallationShouldBeRemoved 1049 "Какую из установленных программ следует удалить?"
+LangString whichInstallationShouldBeRemoved 1051 "Ktorá inštalácia by mala byt odstránená?"
+LangString whichInstallationShouldBeRemoved 1029 "Která instalace by měla být odstraněna?"
+LangString whichInstallationShouldBeRemoved 1036 "Quelle installation doit être supprimée ?"
+LangString whichInstallationShouldBeRemoved 1038 "Melyik telepítést távolítsuk el?"
+LangString whichInstallationShouldBeRemoved 1046 "Qual instalação deve ser removida?"
+LangString whichInstallationShouldBeRemoved 2052 "需要移除哪个安装？"
+LangString whichInstallationShouldBeRemoved 1028 "需要移除哪個安裝？"
+LangString whichInstallationShouldBeRemoved 1055 "Hangi Yükleme Kaldırılsın?"
+LangString whichInstallationShouldBeRemoved 1053 "Vilken installation ska tas bort?"
+LangString whichInstallationShouldBeRemoved 1045 "Którą instalację chcesz usunąć?"
+LangString whichInstallationShouldBeRemoved 1043 "Welke installatie moet worden verwijderd?"
+LangString whichInstallationShouldBeRemoved 1040 "Quale installazione intendi rimuovere?"
+LangString whichInstallationShouldBeRemoved 1035 "Mikä asennus pitäisi poistaa?"
+LangString whichInstallationShouldBeRemoved 3082 "¿Qué tipo de instalación debe eliminarse?"
+LangString whichInstallationShouldBeRemoved 1030 "Hvilken installering skal fjernes?"
+LangString whichInstallationShouldBeRemoved 1041 "どれをアンインストールしますか？"
+LangString whichInstallationShouldBeRemoved 1042 "어떤 설치 버전을 제거할까요?"
+LangString whichInstallationShouldBeRemoved 1044 "Which installation should be removed?"
+LangString whichInstallationShouldBeRemoved 2070 "Which installation should be removed?"
+LangString whichInstallationShouldBeRemoved 1058 "Which installation should be removed?"
+LangString whichInstallationShouldBeRemoved 1025 "Which installation should be removed?"
+LangString whichInstallationShouldBeRemoved 1054 "Which installation should be removed?"
+LangString whichInstallationShouldBeRemoved 1066 "Which installation should be removed?"
+LangString whoShouldThisApplicationBeInstalledFor 1033 "Who should this application be installed for?"
+LangString whoShouldThisApplicationBeInstalledFor 1031 "Für wen soll diese Anwendung installiert werden?"
+LangString whoShouldThisApplicationBeInstalledFor 1049 "Для кого следует установить это приложение?"
+LangString whoShouldThisApplicationBeInstalledFor 1051 "Pre koho sa ma táto aplikacia inštalovať?"
+LangString whoShouldThisApplicationBeInstalledFor 1029 "Pro koho se má tato aplikace instalovat?"
+LangString whoShouldThisApplicationBeInstalledFor 1036 "Pour qui cette application doit-elle être installée ?"
+LangString whoShouldThisApplicationBeInstalledFor 1038 "Kinek legyen ez az alkalmazás telepítve?"
+LangString whoShouldThisApplicationBeInstalledFor 1046 "Para quem esta aplicação deve ser instalada?"
+LangString whoShouldThisApplicationBeInstalledFor 2052 "为哪位用户安装该应用？"
+LangString whoShouldThisApplicationBeInstalledFor 1028 "需要為哪位使用者安裝該應用程式？"
+LangString whoShouldThisApplicationBeInstalledFor 1055 "Bu Uygulama Kimler için Kurulsun?"
+LangString whoShouldThisApplicationBeInstalledFor 1053 "Vem ska den här applikationen installeras för?"
+LangString whoShouldThisApplicationBeInstalledFor 1045 "Dla kogo zainstalować tę aplikację?"
+LangString whoShouldThisApplicationBeInstalledFor 1043 "Voor wie moet deze applicatie worden geïnstalleerd?"
+LangString whoShouldThisApplicationBeInstalledFor 1040 "Per chi dovrebbe essere installata questa applicazione?"
+LangString whoShouldThisApplicationBeInstalledFor 1035 "Kenen käyttöön tämä sovellus pitäisi asentaa?"
+LangString whoShouldThisApplicationBeInstalledFor 3082 "¿Para quién se instalará esta aplicación?"
+LangString whoShouldThisApplicationBeInstalledFor 1030 "Hvem skal denne applikation installeres til?"
+LangString whoShouldThisApplicationBeInstalledFor 1041 "どのユーザーにインストールしますか？"
+LangString whoShouldThisApplicationBeInstalledFor 1042 "이 프로그램의 사용자는 누구인가요?"
+LangString whoShouldThisApplicationBeInstalledFor 1044 "Who should this application be installed for?"
+LangString whoShouldThisApplicationBeInstalledFor 2070 "Who should this application be installed for?"
+LangString whoShouldThisApplicationBeInstalledFor 1058 "Who should this application be installed for?"
+LangString whoShouldThisApplicationBeInstalledFor 1025 "Who should this application be installed for?"
+LangString whoShouldThisApplicationBeInstalledFor 1054 "Who should this application be installed for?"
+LangString whoShouldThisApplicationBeInstalledFor 1066 "Who should this application be installed for?"
+LangString selectUserMode 1033 "Please select whether you wish to make this software available to all users or just yourself"
+LangString selectUserMode 1031 "Bitte wählen Sie, ob Sie die Anwendung nur für sich oder für alle Benutzer installieren möchten."
+LangString selectUserMode 1049 "Выбери, хочешь ли ты сделать эту программу доступной для всех пользователей или только для себя"
+LangString selectUserMode 1051 "Prosím vyberte či sa ma tento softvér inštalovať len pre Vás alebo pre všetkých uživateľov"
+LangString selectUserMode 1029 "Prosím vyberte, zda se má tento software instalovat jen pro Vás, nebo pro všechny uživatele"
+LangString selectUserMode 1036 "Choisis pour qui ce logiciel doit être accessible : pour tous les utilisateurs ou juste pour toi ?"
+LangString selectUserMode 1038 "Válaszd ki, hogy a szoftver elérhető legyen-e minden felhasználó számára, vagy csak neked"
+LangString selectUserMode 1046 "Por favor, selecione se este software deve estar disponível apenas para você ou para todos usuários"
+LangString selectUserMode 2052 "请选择为当前用户还是所有用户安装该软件"
+LangString selectUserMode 1028 "請選擇為目前使用者還是所有使用者安裝該軟體"
+LangString selectUserMode 1055 "Lütfen bu yazılımı tüm kullanıcılar için mi yoksa sadece kendiniz mi kullanmak istediğinizi seçin"
+LangString selectUserMode 1053 "Välj om du vill göra den här mjukvaran tillgänglig för alla användare eller bara för dig"
+LangString selectUserMode 1045 "Wybierz, czy to oprogramowanie ma być dostępne dla wszystkich użytkowników, czy tylko dla Ciebie"
+LangString selectUserMode 1043 "Selecteer of je deze software beschikbaar wilt maken voor alle gebruikers of alleen voor jezelf."
+LangString selectUserMode 1040 "Seleziona se desideri rendere questo software accessibile a tutti gli utenti o solo a te"
+LangString selectUserMode 1035 "Valitse, haluatko tämän ohjelmiston kaikkien käyttäjien vai pelkästään itsesi käyttöön"
+LangString selectUserMode 3082 "Elige si deseas que este software esté disponible para todos los usuarios o solo para ti."
+LangString selectUserMode 1030 "Vælg, om du vil gøre denne software tilgængelig for andre brugere, eller kun for dig selv"
+LangString selectUserMode 1041 "このソフトウェアをすべてのユーザーが使用できるようにするか、現在のユーザーのみ使用するかを選択してください"
+LangString selectUserMode 1042 "이 프로그램을 모든 사용자가 사용할 수 있도록 할 것인지 아니면 자신만 사용할 수 있도록 할 것인지 선택하십시오."
+LangString selectUserMode 1044 "Please select whether you wish to make this software available to all users or just yourself"
+LangString selectUserMode 2070 "Please select whether you wish to make this software available to all users or just yourself"
+LangString selectUserMode 1058 "Please select whether you wish to make this software available to all users or just yourself"
+LangString selectUserMode 1025 "Please select whether you wish to make this software available to all users or just yourself"
+LangString selectUserMode 1054 "Please select whether you wish to make this software available to all users or just yourself"
+LangString selectUserMode 1066 "Please select whether you wish to make this software available to all users or just yourself"
+LangString whichInstallationRemove 1033 "This software is installed both per-machine (all users) and per-user.\nWhich installation you wish to remove?"
+LangString whichInstallationRemove 1031 "Die Anwendung wurde für alle Benutzer und pro Benutzer installiert.\nWelche Installation möchten Sie entfernen?"
+LangString whichInstallationRemove 1049 "Эта программа установлена для всего компьютера (для всех пользователей) и для отдельного пользователя.\nКакую из установленных программ ты хочешь удалить?"
+LangString whichInstallationRemove 1051 "Tento softvér je nainštalovaný pre Vás a súčasne pre všetkých uživateľov.\nKtorú inštaláciu si želáte odstraniť?"
+LangString whichInstallationRemove 1029 "Tento software je nainstalovaný pro Vás a současně pro všechny uživatele.\nKterou instalaci si přejete odstranit?"
+LangString whichInstallationRemove 1036 "Ce logiciel est installé à la fois par machine (tous les utilisateurs) et par utilisateur.\nQuelle installation veux-tu supprimer ?"
+LangString whichInstallationRemove 1038 "Ez a szoftver számítógépenként (minden felhasználó) és felhasználónként is telepítve van.\nMelyik telepítést szeretnéd eltávolítani?"
+LangString whichInstallationRemove 1046 "Este software é instalado por máquina (todos os usuários) e por usuário. Qual instalação você deseja remover?"
+LangString whichInstallationRemove 2052 "该软件已为所有用户和当前用户安装.\n您希望移除哪个安装?"
+LangString whichInstallationRemove 1028 "該軟體已為所有使用者和目前使用者安裝。\n您希望移除哪一個？"
+LangString whichInstallationRemove 1055 "Bu yazılım hem makine başına (tüm kullanıcılar) hem de kullanıcı başına yüklenir.\nKaldırmak istediğiniz kurulum?"
+LangString whichInstallationRemove 1053 "Den här mjukvaran är installerad både ”per dator” (alla användare) och ”per användare”.\nVilken installation vill du ta bort?"
+LangString whichInstallationRemove 1045 "To oprogramowanie zostało zainstalowane zarówno dla urządzenia (wszyscy użytkownicy), jak i dla użytkownika.\nKtórą instalację chcesz usunąć?"
+LangString whichInstallationRemove 1043 "Deze software is zowel per apparaat (alle gebruikers) als per gebruiker geïnstalleerd. Welke installatie wil je verwijderen?"
+LangString whichInstallationRemove 1040 "Questo software è stato installato sia per computer (tutti gli utenti) sia per utente.\nQuale installazione desideri rimuovere?"
+LangString whichInstallationRemove 1035 "Tämä ohjelmisto on asennettu sekä konekohtaisesti (kaikki käyttäjät) että käyttäjäkohtaisesti.\nMinkä asennuksen haluat poistaa?"
+LangString whichInstallationRemove 3082 "Este software se ha instalado para la máquina (todos los usuarios) y para el usuario.\n¿Qué instalación quieres eliminar?"
+LangString whichInstallationRemove 1030 "Denne software er installeret både pr. maskine (alle brugere) og pr. bruger./nHvilken installering ønsker du at fjerne?"
+LangString whichInstallationRemove 1041 "このソフトウェアは、マシンごと（すべてのユーザー）とユーザーごとにインストールされています。\ nどちらを削除しますか？"
+LangString whichInstallationRemove 1042 "이 프로그램은 시스템당(모든 사용자)또는 사용자별로 설치됩니다.\n어떤 설치를 제거하시겠습니까?"
+LangString whichInstallationRemove 1044 "This software is installed both per-machine (all users) and per-user.\nWhich installation you wish to remove?"
+LangString whichInstallationRemove 2070 "This software is installed both per-machine (all users) and per-user.\nWhich installation you wish to remove?"
+LangString whichInstallationRemove 1058 "This software is installed both per-machine (all users) and per-user.\nWhich installation you wish to remove?"
+LangString whichInstallationRemove 1025 "This software is installed both per-machine (all users) and per-user.\nWhich installation you wish to remove?"
+LangString whichInstallationRemove 1054 "This software is installed both per-machine (all users) and per-user.\nWhich installation you wish to remove?"
+LangString whichInstallationRemove 1066 "This software is installed both per-machine (all users) and per-user.\nWhich installation you wish to remove?"
+LangString freshInstallForAll 1033 "Fresh install for all users. (will prompt for admin credentials)"
+LangString freshInstallForAll 1031 "Neuinstallation für alle Benutzer durchführen. (Administratorrechte benötigt)"
+LangString freshInstallForAll 1049 "Новая установка для всех пользователей. (потребуются права администратора)"
+LangString freshInstallForAll 1051 "Nová inštalácia pre všetkých uživateľov. (Bude potrebovať prihlásenie administrátora)"
+LangString freshInstallForAll 1029 "Nová instalace pro všechny uživatele. (Bude vyžadovat přihlášení administrátora)"
+LangString freshInstallForAll 1036 "Nouvelle installation pour tous les utilisateurs. (demandera les identifiants administrateur)"
+LangString freshInstallForAll 1038 "Új telepítés minden felhasználó számára. (Az adminisztrátor hitelesítő adataira lesz szükség.)"
+LangString freshInstallForAll 1046 "Instalação limpa para todos os usuários. (irá solicitar credenciais de administrador)"
+LangString freshInstallForAll 2052 "为所有用户进行全新安装. (需要管理员资格)"
+LangString freshInstallForAll 1028 "為所有使用者進行全新安裝 (需要系統管理員權限)"
+LangString freshInstallForAll 1055 "Tüm kullanıcılar için yeni yükleme. (yönetici kimlik bilgilerini soracaktır)"
+LangString freshInstallForAll 1053 "Ny installation för alla användare. (kommer att begära adminbehörighet)"
+LangString freshInstallForAll 1045 "Nowa instalacja dla wszystkich użytkowników (potrzebne będą dane administratora)."
+LangString freshInstallForAll 1043 "Nieuwe installatie voor alle gebruikers. (zal om beheerder-gegevens vragen)"
+LangString freshInstallForAll 1040 "Re-installa per tutti gli utenti. (Richiede le credenziali di amministratore)"
+LangString freshInstallForAll 1035 "Uusi asennus kaikille käyttäjille (pyytää ylläpitäjän käyttäjätunnuksia)"
+LangString freshInstallForAll 3082 "Instalación nueva para todos los usuarios (se pedirán los credenciales del administrador)"
+LangString freshInstallForAll 1030 "Ny installering til alle brugere. (Vil medføre administrations-legitimationsoplysninger)"
+LangString freshInstallForAll 1041 "すべてのユーザーに新規インストール（管理者権限が必要）"
+LangString freshInstallForAll 1042 "모든 사용자를 위해 새로 설치. (관리자 자격 증명을 묻는 메시지가 표시됨)"
+LangString freshInstallForAll 1044 "Fresh install for all users. (will prompt for admin credentials)"
+LangString freshInstallForAll 2070 "Fresh install for all users. (will prompt for admin credentials)"
+LangString freshInstallForAll 1058 "Fresh install for all users. (will prompt for admin credentials)"
+LangString freshInstallForAll 1025 "Fresh install for all users. (will prompt for admin credentials)"
+LangString freshInstallForAll 1054 "Fresh install for all users. (will prompt for admin credentials)"
+LangString freshInstallForAll 1066 "Fresh install for all users. (will prompt for admin credentials)"
+LangString freshInstallForCurrent 1033 "Fresh install for current user only."
+LangString freshInstallForCurrent 1031 "Neuinstallation nur für den aktuellen Benutzer durchführen."
+LangString freshInstallForCurrent 1049 "Новая установка только для текущего пользователя."
+LangString freshInstallForCurrent 1029 "Nová instalace pro aktuálního uživatele."
+LangString freshInstallForCurrent 1036 "Nouvelle installation uniquement pour l'utilisateur actuel."
+LangString freshInstallForCurrent 1038 "Új telepítés csak a jelenlegi felhasználó számára."
+LangString freshInstallForCurrent 1046 "Instalação limpa somente para o usuário atual."
+LangString freshInstallForCurrent 2052 "仅为当前用户进行全新安装."
+LangString freshInstallForCurrent 1028 "僅為目前使用者進行全新安裝"
+LangString freshInstallForCurrent 1055 "Sadece mevcut kullanıcı için yeni yükleme."
+LangString freshInstallForCurrent 1053 "Ny installation endast för den aktuella användaren."
+LangString freshInstallForCurrent 1045 "Nowa instalacja wyłącznie dla obecnego użytkownika."
+LangString freshInstallForCurrent 1043 "Nieuwe installatie alleen voor huidige gebruiker."
+LangString freshInstallForCurrent 1040 "Re-installa solo per l'utente attuale."
+LangString freshInstallForCurrent 1035 "Uusi asennus vain nykyiselle käyttäjälle."
+LangString freshInstallForCurrent 3082 "Instalación nueva solo para el usuario actual."
+LangString freshInstallForCurrent 1030 "Ny installering kun til nuværende bruger."
+LangString freshInstallForCurrent 1041 "現在のユーザーのみ新規インストール"
+LangString freshInstallForCurrent 1042 "현재 사용자만 새로 설치합니다."
+LangString freshInstallForCurrent 1044 "Fresh install for current user only."
+LangString freshInstallForCurrent 2070 "Fresh install for current user only."
+LangString freshInstallForCurrent 1058 "Fresh install for current user only."
+LangString freshInstallForCurrent 1051 "Fresh install for current user only."
+LangString freshInstallForCurrent 1025 "Fresh install for current user only."
+LangString freshInstallForCurrent 1054 "Fresh install for current user only."
+LangString freshInstallForCurrent 1066 "Fresh install for current user only."
+LangString onlyForMe 1033 "Only for &me"
+LangString onlyForMe 1031 "Nur für &mich"
+LangString onlyForMe 1049 "Только для &меня"
+LangString onlyForMe 1051 "Iba pre mňa"
+LangString onlyForMe 1029 "Pouze pro &mě"
+LangString onlyForMe 1036 "Juste pour moi"
+LangString onlyForMe 1038 "Csak az én számomra"
+LangString onlyForMe 1046 "Apenas para &mim"
+LangString onlyForMe 2052 "仅为我安装"
+LangString onlyForMe 1028 "僅為我安裝"
+LangString onlyForMe 1055 "Sadece benim için"
+LangString onlyForMe 1053 "Endast för &mig"
+LangString onlyForMe 1045 "Tylko dla &mnie"
+LangString onlyForMe 1043 "Alleen voor &mij"
+LangString onlyForMe 1040 "Solo per &me"
+LangString onlyForMe 1035 "Vain minulle"
+LangString onlyForMe 3082 "Solo para mí."
+LangString onlyForMe 1030 "Kun til mig"
+LangString onlyForMe 1041 "現在のユーザーのみにインストールする"
+LangString onlyForMe 1042 "전용"
+LangString onlyForMe 1044 "Only for &me"
+LangString onlyForMe 2070 "Only for &me"
+LangString onlyForMe 1058 "Only for &me"
+LangString onlyForMe 1025 "Only for &me"
+LangString onlyForMe 1054 "Only for &me"
+LangString onlyForMe 1066 "Only for &me"
+LangString forAll 1033 "Anyone who uses this computer (&all users)"
+LangString forAll 1031 "Für alle Benutzer dieses Computers (&alle Benutzer)"
+LangString forAll 1049 "Для &всех пользователей данного компьютера"
+LangString forAll 1051 "Pre každého kto použiva tento počitač (všetci uživatelia)"
+LangString forAll 1029 "Pro každého, kdo používá tento počítač (všichni uživatelé)"
+LangString forAll 1036 "Pour tous ceux qui utilisent cet ordinateur (tous les utilisateurs)"
+LangString forAll 1038 "Bárki számára, aki ezt a számítógépet használja (minden felhasználó)"
+LangString forAll 1046 "Para todos que usam esta máquina (&todos os usuários)"
+LangString forAll 2052 "为使用这台电脑的任何人安装 (所有用户)"
+LangString forAll 1028 "為使用這台電腦的任何人安裝 (所有使用者)"
+LangString forAll 1055 "Bu bilgisayarı kullanan herkes (ve tüm kullanıcılar)"
+LangString forAll 1053 "Alla som använder den här datorn (alla användare)"
+LangString forAll 1045 "Każdy korzystający z tego komputera (wszyscy użytkownicy)"
+LangString forAll 1043 "Iedereen die deze computer gebruikt (alle gebruikers)"
+LangString forAll 1040 "Per chiunque usi questo computer (tutti gli utenti)"
+LangString forAll 1035 "Kaikille, jotka käyttävät tätä tietokonetta (kaikki käyttäjät)"
+LangString forAll 3082 "Cualquiera que utilice este ordenador (todos los usuarios)"
+LangString forAll 1030 "Enhver, der bruger denne computer (alle brugere)"
+LangString forAll 1041 "このコンピューターを使用しているすべてのユーザー用にインストールする"
+LangString forAll 1042 "이 컴퓨터를 사용하는 모든 사람(&모든 사용자)"
+LangString forAll 1044 "Anyone who uses this computer (&all users)"
+LangString forAll 2070 "Anyone who uses this computer (&all users)"
+LangString forAll 1058 "Anyone who uses this computer (&all users)"
+LangString forAll 1025 "Anyone who uses this computer (&all users)"
+LangString forAll 1054 "Anyone who uses this computer (&all users)"
+LangString forAll 1066 "Anyone who uses this computer (&all users)"
+LangString loginWithAdminAccount 1033 "You need to login with an account that is a member of the admin group to continue..."
+LangString loginWithAdminAccount 1031 "Um die Installation fortzusetzen müssen Sie sich mit einem Administrator-Account anmelden..."
+LangString loginWithAdminAccount 1049 "Чтобы продолжить, тебе нужно войти в учетную запись, которая входит в группу администраторов..."
+LangString loginWithAdminAccount 1051 "Pre pokračovanie sa musíte zalogovať s účtom ktorý patrí do skupiny adminstrátorov..."
+LangString loginWithAdminAccount 1029 "Pro pokračování se musíte přihlásit účtem, který patří do skupiny administrátorů..."
+LangString loginWithAdminAccount 1036 "Tu dois te connecter avec un compte ayant des droits d'administrateur pour continuer..."
+LangString loginWithAdminAccount 1038 "A folytatáshoz adminisztrátori jogokkal rendelkező fiókkal kell bejelentkezned..."
+LangString loginWithAdminAccount 1046 "Você precisa realizar o login com uma conta que é membro do grupo de administração para continuar..."
+LangString loginWithAdminAccount 2052 "您需要用属于管理员群组的用户账户登录来继续..."
+LangString loginWithAdminAccount 1028 "您需要以具系統管理員身分的帳號登入才能繼續..."
+LangString loginWithAdminAccount 1055 "Devam etmek için yönetici grubunun üyesi olan bir hesapla giriş yapmanız gerekiyor.."
+LangString loginWithAdminAccount 1053 "Du måste logga in med ett konto som är medlem i admingruppen för att fortsätta..."
+LangString loginWithAdminAccount 1045 "Musisz się zalogować za pomocą konta będącego członkiem grupy administratora, by kontynuować..."
+LangString loginWithAdminAccount 1043 "Je dient in te loggen met een account dat lid is van de beheerdersgroep om verder te gaan..."
+LangString loginWithAdminAccount 1040 "Devi accedere con un account incluso nel gruppo amministratore per continuare..."
+LangString loginWithAdminAccount 1035 "Jatkaaksesi sinun on kirjauduttava käyttäjätilillä, joka on ylläpitäjäryhmän jäsen..."
+LangString loginWithAdminAccount 3082 "Para continuar, tienes que iniciar sesión con una cuenta que pertenezca al grupo de administradores..."
+LangString loginWithAdminAccount 1030 "Du skal logge ind med en konto, der er medlem af administrationsgruppen for at kunne fortsætte..."
+LangString loginWithAdminAccount 1041 "続行するには、管理者権限アカウントでログインする必要があります..."
+LangString loginWithAdminAccount 1042 "계속하려면 관리자 그룹의 구성원인 계정으로 로그인해야 합니다..."
+LangString loginWithAdminAccount 1044 "You need to login with an account that is a member of the admin group to continue..."
+LangString loginWithAdminAccount 2070 "You need to login with an account that is a member of the admin group to continue..."
+LangString loginWithAdminAccount 1058 "You need to login with an account that is a member of the admin group to continue..."
+LangString loginWithAdminAccount 1025 "You need to login with an account that is a member of the admin group to continue..."
+LangString loginWithAdminAccount 1054 "You need to login with an account that is a member of the admin group to continue..."
+LangString loginWithAdminAccount 1066 "You need to login with an account that is a member of the admin group to continue..."
+LangString perUserInstallExists 1033 "There is already a per-user installation."
+LangString perUserInstallExists 1031 "Es existiert bereits eine Installation für den ausgewählten Benutzer."
+LangString perUserInstallExists 1049 "Уже есть установленная программа для отдельного пользователя."
+LangString perUserInstallExists 1029 "Již existuje instalace pro uživatele."
+LangString perUserInstallExists 1036 "Il y a déjà une installation par utilisateur."
+LangString perUserInstallExists 1038 "Már van egy felhasználónkénti telepítés."
+LangString perUserInstallExists 1046 "Já existe uma instalação por usuário."
+LangString perUserInstallExists 2052 "已经存在一个安装到当前用户的安装."
+LangString perUserInstallExists 1028 "已經為目前使用者安裝過該軟體"
+LangString perUserInstallExists 1055 "Her kullanıcı için zaten bir kurulum var."
+LangString perUserInstallExists 1053 "Det finns redan en ”per användare”-installation."
+LangString perUserInstallExists 1045 "Instalacja dla użytkownika już istnieje."
+LangString perUserInstallExists 1043 "Er is al een installatie 'per gebruiker'."
+LangString perUserInstallExists 1040 "È già presente un'installazione per utente."
+LangString perUserInstallExists 1035 "Tämä on jo käyttäjäkohtainen asennus."
+LangString perUserInstallExists 3082 "Ya hay una instalación por usuario."
+LangString perUserInstallExists 1030 "Der er allerede en pr. bruger installation."
+LangString perUserInstallExists 1041 "すでに現在のユーザーにインストールされています。"
+LangString perUserInstallExists 1042 "이미 사용자별 설치가 있습니다."
+LangString perUserInstallExists 1044 "There is already a per-user installation."
+LangString perUserInstallExists 2070 "There is already a per-user installation."
+LangString perUserInstallExists 1058 "There is already a per-user installation."
+LangString perUserInstallExists 1051 "There is already a per-user installation."
+LangString perUserInstallExists 1025 "There is already a per-user installation."
+LangString perUserInstallExists 1054 "There is already a per-user installation."
+LangString perUserInstallExists 1066 "There is already a per-user installation."
+LangString perUserInstall 1033 "There is a per-user installation."
+LangString perUserInstall 1031 "Benutzerinstallation bereits vorhanden."
+LangString perUserInstall 1049 "Есть установленная программа для отдельного пользователя."
+LangString perUserInstall 1029 "Instalace pro uživatele."
+LangString perUserInstall 1036 "Il y a une installation par utilisateur."
+LangString perUserInstall 1038 "Van felhasználónkénti telepítés."
+LangString perUserInstall 1046 "Existe uma instalação por usuário."
+LangString perUserInstall 2052 "存在一个安装到当前用户的安装."
+LangString perUserInstall 1028 "存在一個對目前使用者的安裝"
+LangString perUserInstall 1055 "Kullanıcı başına bir kurulum var."
+LangString perUserInstall 1053 "Det finns en ”per användare”-installation."
+LangString perUserInstall 1045 "Instalacja dla użytkownika istnieje."
+LangString perUserInstall 1043 "Er is een installatie 'per gebruiker'."
+LangString perUserInstall 1040 "È presente un'installazione per utente."
+LangString perUserInstall 1035 "Käyttäjäkohtainen asennus on olemassa."
+LangString perUserInstall 3082 "Hay una instalación por usuario."
+LangString perUserInstall 1030 "Der er en pr. bruger installation."
+LangString perUserInstall 1041 "ユーザーごとのインストールがあります。"
+LangString perUserInstall 1042 "사용자별로 설치되어 있습니다."
+LangString perUserInstall 1044 "There is a per-user installation."
+LangString perUserInstall 2070 "There is a per-user installation."
+LangString perUserInstall 1058 "There is a per-user installation."
+LangString perUserInstall 1051 "There is a per-user installation."
+LangString perUserInstall 1025 "There is a per-user installation."
+LangString perUserInstall 1054 "There is a per-user installation."
+LangString perUserInstall 1066 "There is a per-user installation."
+LangString perMachineInstallExists 1033 "There is already a per-machine installation."
+LangString perMachineInstallExists 1031 "Es existiert bereits eine Installation für diesen Computer."
+LangString perMachineInstallExists 1049 "Уже есть установленная программа для всего компьютера."
+LangString perMachineInstallExists 1029 "Již existuje instalace pro tento počítač."
+LangString perMachineInstallExists 1036 "Il y a déjà une installation par machine."
+LangString perMachineInstallExists 1038 "Már van egy számítógépenkénti telepítés."
+LangString perMachineInstallExists 1046 "Já existe uma instalação por máquina."
+LangString perMachineInstallExists 2052 "已经存在一个安装到所有用户的安装."
+LangString perMachineInstallExists 1028 "已經為所有使用者安裝過該軟體"
+LangString perMachineInstallExists 1055 "Zaten makine başına bir kurulum var."
+LangString perMachineInstallExists 1053 "Det finns redan en ”per dator”-installation."
+LangString perMachineInstallExists 1045 "Instalacja dla urządzenia już istnieje."
+LangString perMachineInstallExists 1043 "Er is al een installatie 'per apparaat'."
+LangString perMachineInstallExists 1040 "È già presente un'installazione per computer."
+LangString perMachineInstallExists 1035 "Tämä on jo tietokonekohtainen asennus."
+LangString perMachineInstallExists 3082 "Ya hay una instalación por máquina."
+LangString perMachineInstallExists 1030 "Der er allerede en pr. maskine installation."
+LangString perMachineInstallExists 1041 "既にすべてのユーザー用にインストールされています。"
+LangString perMachineInstallExists 1042 "이미 머신별로 설치되어 있습니다."
+LangString perMachineInstallExists 1044 "There is already a per-machine installation."
+LangString perMachineInstallExists 2070 "There is already a per-machine installation."
+LangString perMachineInstallExists 1058 "There is already a per-machine installation."
+LangString perMachineInstallExists 1051 "There is already a per-machine installation."
+LangString perMachineInstallExists 1025 "There is already a per-machine installation."
+LangString perMachineInstallExists 1054 "There is already a per-machine installation."
+LangString perMachineInstallExists 1066 "There is already a per-machine installation."
+LangString perMachineInstall 1033 "There is a per-machine installation."
+LangString perMachineInstall 1031 "Es existiert eine Installation für diesen Computer."
+LangString perMachineInstall 1049 "Есть установленная программа для всего компьютера."
+LangString perMachineInstall 1029 "Instalace pro tento počítač."
+LangString perMachineInstall 1036 "Il y a une installation par machine."
+LangString perMachineInstall 1038 "Van számítógépenkénti telepítés."
+LangString perMachineInstall 1046 "Existe uma instalação por máquina."
+LangString perMachineInstall 2052 "存在一个安装到所有用户的安装."
+LangString perMachineInstall 1028 "存在一個對所有使用者的安裝"
+LangString perMachineInstall 1055 "Makine başına bir yükleme var."
+LangString perMachineInstall 1053 "Det finns en ”per dator”-installation."
+LangString perMachineInstall 1045 "Instalacja dla urządzenia istnieje."
+LangString perMachineInstall 1043 "Er is een installatie 'per apparaat'."
+LangString perMachineInstall 1040 "È presente un'installazione per computer."
+LangString perMachineInstall 1035 "Tietokonekohtainen asennus on olemassa."
+LangString perMachineInstall 3082 "Hay una instalación por máquina."
+LangString perMachineInstall 1030 "Der er en pr. maskine installation."
+LangString perMachineInstall 1041 "すべてのユーザー用のインストールがあります。"
+LangString perMachineInstall 1042 "머신별로 설치되어 있습니다."
+LangString perMachineInstall 1044 "There is a per-machine installation."
+LangString perMachineInstall 2070 "There is a per-machine installation."
+LangString perMachineInstall 1058 "There is a per-machine installation."
+LangString perMachineInstall 1051 "There is a per-machine installation."
+LangString perMachineInstall 1025 "There is a per-machine installation."
+LangString perMachineInstall 1054 "There is a per-machine installation."
+LangString perMachineInstall 1066 "There is a per-machine installation."
+LangString reinstallUpgrade 1033 "Will reinstall/upgrade."
+LangString reinstallUpgrade 1031 "Die Anwendung wird aktualisiert."
+LangString reinstallUpgrade 1049 "Приложение будет переустановлено/обновлено."
+LangString reinstallUpgrade 1029 "Bude přeinstalováno/aktualizováno."
+LangString reinstallUpgrade 1036 "Va réinstaller/mettre à jour."
+LangString reinstallUpgrade 1038 "Újratelepít/frissít."
+LangString reinstallUpgrade 1046 "Irá reinstalar/atualizar."
+LangString reinstallUpgrade 2052 "即将重新安装/升级."
+LangString reinstallUpgrade 1028 "即將重新安裝/升級"
+LangString reinstallUpgrade 1055 "Yeniden yükleme/yükseltme"
+LangString reinstallUpgrade 1053 "Kommer att ominstallera/uppgradera."
+LangString reinstallUpgrade 1045 "Nastąpi ponowna instalacja/aktualizacja."
+LangString reinstallUpgrade 1043 "Zal opnieuw installeren/upgraden."
+LangString reinstallUpgrade 1040 "Re-installa/aggiorna il programma."
+LangString reinstallUpgrade 1035 "Asennetaan uudelleen/päivitetään."
+LangString reinstallUpgrade 3082 "Se reinstalará/actualizará."
+LangString reinstallUpgrade 1030 "Reinstallerer/opgraderer."
+LangString reinstallUpgrade 1041 "再インストール/アップグレードします。"
+LangString reinstallUpgrade 1042 "재설치/업그레이드합니다."
+LangString reinstallUpgrade 1044 "Will reinstall/upgrade."
+LangString reinstallUpgrade 2070 "Will reinstall/upgrade."
+LangString reinstallUpgrade 1058 "Will reinstall/upgrade."
+LangString reinstallUpgrade 1051 "Will reinstall/upgrade."
+LangString reinstallUpgrade 1025 "Will reinstall/upgrade."
+LangString reinstallUpgrade 1054 "Will reinstall/upgrade."
+LangString reinstallUpgrade 1066 "Will reinstall/upgrade."
+LangString uninstall 1033 "Will uninstall."
+LangString uninstall 1031 "Die Anwendung wird deinstalliert."
+LangString uninstall 1049 "Приложение будет удалено."
+LangString uninstall 1029 "Odinstaluje se."
+LangString uninstall 1036 "Va désinstaller."
+LangString uninstall 1038 "Eltávolít."
+LangString uninstall 1046 "Irá desinstalar."
+LangString uninstall 2052 "即将卸载."
+LangString uninstall 1028 "即將解除安裝"
+LangString uninstall 1055 "Kaldıralacak."
+LangString uninstall 1053 "Kommer att avinstallera."
+LangString uninstall 1045 "Nastąpi dezinstalacja."
+LangString uninstall 1043 "Zal installatie verwijderen."
+LangString uninstall 1040 "Disinstalla il programma."
+LangString uninstall 1035 "Poistetaan asennus."
+LangString uninstall 3082 "Se desinstalará."
+LangString uninstall 1030 "Afinstallerer."
+LangString uninstall 1041 "アンインストールします。"
+LangString uninstall 1042 "제거합니다."
+LangString uninstall 1044 "Will uninstall."
+LangString uninstall 2070 "Will uninstall."
+LangString uninstall 1058 "Will uninstall."
+LangString uninstall 1051 "Will uninstall."
+LangString uninstall 1025 "Will uninstall."
+LangString uninstall 1054 "Will uninstall."
+LangString uninstall 1066 "Will uninstall."
+  • computing effective URL  initialUrl=https://github.com/electron-userland/electron-builder-binaries/releases/download/nsis-resources-3.4.1/nsis-resources-3.4.1.7z
+                             currentUrl=https://release-assets.githubusercontent.com/github-production-release-asset/65527128/64ac4a00-a87a-11e9-901b-f221c4fd0776?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-09-16T08%3A50%3A33Z&rscd=attachment%3B+filename%3Dnsis-resources-3.4.1.7z&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-09-16T07%3A50%3A18Z&ske=2026-09-16T08%3A50%3A33Z&sks=b&skv=2018-11-09&sig=VozA39rmJR%2F4J61buWbQLdl4pk%2F1kiryLjRGkuKmbUI%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc4OTU0Njc1MiwibmJmIjoxNzg5NTQ2NDUyLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.uDOkSwZa0cP9mOPAk_KCOULxR3zYNwGnQUb4sqmIMUo&response-content-disposition=attachment%3B%20filename%3Dnsis-resources-3.4.1.7z&response-content-type=application%2Foctet-stream
+  • downloading     url=https://github.com/electron-userland/electron-builder-binaries/releases/download/nsis-resources-3.4.1/nsis-resources-3.4.1.7z length=730800 contentType=application/octet-stream
+  • downloading     url=https://github.com/electron-userland/electron-builder-binaries/releases/download/nsis-resources-3.4.1/nsis-resources-3.4.1.7z size=731 kB parts=1
+  • map async       taskCount=1
+  • download part   range=bytes=0-730799 index=0
+  • downloaded      url=https://github.com/electron-userland/electron-builder-binaries/releases/download/nsis-resources-3.4.1/nsis-resources-3.4.1.7z duration=315ms
+  • execute command  command='D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\7zip-bin\win\x64\7za.exe' x -snld -bd 'C:\Users\runneradmin\AppData\Local\electron-builder\Cache\nsis\378359695.7z' '-oC:\Users\runneradmin\AppData\Local\electron-builder\Cache\nsis\378359695'
+                     workingDirectory=C:\Users\runneradmin\AppData\Local\electron-builder\Cache\nsis
+  • command executed  executable=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\7zip-bin\win\x64\7za.exe
+                      out=
+    7-Zip (a) 21.07 (x64) : Copyright (c) 1999-2021 Igor Pavlov : 2021-12-26
+    
+    Scanning the drive for archives:
+    1 file, 730800 bytes (714 KiB)
+    
+    Extracting archive: C:\Users\runneradmin\AppData\Local\electron-builder\Cache\nsis\378359695.7z
+    --
+    Path = C:\Users\runneradmin\AppData\Local\electron-builder\Cache\nsis\378359695.7z
+    Type = 7z
+    Physical Size = 730800
+    Headers Size = 650
+    Method = LZMA2:3m LZMA:20 BCJ2
+    Solid = +
+    Blocks = 2
+    
+    Everything is Ok
+    
+    Folders: 5
+    Files: 22
+    Size:       2998788
+    Compressed: 730800
+    
+  • exited          command=app-builder.exe code=0 pid=1672 out=C:\Users\runneradmin\AppData\Local\electron-builder\Cache\nsis\nsis-resources-3.4.1
+  • spawning        command=C:\Users\runneradmin\AppData\Local\electron-builder\Cache\nsis\nsis-3.0.4.1\Bin\makensis.exe -WX -INPUTCHARSET UTF8 -DAPP_ID=com.merqo.retailsuite -DAPP_GUID=98b77fbf-b20e-5975-8030-c0fa8b97f7e8 -DUNINSTALL_APP_KEY=98b77fbf-b20e-5975-8030-c0fa8b97f7e8 -DPRODUCT_NAME=MERQO Retail Suite -DPRODUCT_FILENAME=MERQO Retail Suite -DAPP_FILENAME=MERQO Retail Suite -DAPP_DESCRIPTION=MERQO Retail Suite — A production-grade Windows desktop business management system for grocery stores, super shops, mini marts, general stores, and modern retail businesses. -DVERSION=1.0.0 -DPROJECT_DIR=D:\a\merqo-retail-suite\merqo-retail-suite -DBUILD_RESOURCES_DIR=D:\a\merqo-retail-suite\merqo-retail-suite\installer -DAPP_PACKAGE_NAME=merqo-retail-suite -DMUI_ICON=D:\a\merqo-retail-suite\merqo-retail-suite\installer\icon.ico -DMUI_UNICON=D:\a\merqo-retail-suite\merqo-retail-suite\installer\icon.ico -DAPP_64=D:\a\merqo-retail-suite\merqo-retail-suite\release\merqo-retail-suite-1.0.0-x64.nsis.7z -DAPP_64_NAME=merqo-retail-suite-1.0.0-x64.nsis.7z -DAPP_64_HASH=7F1DA68C1A327F45FE2DB2A7AE86E500F52232CD135D8E7D7EC68C65B15B63D669CD98081110967A46FB2BDC4B06F0D9B761D06A23AE999CC7C5D393C91499A9 -DAPP_64_UNPACKED_SIZE=314908 -DCOMPANY_NAME=MERQO. -DAPP_INSTALLER_STORE_FILE=merqo-retail-suite-updater\installer.exe -DCOMPRESSION_METHOD=7z -DMULTIUSER_INSTALLMODE_ALLOW_ELEVATION -DINSTALL_MODE_PER_ALL_USERS_REQUIRED -DallowToChangeInstallationDirectory -DSHORTCUT_NAME=MERQO Retail Suite -DUNINSTALL_DISPLAY_NAME=MERQO Retail Suite 1.0.0 -DMUI_WELCOMEFINISHPAGE_BITMAP=${NSISDIR}\Contrib\Graphics\Wizard\nsis3-metro.bmp -DMUI_UNWELCOMEFINISHPAGE_BITMAP=${NSISDIR}\Contrib\Graphics\Wizard\nsis3-metro.bmp -DESTIMATED_SIZE=314908 -DCOMPRESS=auto -DBUILD_UNINSTALLER -DUNINSTALLER_OUT_FILE=D:\a\merqo-retail-suite\merqo-retail-suite\release\__uninstaller-nsis-merqo-retail-suite.exe -XOutFile "D:\a\merqo-retail-suite\merqo-retail-suite\release\MERQO Retail Suite-Setup-1.0.0.exe" -XVIProductVersion 1.0.0.0 -XVIAddVersionKey /LANG=1033 ProductName "MERQO Retail Suite" -XVIAddVersionKey /LANG=1033 ProductVersion "1.0.0" -XVIAddVersionKey /LANG=1033 LegalCopyright "Copyright © 2026 MERQO. All rights reserved." -XVIAddVersionKey /LANG=1033 FileDescription "MERQO Retail Suite — A production-grade Windows desktop business management system for grocery stores, super shops, mini marts, general stores, and modern retail businesses." -XVIAddVersionKey /LANG=1033 FileVersion "1.0.0" -XVIAddVersionKey /LANG=1033 CompanyName "MERQO." -XUnicode true -XSetCompressor zlib - cwd=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\app-builder-lib\templates\nsis
+Command line defined: "APP_ID=com.merqo.retailsuite"
+Command line defined: "APP_GUID=98b77fbf-b20e-5975-8030-c0fa8b97f7e8"
+Command line defined: "UNINSTALL_APP_KEY=98b77fbf-b20e-5975-8030-c0fa8b97f7e8"
+Command line defined: "PRODUCT_NAME=MERQO Retail Suite"
+Command line defined: "PRODUCT_FILENAME=MERQO Retail Suite"
+Command line defined: "APP_FILENAME=MERQO Retail Suite"
+Command line defined: "APP_DESCRIPTION=MERQO Retail Suite � A production-grade Windows desktop business management system for grocery stores, super shops, mini marts, general stores, and modern retail businesses."
+Command line defined: "VERSION=1.0.0"
+Command line defined: "PROJECT_DIR=D:\a\merqo-retail-suite\merqo-retail-suite"
+Command line defined: "BUILD_RESOURCES_DIR=D:\a\merqo-retail-suite\merqo-retail-suite\installer"
+Command line defined: "APP_PACKAGE_NAME=merqo-retail-suite"
+Command line defined: "MUI_ICON=D:\a\merqo-retail-suite\merqo-retail-suite\installer\icon.ico"
+Command line defined: "MUI_UNICON=D:\a\merqo-retail-suite\merqo-retail-suite\installer\icon.ico"
+Command line defined: "APP_64=D:\a\merqo-retail-suite\merqo-retail-suite\release\merqo-retail-suite-1.0.0-x64.nsis.7z"
+Command line defined: "APP_64_NAME=merqo-retail-suite-1.0.0-x64.nsis.7z"
+Command line defined: "APP_64_HASH=7F1DA68C1A327F45FE2DB2A7AE86E500F52232CD135D8E7D7EC68C65B15B63D669CD98081110967A46FB2BDC4B06F0D9B761D06A23AE999CC7C5D393C91499A9"
+Command line defined: "APP_64_UNPACKED_SIZE=314908"
+Command line defined: "COMPANY_NAME=MERQO."
+Command line defined: "APP_INSTALLER_STORE_FILE=merqo-retail-suite-updater\installer.exe"
+Command line defined: "COMPRESSION_METHOD=7z"
+Command line defined: "MULTIUSER_INSTALLMODE_ALLOW_ELEVATION"
+Command line defined: "INSTALL_MODE_PER_ALL_USERS_REQUIRED"
+Command line defined: "allowToChangeInstallationDirectory"
+Command line defined: "SHORTCUT_NAME=MERQO Retail Suite"
+Command line defined: "UNINSTALL_DISPLAY_NAME=MERQO Retail Suite 1.0.0"
+Command line defined: "MUI_WELCOMEFINISHPAGE_BITMAP=${NSISDIR}\Contrib\Graphics\Wizard\nsis3-metro.bmp"
+Command line defined: "MUI_UNWELCOMEFINISHPAGE_BITMAP=${NSISDIR}\Contrib\Graphics\Wizard\nsis3-metro.bmp"
+Command line defined: "ESTIMATED_SIZE=314908"
+Command line defined: "COMPRESS=auto"
+Command line defined: "BUILD_UNINSTALLER"
+Command line defined: "UNINSTALLER_OUT_FILE=D:\a\merqo-retail-suite\merqo-retail-suite\release\__uninstaller-nsis-merqo-retail-suite.exe"
+Processing config: C:\Users\runneradmin\AppData\Local\electron-builder\Cache\nsis\nsis-3.0.4.1\nsisconf.nsh
+Processing script file: "<stdin>" (UTF8)
+
+Processed 1 file, 10 command line commands, writing output (x86-unicode):
+
+Output: "D:\a\merqo-retail-suite\merqo-retail-suite\release\MERQO Retail Suite-Setup-1.0.0.exe"
+Install: 0 pages (0 bytes), 1 section (16408 bytes), 31 instructions (868 bytes), 2930 strings (24100 bytes), 26 language tables (4316 bytes).
+Uninstall: 4 pages (320 bytes), 1 section (16408 bytes), 1797 instructions (50316 bytes), 8505 strings (110072 bytes), 26 language tables (8684 bytes).
+
+Using zlib compression.
+
+EXE header size:              163328 / 39424 bytes
+Install code:                   9805 / 46092 bytes
+Install data:                      0 / 8 bytes
+Uninstall code+data:          138865 / 231145 bytes
+CRC (0x7216FD93):                  4 / 4 bytes
+
+Total size:                   312002 / 316673 bytes (98.5%)
+  • exited          command=makensis.exe code=0 pid=7052
+  • executing       file=D:\a\merqo-retail-suite\merqo-retail-suite\release\MERQO Retail Suite-Setup-1.0.0.exe args= env={
+  "__COMPAT_LAYER": "RunAsInvoker"
+}
+  • executed        file=D:\a\merqo-retail-suite\merqo-retail-suite\release\MERQO Retail Suite-Setup-1.0.0.exe
+  • signing with signtool.exe  path=release\__uninstaller-nsis-merqo-retail-suite.exe
+  • no signing info identified, signing is skipped  signHook=false cscInfo=null
+  • spawning        command=C:\Users\runneradmin\AppData\Local\electron-builder\Cache\nsis\nsis-3.0.4.1\Bin\makensis.exe -WX -INPUTCHARSET UTF8 -DAPP_ID=com.merqo.retailsuite -DAPP_GUID=98b77fbf-b20e-5975-8030-c0fa8b97f7e8 -DUNINSTALL_APP_KEY=98b77fbf-b20e-5975-8030-c0fa8b97f7e8 -DPRODUCT_NAME=MERQO Retail Suite -DPRODUCT_FILENAME=MERQO Retail Suite -DAPP_FILENAME=MERQO Retail Suite -DAPP_DESCRIPTION=MERQO Retail Suite — A production-grade Windows desktop business management system for grocery stores, super shops, mini marts, general stores, and modern retail businesses. -DVERSION=1.0.0 -DPROJECT_DIR=D:\a\merqo-retail-suite\merqo-retail-suite -DBUILD_RESOURCES_DIR=D:\a\merqo-retail-suite\merqo-retail-suite\installer -DAPP_PACKAGE_NAME=merqo-retail-suite -DMUI_ICON=D:\a\merqo-retail-suite\merqo-retail-suite\installer\icon.ico -DMUI_UNICON=D:\a\merqo-retail-suite\merqo-retail-suite\installer\icon.ico -DAPP_64=D:\a\merqo-retail-suite\merqo-retail-suite\release\merqo-retail-suite-1.0.0-x64.nsis.7z -DAPP_64_NAME=merqo-retail-suite-1.0.0-x64.nsis.7z -DAPP_64_HASH=7F1DA68C1A327F45FE2DB2A7AE86E500F52232CD135D8E7D7EC68C65B15B63D669CD98081110967A46FB2BDC4B06F0D9B761D06A23AE999CC7C5D393C91499A9 -DAPP_64_UNPACKED_SIZE=314908 -DCOMPANY_NAME=MERQO. -DAPP_INSTALLER_STORE_FILE=merqo-retail-suite-updater\installer.exe -DCOMPRESSION_METHOD=7z -DMULTIUSER_INSTALLMODE_ALLOW_ELEVATION -DINSTALL_MODE_PER_ALL_USERS_REQUIRED -DallowToChangeInstallationDirectory -DSHORTCUT_NAME=MERQO Retail Suite -DUNINSTALL_DISPLAY_NAME=MERQO Retail Suite 1.0.0 -DMUI_WELCOMEFINISHPAGE_BITMAP=${NSISDIR}\Contrib\Graphics\Wizard\nsis3-metro.bmp -DMUI_UNWELCOMEFINISHPAGE_BITMAP=${NSISDIR}\Contrib\Graphics\Wizard\nsis3-metro.bmp -DESTIMATED_SIZE=314908 -DCOMPRESS=auto -DUNINSTALLER_OUT_FILE=D:\a\merqo-retail-suite\merqo-retail-suite\release\__uninstaller-nsis-merqo-retail-suite.exe -XOutFile "D:\a\merqo-retail-suite\merqo-retail-suite\release\MERQO Retail Suite-Setup-1.0.0.exe" -XVIProductVersion 1.0.0.0 -XVIAddVersionKey /LANG=1033 ProductName "MERQO Retail Suite" -XVIAddVersionKey /LANG=1033 ProductVersion "1.0.0" -XVIAddVersionKey /LANG=1033 LegalCopyright "Copyright © 2026 MERQO. All rights reserved." -XVIAddVersionKey /LANG=1033 FileDescription "MERQO Retail Suite — A production-grade Windows desktop business management system for grocery stores, super shops, mini marts, general stores, and modern retail businesses." -XVIAddVersionKey /LANG=1033 FileVersion "1.0.0" -XVIAddVersionKey /LANG=1033 CompanyName "MERQO." -XUnicode true -XSetCompressor zlib - cwd=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\app-builder-lib\templates\nsis
+Command line defined: "APP_ID=com.merqo.retailsuite"
+Command line defined: "APP_GUID=98b77fbf-b20e-5975-8030-c0fa8b97f7e8"
+Command line defined: "UNINSTALL_APP_KEY=98b77fbf-b20e-5975-8030-c0fa8b97f7e8"
+Command line defined: "PRODUCT_NAME=MERQO Retail Suite"
+Command line defined: "PRODUCT_FILENAME=MERQO Retail Suite"
+Command line defined: "APP_FILENAME=MERQO Retail Suite"
+Command line defined: "APP_DESCRIPTION=MERQO Retail Suite � A production-grade Windows desktop business management system for grocery stores, super shops, mini marts, general stores, and modern retail businesses."
+Command line defined: "VERSION=1.0.0"
+Command line defined: "PROJECT_DIR=D:\a\merqo-retail-suite\merqo-retail-suite"
+Command line defined: "BUILD_RESOURCES_DIR=D:\a\merqo-retail-suite\merqo-retail-suite\installer"
+Command line defined: "APP_PACKAGE_NAME=merqo-retail-suite"
+Command line defined: "MUI_ICON=D:\a\merqo-retail-suite\merqo-retail-suite\installer\icon.ico"
+Command line defined: "MUI_UNICON=D:\a\merqo-retail-suite\merqo-retail-suite\installer\icon.ico"
+Command line defined: "APP_64=D:\a\merqo-retail-suite\merqo-retail-suite\release\merqo-retail-suite-1.0.0-x64.nsis.7z"
+Command line defined: "APP_64_NAME=merqo-retail-suite-1.0.0-x64.nsis.7z"
+Command line defined: "APP_64_HASH=7F1DA68C1A327F45FE2DB2A7AE86E500F52232CD135D8E7D7EC68C65B15B63D669CD98081110967A46FB2BDC4B06F0D9B761D06A23AE999CC7C5D393C91499A9"
+Command line defined: "APP_64_UNPACKED_SIZE=314908"
+Command line defined: "COMPANY_NAME=MERQO."
+Command line defined: "APP_INSTALLER_STORE_FILE=merqo-retail-suite-updater\installer.exe"
+Command line defined: "COMPRESSION_METHOD=7z"
+Command line defined: "MULTIUSER_INSTALLMODE_ALLOW_ELEVATION"
+Command line defined: "INSTALL_MODE_PER_ALL_USERS_REQUIRED"
+Command line defined: "allowToChangeInstallationDirectory"
+Command line defined: "SHORTCUT_NAME=MERQO Retail Suite"
+Command line defined: "UNINSTALL_DISPLAY_NAME=MERQO Retail Suite 1.0.0"
+Command line defined: "MUI_WELCOMEFINISHPAGE_BITMAP=${NSISDIR}\Contrib\Graphics\Wizard\nsis3-metro.bmp"
+Command line defined: "MUI_UNWELCOMEFINISHPAGE_BITMAP=${NSISDIR}\Contrib\Graphics\Wizard\nsis3-metro.bmp"
+Command line defined: "ESTIMATED_SIZE=314908"
+Command line defined: "COMPRESS=auto"
+Command line defined: "UNINSTALLER_OUT_FILE=D:\a\merqo-retail-suite\merqo-retail-suite\release\__uninstaller-nsis-merqo-retail-suite.exe"
+Processing config: C:\Users\runneradmin\AppData\Local\electron-builder\Cache\nsis\nsis-3.0.4.1\nsisconf.nsh
+Processing script file: "<stdin>" (UTF8)
+
+Processed 1 file, 10 command line commands, writing output (x86-unicode):
+
+Output: "D:\a\merqo-retail-suite\merqo-retail-suite\release\MERQO Retail Suite-Setup-1.0.0.exe"
+Install: 5 pages (320 bytes), 1 section (16408 bytes), 2022 instructions (56616 bytes), 10985 strings (138192 bytes), 26 language tables (9828 bytes).
+
+Using zlib compression.
+
+EXE header size:              166400 / 39424 bytes
+Install code:                  51963 / 221828 bytes
+Install data:               89551705 / 90087625 bytes
+CRC (0xD8419560):                  4 / 4 bytes
+
+Total size:                 89770072 / 90348881 bytes (99.3%)
+  • exited          command=makensis.exe code=0 pid=3020
+  • signing with signtool.exe  path=release\MERQO Retail Suite-Setup-1.0.0.exe
+  • no signing info identified, signing is skipped  signHook=false cscInfo=null
+  • building block map  blockMapFile=release\MERQO Retail Suite-Setup-1.0.0.exe.blockmap
+  • spawning        command=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\app-builder-bin\win\x64\app-builder.exe blockmap --input D:\a\merqo-retail-suite\merqo-retail-suite\release\MERQO Retail Suite-Setup-1.0.0.exe --output D:\a\merqo-retail-suite\merqo-retail-suite\release\MERQO Retail Suite-Setup-1.0.0.exe.blockmap
+  • exited          command=app-builder.exe code=0 pid=8880 out={"size":89770072,"sha512":"2yYPaSkXxd48fZIC/kIGkpmzbK0NCci8KNBhkZ929xgo3iS7GsS6XrsA/ARycLZVOO9gqv0GQWXSmtdInhYI9Q=="}
+2026-09-16T08:15:13.487Z electron-builder:publish artifactCreated (isPublish: false): {
+  "file": "D:\\a\\merqo-retail-suite\\merqo-retail-suite\\release\\MERQO Retail Suite-Setup-1.0.0.exe.blockmap",
+  "safeArtifactName": "MERQO-Retail-Suite-Setup-1.0.0.exe.blockmap",
+  "target": {
+    "name": "nsis",
+    "isAsyncSupported": false,
+    "packager": "<stripped sensitive data>",
+    "outDir": "D:\\a\\merqo-retail-suite\\merqo-retail-suite\\release",
+    "packageHelper": {
+      "elevateHelper": {
+        "copied": {}
+      },
+      "archToResult": {},
+      "infoToIsDelete": {},
+      "refCount": 2
+    },
+    "archs": {},
+    "options": {
+      "preCompressedFileExtensions": [
+        ".avi",
+        ".mov",
+        ".m4v",
+        ".mp4",
+        ".m4p",
+        ".qt",
+        ".mkv",
+        ".webm",
+        ".vmdk"
+      ],
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "MERQO Retail Suite",
+      "license": "installer/license.txt",
+      "artifactName": "${productName}-Setup-${version}.${ext}"
+    }
+  },
+  "arch": null,
+  "packager": "<stripped sensitive data>",
+  "updateInfo": {
+    "size": 89770072,
+    "sha512": "2yYPaSkXxd48fZIC/kIGkpmzbK0NCci8KNBhkZ929xgo3iS7GsS6XrsA/ARycLZVOO9gqv0GQWXSmtdInhYI9Q=="
+  }
+},
+  publishConfigs: []
+2026-09-16T08:15:13.487Z electron-builder:publish artifactCreated (isPublish: false): {
+  "file": "D:\\a\\merqo-retail-suite\\merqo-retail-suite\\release\\MERQO Retail Suite-Setup-1.0.0.exe",
+  "updateInfo": {
+    "size": 89770072,
+    "sha512": "2yYPaSkXxd48fZIC/kIGkpmzbK0NCci8KNBhkZ929xgo3iS7GsS6XrsA/ARycLZVOO9gqv0GQWXSmtdInhYI9Q=="
+  },
+  "target": {
+    "name": "nsis",
+    "isAsyncSupported": false,
+    "packager": "<stripped sensitive data>",
+    "outDir": "D:\\a\\merqo-retail-suite\\merqo-retail-suite\\release",
+    "packageHelper": {
+      "elevateHelper": {
+        "copied": {}
+      },
+      "archToResult": {},
+      "infoToIsDelete": {},
+      "refCount": 2
+    },
+    "archs": {},
+    "options": {
+      "preCompressedFileExtensions": [
+        ".avi",
+        ".mov",
+        ".m4v",
+        ".mp4",
+        ".m4p",
+        ".qt",
+        ".mkv",
+        ".webm",
+        ".vmdk"
+      ],
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "MERQO Retail Suite",
+      "license": "installer/license.txt",
+      "artifactName": "${productName}-Setup-${version}.${ext}"
+    }
+  },
+  "packager": "<stripped sensitive data>",
+  "arch": 1,
+  "safeArtifactName": "MERQO-Retail-Suite-Setup-1.0.0.exe",
+  "isWriteUpdateInfo": true
+},
+  publishConfigs: []
+  • getPublishConfigsForUpdateInfo: no publishConfigs, detect using repository info
+2026-09-16T08:15:13.488Z electron-builder:publish getPublishConfigsForUpdateInfo: {
+  "domain": "github.com",
+  "type": "github",
+  "user": "skcpmx-lang",
+  "project": "merqo-retail-suite"
+}
+  • calling getInfo  reason=owner or project is not specified explicitly provider=github owner=undefined project=undefined
+  • building        target=portable file=release\MERQO Retail Suite-Portable-1.0.0.exe archs=x64
+2026-09-16T08:15:13.488Z electron-builder:publish getPublishConfigsForUpdateInfo: resolve to publish config {
+  "owner": "skcpmx-lang",
+  "repo": "merqo-retail-suite",
+  "provider": "github"
+}
+  • executing       file=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\7zip-bin\win\x64\7za.exe args=l D:\a\merqo-retail-suite\merqo-retail-suite\release\merqo-retail-suite-1.0.0-x64.nsis.7z
+  • executed        file=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\7zip-bin\win\x64\7za.exe stdout=
+7-Zip (a) 21.07 (x64) : Copyright (c) 1999-2021 Igor Pavlov : 2021-12-26
+                      Scanning the drive for archives:
+1 file, 89074173 bytes (85 MiB)
+                      Listing archive: D:\a\merqo-retail-suite\merqo-retail-suite\release\merqo-retail-suite-1.0.0-x64.nsis.7z
+                      --
+Path = D:\a\merqo-retail-suite\merqo-retail-suite\release\merqo-retail-suite-1.0.0-x64.nsis.7z
+Type = 7z
+Physical Size = 89074173
+Headers Size = 2119
+Method = LZMA2:20 LZMA:20 BCJ2
+Solid = -
+Blocks = 105
+                         Date      Time    Attr         Size   Compressed  Name
+------------------- ----- ------------ ------------  ------------------------
+                    D....            0            0  locales
+                    D....            0            0  resources
+                    D....            0            0  resources\app.asar.unpacked
+                    D....            0            0  resources\app.asar.unpacked\node_modules
+                    D....            0            0  resources\app.asar.unpacked\node_modules\better-sqlite3
+                    D....            0            0  resources\app.asar.unpacked\node_modules\better-sqlite3\build
+                    D....            0            0  resources\app.asar.unpacked\node_modules\better-sqlite3\build\Release
+                    D....            0            0  resources\app.asar.unpacked\node_modules\better-sqlite3\deps
+                    D....            0            0  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\patches
+                    D....            0            0  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\sqlite3
+                    D....            0            0  resources\app.asar.unpacked\node_modules\better-sqlite3\lib
+                    D....            0            0  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods
+                    D....            0            0  resources\app.asar.unpacked\node_modules\better-sqlite3\src
+                    D....            0            0  resources\assets
+                    D....            0            0  resources\assets\fonts
+                    D....            0            0  resources\installer
+                    ....A       151599       140724  chrome_100_percent.pak
+                    ....A       228644       214257  chrome_200_percent.pak
+                    ....A     10468208      3447093  icudtl.dat
+                    ....A         1096          690  LICENSE.electron.txt
+                    ....A      9170910       240578  LICENSES.chromium.html
+                    ....A       533447       129881  locales\af.pak
+                    ....A       860998       146625  locales\am.pak
+                    ....A       943105       150344  locales\ar.pak
+                    ....A       982837       145839  locales\bg.pak
+                    ....A      1267377       152065  locales\bn.pak
+                    ....A       598914       133101  locales\ca.pak
+                    ....A       617061       143336  locales\cs.pak
+                    ....A       558874       130452  locales\da.pak
+                    ....A       596668       137452  locales\de.pak
+                    ....A      1076226       153636  locales\el.pak
+                    ....A       485870       120287  locales\en-GB.pak
+                    ....A       490357       120649  locales\en-US.pak
+                    ....A       589661       132546  locales\es-419.pak
+                    ....A       589252       132210  locales\es.pak
+                    ....A       536353       133681  locales\et.pak
+                    ....A       875804       141993  locales\fa.pak
+                    ....A       547254       133268  locales\fi.pak
+                    ....A       618873       132838  locales\fil.pak
+                    ....A       637402       137421  locales\fr.pak
+                    ....A      1247883       151106  locales\gu.pak
+                    ....A       769514       139229  locales\he.pak
+                    ....A      1316123       155994  locales\hi.pak
+                    ....A       595033       138749  locales\hr.pak
+                    ....A       640919       145109  locales\hu.pak
+                    ....A       529377       120948  locales\id.pak
+                    ....A       581039       131086  locales\it.pak
+                    ....A       708056       126970  locales\ja.pak
+                    ....A      1424041       152928  locales\kn.pak
+                    ....A       599155       123303  locales\ko.pak
+                    ....A       644271       141236  locales\lt.pak
+                    ....A       643341       142413  locales\lv.pak
+                    ....A      1481389       156798  locales\ml.pak
+                    ....A      1222183       147781  locales\mr.pak
+                    ....A       554828       123091  locales\ms.pak
+                    ....A       537826       127359  locales\nb.pak
+                    ....A       556192       130697  locales\nl.pak
+                    ....A       619358       143882  locales\pl.pak
+                    ....A       581605       132408  locales\pt-BR.pak
+                    ....A       585543       131248  locales\pt-PT.pak
+                    ....A       606334       135008  locales\ro.pak
+                    ....A       996183       153123  locales\ru.pak
+                    ....A       626642       146368  locales\sk.pak
+                    ....A       601760       138759  locales\sl.pak
+                    ....A       924879       146016  locales\sr.pak
+                    ....A       541011       127384  locales\sv.pak
+                    ....A       570564       130802  locales\sw.pak
+                    ....A      1468553       152392  locales\ta.pak
+                    ....A      1359284       152745  locales\te.pak
+                    ....A      1142647       134087  locales\th.pak
+                    ....A       581314       132073  locales\tr.pak
+                    ....A       996327       151219  locales\uk.pak
+                    ....A       870802       142319  locales\ur.pak
+                    ....A       689431       131844  locales\vi.pak
+                    ....A       496347       122726  locales\zh-CN.pak
+                    ....A       491043       121131  locales\zh-TW.pak
+                    ....A          109           93  resources\app-update.yml
+                    ....A     29363791      5112866  resources\app.asar
+                    ....A      1720320       757481  resources\app.asar.unpacked\node_modules\better-sqlite3\build\Release\better_sqlite3.node
+                    ....A         1584          576  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\common.gypi
+                    ....A          897          437  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\copy.js
+                    ....A         1128          424  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\defines.gypi
+                    ....A         3888         1704  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\download.sh
+                    ....A          597          271  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\patches\1208.patch
+                    ....A      9234104      1796695  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\sqlite3\sqlite3.c
+                    ....A       658960       136432  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\sqlite3\sqlite3.h
+                    ....A        38149         5817  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\sqlite3\sqlite3ext.h
+                    ....A         2542          734  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\sqlite3.gyp
+                    ....A          587          382  resources\app.asar.unpacked\node_modules\better-sqlite3\deps\test_extension.c
+                    ....A         4116         1433  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\database.js
+                    ....A          110           87  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\index.js
+                    ....A         1932          775  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\aggregate.js
+                    ....A         2380          939  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\backup.js
+                    ....A         1396          594  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\function.js
+                    ....A          174          136  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\inspect.js
+                    ....A          536          332  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\pragma.js
+                    ....A          625          338  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\serialize.js
+                    ....A         7144         2055  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\table.js
+                    ....A         2792          987  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\transaction.js
+                    ....A         1145          351  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\methods\wrappers.js
+                    ....A          717          371  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\sqlite-error.js
+                    ....A          331          247  resources\app.asar.unpacked\node_modules\better-sqlite3\lib\util.js
+                    ....A         1078          687  resources\app.asar.unpacked\node_modules\better-sqlite3\LICENSE
+                    ....A          789          425  resources\app.asar.unpacked\node_modules\better-sqlite3\package.json
+                    ....A       132535        15854  resources\app.asar.unpacked\node_modules\better-sqlite3\src\better_sqlite3.cpp
+                    ....A        43385         5969  resources\app.asar.unpacked\node_modules\better-sqlite3\src\better_sqlite3.hpp
+                    ....A        44352        44356  resources\assets\fonts\noto-sans-bengali-bengali-400-normal.woff2
+                    ....A        47788        47792  resources\assets\fonts\noto-sans-bengali-bengali-700-normal.woff2
+                    ....A          624          414  resources\installer\license.txt
+                    ....A      5756465      5700304  resources.pak
+                    ....A       316538        55327  snapshot_blob.bin
+                    ....A       687473       120747  v8_context_snapshot.bin
+                    ....A          106           96  vk_swiftshader_icd.json
+                    ....A      4916728      1561984  d3dcompiler_47.dll
+                    ....A      2927616       904574  ffmpeg.dll
+                    ....A       493056       171230  libEGL.dll
+                    ....A      8417792      2267894  libGLESv2.dll
+                    ....A    188866048     57099496  MERQO Retail Suite.exe
+                    ....A       107520        49095  resources\elevate.exe
+                    ....A      5533184      1312617  vk_swiftshader.dll
+                    ....A       894976       259339  vulkan-1.dll
+------------------- ----- ------------ ------------  ------------------------
+                             322465694     89072054  105 files, 16 folders
+
+  • spawning        command=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\app-builder-bin\win\x64\app-builder.exe ksuid
+  • exited          command=app-builder.exe code=0 pid=5304 out=3JOyfdRahNl8LgjFT44x31HPCrk
+2026-09-16T08:15:13.523Z electron-builder:nsis {
+  APP_ID: 'com.merqo.retailsuite',
+  APP_GUID: '98b77fbf-b20e-5975-8030-c0fa8b97f7e8',
+  UNINSTALL_APP_KEY: '98b77fbf-b20e-5975-8030-c0fa8b97f7e8',
+  PRODUCT_NAME: 'MERQO Retail Suite',
+  PRODUCT_FILENAME: 'MERQO Retail Suite',
+  APP_FILENAME: 'merqo-retail-suite',
+  APP_DESCRIPTION: 'MERQO Retail Suite — A production-grade Windows desktop business management system for grocery stores, super shops, mini marts, general stores, and modern retail businesses.',
+  VERSION: '1.0.0',
+  PROJECT_DIR: 'D:\\a\\merqo-retail-suite\\merqo-retail-suite',
+  BUILD_RESOURCES_DIR: 'D:\\a\\merqo-retail-suite\\merqo-retail-suite\\installer',
+  APP_PACKAGE_NAME: 'merqo-retail-suite',
+  APP_64: 'D:\\a\\merqo-retail-suite\\merqo-retail-suite\\release\\merqo-retail-suite-1.0.0-x64.nsis.7z',
+  APP_64_NAME: 'merqo-retail-suite-1.0.0-x64.nsis.7z',
+  APP_64_HASH: '7F1DA68C1A327F45FE2DB2A7AE86E500F52232CD135D8E7D7EC68C65B15B63D669CD98081110967A46FB2BDC4B06F0D9B761D06A23AE999CC7C5D393C91499A9',
+  APP_64_UNPACKED_SIZE: '314908',
+  COMPANY_NAME: 'MERQO.',
+  APP_PRODUCT_FILENAME: 'MERQO Retail Suite',
+  APP_INSTALLER_STORE_FILE: 'merqo-retail-suite-updater\\installer.exe',
+  COMPRESSION_METHOD: '7z',
+  REQUEST_EXECUTION_LEVEL: 'user',
+  UNPACK_DIR_NAME: '3JOyfdRahNl8LgjFT44x31HPCrk',
+  ESTIMATED_SIZE: 314908,
+  COMPRESS: 'auto'
+}
+2026-09-16T08:15:13.523Z electron-builder:nsis {
+  OutFile: '"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\release\\MERQO Retail Suite-Portable-1.0.0.exe"',
+  VIProductVersion: '1.0.0.0',
+  VIAddVersionKey: [
+    '/LANG=1033 ProductName "MERQO Retail Suite"',
+    '/LANG=1033 ProductVersion "1.0.0"',
+    '/LANG=1033 LegalCopyright "Copyright © 2026 MERQO. All rights reserved."',
+    '/LANG=1033 FileDescription "MERQO Retail Suite — A production-grade Windows desktop business management system for grocery stores, super shops, mini marts, general stores, and modern retail businesses."',
+    '/LANG=1033 FileVersion "1.0.0"',
+    '/LANG=1033 CompanyName "MERQO."'
+  ],
+  Unicode: true,
+  Icon: '"D:\\a\\merqo-retail-suite\\merqo-retail-suite\\installer\\icon.ico"',
+  SetCompressor: 'zlib'
+}
+2026-09-16T08:15:13.525Z electron-builder:nsis LangString win7Required 1033 "Windows 7 and above is required"
+LangString win7Required 1031 "Windows 7 oder höher wird vorausgesetzt"
+LangString win7Required 1040 "È necessario disporre del sistema operativo Windows 7 e successivi"
+LangString win7Required 1036 "Windows 7 (ou une version ultérieure) est requis"
+LangString win7Required 1041 "Windows 7 以降が必要です"
+LangString win7Required 1042 "Windows 7 이상이 필요합니다"
+LangString win7Required 1049 "Требуется Windows 7 и выше"
+LangString win7Required 1051 "Iba Windows 7 a vyššie je podporovaný"
+LangString win7Required 1029 "Jsou podporovány pouze Windows 7 a vyšší"
+LangString win7Required 1038 "Windows 7 vagy újabb szükséges"
+LangString win7Required 1045 "Windows 7 lub nowszy jest wymagany"
+LangString win7Required 1046 "Requer Windows 7 ou superior"
+LangString win7Required 2052 "需要 Windows 7 或以上系统"
+LangString win7Required 1028 "需要 Windows 7 或更新的系統"
+LangString win7Required 1055 "Windows 7 ve üstü gereklidir"
+LangString win7Required 1053 "Windows 7 eller högre krävs"
+LangString win7Required 1043 "Windows 7 en hoger is vereist"
+LangString win7Required 1035 "Windows 7 tai uudempi vaaditaan"
+LangString win7Required 3082 "Se necesita Windows 7 o una versión superior."
+LangString win7Required 1030 "Windows 7 og højere er nødvendig"
+LangString win7Required 1044 "Windows 7 and above is required"
+LangString win7Required 2070 "Windows 7 and above is required"
+LangString win7Required 1058 "Windows 7 and above is required"
+LangString win7Required 1025 "Windows 7 and above is required"
+LangString win7Required 1054 "Windows 7 and above is required"
+LangString win7Required 1066 "Windows 7 and above is required"
+LangString x64WinRequired 1033 "64-bit Windows is required"
+LangString x64WinRequired 1031 "64-Bit-Windows wird vorausgesetzt"
+LangString x64WinRequired 1040 "È necessario disporre di un sistema operativo Windows a 64 bit"
+LangString x64WinRequired 1036 "Windows 64 bits est requis"
+LangString x64WinRequired 1041 "64 ビット バージョンの Windows が必要です"
+LangString x64WinRequired 1042 "64 비트 버전의 Windows가 필요합니다"
+LangString x64WinRequired 1049 "Требуется Windows 64-bit"
+LangString x64WinRequired 1051 "Potrebujete 64-bit Windows"
+LangString x64WinRequired 1029 "Potřebujete 64-bit Windows"
+LangString x64WinRequired 1038 "64-bit Windows szükséges"
+LangString x64WinRequired 1045 "Windows 64-bitowy jest wymagany"
+LangString x64WinRequired 1046 "Requer Windows 64 bits"
+LangString x64WinRequired 2052 "需要 64 位 Windows 系统"
+LangString x64WinRequired 1028 "需要 64 位元 Windows 系統"
+LangString x64WinRequired 1055 "64 bit Windows gerekli"
+LangString x64WinRequired 1053 "64-bitars Windows krävs"
+LangString x64WinRequired 1043 "64-bit Windows is vereist"
+LangString x64WinRequired 1035 "64-bittinen Windows on pakollinen"
+LangString x64WinRequired 3082 "Windows de 64 bits es requerido"
+LangString x64WinRequired 1030 "64-bit Windows er påkrævet"
+LangString x64WinRequired 1044 "64-bit Windows is required"
+LangString x64WinRequired 2070 "64-bit Windows is required"
+LangString x64WinRequired 1058 "64-bit Windows is required"
+LangString x64WinRequired 1025 "64-bit Windows is required"
+LangString x64WinRequired 1054 "64-bit Windows is required"
+LangString x64WinRequired 1066 "64-bit Windows is required"
+LangString appRunning 1033 "${PRODUCT_NAME} is running.$\r$\nClick OK to close it.$\r$\nIf it doesn't close, try closing it manually."
+LangString appRunning 1025 "‫إن ${PRODUCT_NAME} يعمل حاليا.$\r$\n‫يُرجى الضغط على « موافق » لغلقه.$\r$\n‫إذا لم يُغلَق، يُرجى محاولة إغلاقه يدويا."
+LangString appRunning 1029 "${PRODUCT_NAME} běží.$\r$\nPotvrďte zavření stisknutím OK.$\r$\nPokud se aplikace nezavře sama, zavřete ji ručně."
+LangString appRunning 1030 "${PRODUCT_NAME} kører.$\r$\nKlik OK for at lukke den.$\r$\nHvis den ikke lukker, kan du prøve at lukke den manuelt."
+LangString appRunning 1031 "${PRODUCT_NAME} wird gerade ausgeführt.$\r$\nKlicke auf »OK«, um es zu schließen.$\r$\nFalls es sich nicht schließen lässt, versuche es manuell zu schließen."
+LangString appRunning 3082 "${PRODUCT_NAME} está activa.$\r$\nHaz clic en Aceptar para cerrarla.$\r$\nSi no se cierra, inténtalo manualmente."
+LangString appRunning 1035 "${PRODUCT_NAME} on käynnissä.$\r$\nValitse OK sulkeaksesi sen.$\r$\nJos se ei sulkeudu, yritä sulkea se manuaalisesti."
+LangString appRunning 1036 "${PRODUCT_NAME} est en cours d’utilisation. $\r$\nCliquez sur «OK» pour fermer ce programme."
+LangString appRunning 1038 "A ${PRODUCT_NAME} alkalmazás fut.$\r$\nKattints az OK gombra a bezárásához.$\r$\nHa így sem áll le, zárd be manuálisan."
+LangString appRunning 1040 "${PRODUCT_NAME} è in esecuzione.$\r$\nClicca su OK per chiuderla.$\r$\nSe non si chiude, prova a chiuderla manualmente."
+LangString appRunning 1041 "${PRODUCT_NAME} が起動しています。$\r$\nOKをクリックして、閉じてください。$\r$\n閉じない場合は、手動で閉じてください。"
+LangString appRunning 1042 "${PRODUCT_NAME}이(가) 실행 중입니다. $\r$\nOK을 클릭하면 종료됩니다."
+LangString appRunning 1043 "${PRODUCT_NAME} is nog actief.$\r$\nKlik op OK om de applicatie te sluiten.$\r$\nAls de applicatie vervolgens nog niet sluit, probeer dan om de applicatie zelf te sluiten."
+LangString appRunning 1045 "Aplikacja ${PRODUCT_NAME} jest uruchomiona.$\r$\nKliknij OK, aby ją zamknąć.$\r$\nJeśli nie zostanie zamknięta, spróbuj zamknąć ją ręcznie."
+LangString appRunning 1046 "${PRODUCT_NAME} está funcionando.$\r$\nClique no OK para fechar.$\r$\nSe não fechar, tente fechá-lo manualmente."
+LangString appRunning 2070 "${PRODUCT_NAME} está a correr.$\r$\nClique em OK para o encerrar.$\r$\nSe não encerrar, tente encerrá-lo manualmente."
+LangString appRunning 1049 "Приложение ${PRODUCT_NAME} запущено.$\r$\nНажмите «OK», чтобы закрыть его.$\r$\nЕсли оно не закрывается, попробуйте закрыть его вручную."
+LangString appRunning 1051 "${PRODUCT_NAME} beží.$\r$\nKliknutím na tlačidlo OK ho zatvoríte.$\r$\nAk sa nezavrie, skúste ho zatvoriť ručne."
+LangString appRunning 1053 "${PRODUCT_NAME} är igång.$\r$\nKlicka på OK för att stänga det.$\r$\nOm det inte stängs, försök att stänga det manuellt."
+LangString appRunning 1055 "${PRODUCT_NAME} çalışıyor.$\r$\nKapatmak için Tamam'ı tıklayın."
+LangString appRunning 1058 "${PRODUCT_NAME} запущено.$\r$\nКлацніть ОК для завершення.$\r$\nЯкщо завершення не вдалось — спробуйте вручну."
+LangString appRunning 2052 "${PRODUCT_NAME} 正在运行.$\r$\n点击“确定”关闭."
+LangString appRunning 1028 "${PRODUCT_NAME} 正在執行。$\r$\n點擊 OK 關閉。$\r$\n如果無法關閉，試著手動關閉。"
+LangString appRunning 1044 "${PRODUCT_NAME} is running.$\r$\nClick OK to close it.$\r$\nIf it doesn't close, try closing it manually."
+LangString appRunning 1054 "${PRODUCT_NAME} is running.$\r$\nClick OK to close it.$\r$\nIf it doesn't close, try closing it manually."
+LangString appRunning 1066 "${PRODUCT_NAME} is running.$\r$\nClick OK to close it.$\r$\nIf it doesn't close, try closing it manually."
+LangString appCannotBeClosed 1033 "${PRODUCT_NAME} cannot be closed. $\r$\nPlease close it manually and click Retry to continue."
+LangString appCannotBeClosed 1025 "‫لم يتمكن من إغلاق ${PRODUCT_NAME} $\r$\nيُرجى إغلاقه يدويا ثم الضغط مرة أخرى على إعادة المحاولة للاستمرار.‏"
+LangString appCannotBeClosed 1029 "Aplikaci ${PRODUCT_NAME} se nepodařilo zavřít. $\r$\nZavřete ji ručně a poté klikněte na Opakovat pro pokračování."
+LangString appCannotBeClosed 1030 "${PRODUCT_NAME} kan ikke afsluttes $\r$\nLuk den manuelt og klik Prøv igen for at fortsætte"
+LangString appCannotBeClosed 1031 "${PRODUCT_NAME} kann nicht geschlossen werden. $\r$\nSchließ es bitte manuell und klicke auf »Wiederholen«, um fortzufahren."
+LangString appCannotBeClosed 3082 "No se puede cerrar ${PRODUCT_NAME}. $\r$\nPor favor cierra la aplicación manualmente y haz clic en reintentar para continuar."
+LangString appCannotBeClosed 1035 "${PRODUCT_NAME} ei voi sulkea. $\r$\nSulje se itse ja napsauta Yritä uudelleen jatkaaksesi."
+LangString appCannotBeClosed 1036 "${PRODUCT_NAME} ne peut pas être fermé. $\r$\nVeuillez la fermer manuellement et cliquez sur Réessayer pour continuer."
+LangString appCannotBeClosed 1038 "Nem sikerült bezárni a ${PRODUCT_NAME}t. $\r$\nZárd be kézzel, majd kattints az Újra gombra a folytatáshoz!"
+LangString appCannotBeClosed 1040 "${PRODUCT_NAME} non può essere chiuso. $\r$\nPer favore, chiudilo manualmente e clicca su Riprova per continuare."
+LangString appCannotBeClosed 1041 "${PRODUCT_NAME}が終了できません。$\r$\n手動で閉じて、『再試行』をクリックしてください。"
+LangString appCannotBeClosed 1043 "${PRODUCT_NAME} kan niet automatisch worden afgesloten. $\r$\nSluit zelf de ${PRODUCT_NAME} app en klik vervolgens op ‘Opnieuw proberen’."
+LangString appCannotBeClosed 1045 "Nie można zamknąć ${PRODUCT_NAME}. $\r$\nZamknij aplikację i kliknij Ponów, aby kontynuować."
+LangString appCannotBeClosed 1046 "Não é possível fechar o ${PRODUCT_NAME}. $\r$\nFeche a janela do ${PRODUCT_NAME} e clique em Repetir para continuar."
+LangString appCannotBeClosed 2070 "Não é possível fechar o ${PRODUCT_NAME}. $\r$\nPor favor, feche-o manualmente e clique em ´Tentar novamente' para continuar."
+LangString appCannotBeClosed 1049 "Не удалось закрыть ${PRODUCT_NAME}. $\r$\nПожалуйста, закройте ${PRODUCT_NAME} вручную и нажмите «Повторить», чтобы продолжить."
+LangString appCannotBeClosed 1051 "${PRODUCT_NAME} nie je možné zatvoriť. $\r$\nZatvorte ho ručne a pokračujte kliknutím na položku Opakovať."
+LangString appCannotBeClosed 1053 "${PRODUCT_NAME} går inte att stängas. $\r$\nVänligen stäng det manuellt och klicka på Försök igen för att fortsätta."
+LangString appCannotBeClosed 1055 "${PRODUCT_NAME} kapatılamaz. $\r$\nLütfen elle kapatın ve devam etmek için Tekrar'a tıklayın"
+LangString appCannotBeClosed 1058 "Неможливо закрити ${PRODUCT_NAME}. $\r$\nЗакрийте його вручну та натисніть Повторити, щоб продовжити."
+LangString appCannotBeClosed 1066 "${PRODUCT_NAME} không thể đóng $\r$\nVui lòng đóng nó theo cách thủ công và nhấp vào Thử lại để tiếp tục."
+LangString appCannotBeClosed 2052 "${PRODUCT_NAME} 无法关闭。$\r$\n请手动关闭它，然后单击重试以继续。"
+LangString appCannotBeClosed 1028 "${PRODUCT_NAME} 無法關閉。$\r$\n請手動關閉它，然後按一下重試以繼續。"
+LangString appCannotBeClosed 1042 "${PRODUCT_NAME} cannot be closed. $\r$\nPlease close it manually and click Retry to continue."
+LangString appCannotBeClosed 1044 "${PRODUCT_NAME} cannot be closed. $\r$\nPlease close it manually and click Retry to continue."
+LangString appCannotBeClosed 1054 "${PRODUCT_NAME} cannot be closed. $\r$\nPlease close it manually and click Retry to continue."
+LangString installing 1033 "Installing, please wait..."
+LangString installing 1031 "Installation läuft, bitte warten..."
+LangString installing 1040 "Attendere prego. Installazione in corso..."
+LangString installing 1036 "En cours d’installation... Veuillez patienter s'il vous plaît."
+LangString installing 1041 "インストールしています。しばらくお待ちください..."
+LangString installing 1042 "설치하고 있습니다. 잠시 기다려주십시오..."
+LangString installing 1049 "Установка, пожалуйста, подождите..."
+LangString installing 1051 "Inštalujem, prosím počkajte..."
+LangString installing 1029 "Instaluje se, prosím vyčkejte..."
+LangString installing 1038 "Telepítés, kérem várjon..."
+LangString installing 1045 "Zaczekaj na ukończenie instalacji..."
+LangString installing 1046 "Instalando, por favor aguarde..."
+LangString installing 2052 "正在安装, 请稍候..."
+LangString installing 1028 "正在安裝, 請稍候..."
+LangString installing 1055 "Yükleniyor, lütfen bekleyin..."
+LangString installing 1053 "Installerar, vänligen vänta..."
+LangString installing 1043 "Installeren, even geduld..."
+LangString installing 1035 "Asennetaan, odota..."
+LangString installing 3082 "Instalando, espera un momento..."
+LangString installing 1030 "Installerer, vent venligst..."
+LangString installing 1044 "Installing, please wait..."
+LangString installing 2070 "Installing, please wait..."
+LangString installing 1058 "Installing, please wait..."
+LangString installing 1025 "Installing, please wait..."
+LangString installing 1054 "Installing, please wait..."
+LangString installing 1066 "Installing, please wait..."
+LangString areYouSureToUninstall 1033 "Are you sure you want to uninstall ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1031 "Sind Sie sicher, dass Sie ${PRODUCT_NAME} deinstallieren möchten?"
+LangString areYouSureToUninstall 1040 "Sicuro di voler procedere alla disinstallazione di ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1036 "Etes-vous sûr(e) de vouloir désinstaller ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1041 "${PRODUCT_NAME} をアンインストールしてもよろしいですか？"
+LangString areYouSureToUninstall 1042 "${PRODUCT_NAME}을(를) 제거 하시겠습니까?"
+LangString areYouSureToUninstall 1049 "Вы уверены, что хотите удалить ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1051 "Ste si istý že chcete odinštalovať ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1029 "Jste si jisti, že chcete odinstalovat ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1038 "Biztos benne, hogy szeretné eltávolítani a ${PRODUCT_NAME} alkalmazást?"
+LangString areYouSureToUninstall 1045 "Czy na pewno chcesz odinstalować ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1046 "Tem certeza que deseja desinstalar ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 2052 "确定卸载 ${PRODUCT_NAME} 吗？"
+LangString areYouSureToUninstall 1028 "確定解除安裝 ${PRODUCT_NAME} 嗎？"
+LangString areYouSureToUninstall 1055 "${PRODUCT_NAME} kaldırmak istediğinize Eminmisiniz?"
+LangString areYouSureToUninstall 1053 "Är du säker på att du vill avinstallera ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1043 "Weet je zeker dat je ${PRODUCT_NAME} wilt verwijderen?"
+LangString areYouSureToUninstall 1035 "Oletko varma, että haluat poistaa ${PRODUCT_NAME} asennuksen?"
+LangString areYouSureToUninstall 3082 "¿Seguro que quieres desinstalar ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1030 "Er du sikker på, at du vil afinstallere ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1044 "Are you sure you want to uninstall ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 2070 "Are you sure you want to uninstall ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1058 "Are you sure you want to uninstall ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1025 "Are you sure you want to uninstall ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1054 "Are you sure you want to uninstall ${PRODUCT_NAME}?"
+LangString areYouSureToUninstall 1066 "Are you sure you want to uninstall ${PRODUCT_NAME}?"
+LangString decompressionFailed 1033 "Failed to decompress files. Please try running the installer again."
+LangString decompressionFailed 1025 "‫لقد فشل وينْدوزْ في فك ضغط الملفات. يُرجى محاولة تشغيل أداة التثبيت مرة أخرى."
+LangString decompressionFailed 1029 "Nepodařilo se rozbalit soubory. Zkuste prosím instalátor spustit znovu."
+LangString decompressionFailed 1030 "Det lykkedes ikke at udpakke filer. Prøv venligst at køre installationsprogrammet igen."
+LangString decompressionFailed 1031 "Die Dateien konnten nicht entpackt werden. Bitte versuche, das Installationsprogramm erneut auszuführen."
+LangString decompressionFailed 3082 "Fallo al descomprimir archivos. Inténtalo de nuevo más tarde."
+LangString decompressionFailed 1035 "Tiedostojen purkaminen ei onnistunut. Yritä ajaa asennusohjelma uudelleen."
+LangString decompressionFailed 1036 "Échec de décompression des fichiers. Veuillez réessayer d’exécuter l'installeur."
+LangString decompressionFailed 1038 "Kicsomagolási hiba. Kérlek futtasd a telepítőt újra!"
+LangString decompressionFailed 1040 "Impossibile decomprimere i file. Per favore, prova ad eseguire di nuovo il programma di installazione."
+LangString decompressionFailed 1041 "ファイルの解凍に失敗しました。もう一度インストーラーを実行してみてください。"
+LangString decompressionFailed 1043 "Het decomprimeren van bestanden is mislukt. Voer het installatiebestand opnieuw uit om te proberen dit probleem te verhelpen."
+LangString decompressionFailed 1045 "Nie udało się rozpakować plików. Spróbuj ponownie uruchomić instalator."
+LangString decompressionFailed 1046 "Falha ao descompactar os arquivos. Por favor, tente iniciar o instalador novamente."
+LangString decompressionFailed 2070 "Falha ao descomprimir ficheiros. Por favor, experimente correr o instalador de novo."
+LangString decompressionFailed 1049 "Не удалось разархивировать файлы. Пожалуйста, попробуйте запустить установщик заново."
+LangString decompressionFailed 1051 "Nepodarilo sa rozbaliť súbory. Skúste znova spustiť inštalačný program."
+LangString decompressionFailed 1053 "Det gick inte att dekomprimera filer. Försök att köra installationsprogrammet igen."
+LangString decompressionFailed 1058 "Не вдалось розархівувати файли. Будь ласка, спробуйте запустити встановлювач знов."
+LangString decompressionFailed 1028 "解壓縮檔案失敗。 請嘗試再次執行安裝程式。"
+LangString decompressionFailed 2052 "Failed to decompress files. Please try running the installer again."
+LangString decompressionFailed 1042 "Failed to decompress files. Please try running the installer again."
+LangString decompressionFailed 1044 "Failed to decompress files. Please try running the installer again."
+LangString decompressionFailed 1055 "Failed to decompress files. Please try running the installer again."
+LangString decompressionFailed 1054 "Failed to decompress files. Please try running the installer again."
+LangString decompressionFailed 1066 "Failed to decompress files. Please try running the installer again."
+LangString uninstallFailed 1033 "Failed to uninstall old application files. Please try running the installer again."
+LangString uninstallFailed 1025 "‫لقد فشل إلغاء التثبيت ملفات التطبيق. يُرجى محاولة تشغيل أداة التثبيت مرة أخرى."
+LangString uninstallFailed 1029 "Nepodařilo se odinstalovat staré soubory aplikace. Zkuste prosím instalátor spustit znovu."
+LangString uninstallFailed 1030 "Det lykkedes ikke at afinstallere gamle applikationsfiler. Prøv venligst at køre installationsprogrammet igen."
+LangString uninstallFailed 1031 "Die alten Anwendungsdateien konnten nicht deinstalliert werden. Bitte versuche, das Installationsprogramm erneut auszuführen."
+LangString uninstallFailed 3082 "Fallo al desinstalar archivos antiguos de la aplicación. Inténtalo de nuevo más tarde."
+LangString uninstallFailed 1035 "Vanhojen sovellustiedostojen poisto epäonnistui. Yritä ajaa asennusohjelma uudelleen."
+LangString uninstallFailed 1036 "Échec de désinstallation des anciens fichiers d'application . Veuillez réessayer d’exécuter l'installeur."
+LangString uninstallFailed 1038 "A régi alkalmazás állományait nem sikerült törölni. Kérlek futtasd a telepítőt újra!"
+LangString uninstallFailed 1040 "Impossibile disinstallare i vecchi file dell'applicazione. Per favore, prova ad eseguire di nuovo il programma di installazione."
+LangString uninstallFailed 1041 "古いアプリケーションファイルのアンインストールに失敗しました。もう一度インストーラーを実行してみてください。"
+LangString uninstallFailed 1043 "Het deïnstalleren van oude applicatiebestanden is mislukt. Voer het installatiebestand opnieuw uit om te proberen dit probleem te verhelpen."
+LangString uninstallFailed 1045 "Nie udało się usunąć plików starej wersji aplikacji. Spróbuj ponownie uruchomić instalator."
+LangString uninstallFailed 1046 "Falha ao desinstalar os arquivos do aplicativo antigo. Por favor, tente iniciar o instalador novamente."
+LangString uninstallFailed 2070 "Falha ao desinstalar os ficheiros da aplicação antiga. Por favor, experimente correr novamente o instalador."
+LangString uninstallFailed 1049 "Не удалось удалить старые файлы приложения. Пожалуйста, попробуйте запустить установщик заново."
+LangString uninstallFailed 1051 "Nepodarilo sa odinštalovať staré súbory aplikácie. Skúste znova spustiť inštalačný program."
+LangString uninstallFailed 1053 "Det gick inte att avinstallera gamla programfiler. Försök att köra installationsprogrammet igen."
+LangString uninstallFailed 1058 "Не вдалось видалити старі файли застосунку. Будь ласка, спробуйте запустити встановлювач знов."
+LangString uninstallFailed 1028 "無法俺安裝舊的應用程式檔案。 請嘗試再次執行安裝程式。"
+LangString uninstallFailed 2052 "Failed to uninstall old application files. Please try running the installer again."
+LangString uninstallFailed 1042 "Failed to uninstall old application files. Please try running the installer again."
+LangString uninstallFailed 1044 "Failed to uninstall old application files. Please try running the installer again."
+LangString uninstallFailed 1055 "Failed to uninstall old application files. Please try running the installer again."
+LangString uninstallFailed 1054 "Failed to uninstall old application files. Please try running the installer again."
+LangString uninstallFailed 1066 "Failed to uninstall old application files. Please try running the installer again."
+  • spawning        command=C:\Users\runneradmin\AppData\Local\electron-builder\Cache\nsis\nsis-3.0.4.1\Bin\makensis.exe -WX -INPUTCHARSET UTF8 -DAPP_ID=com.merqo.retailsuite -DAPP_GUID=98b77fbf-b20e-5975-8030-c0fa8b97f7e8 -DUNINSTALL_APP_KEY=98b77fbf-b20e-5975-8030-c0fa8b97f7e8 -DPRODUCT_NAME=MERQO Retail Suite -DPRODUCT_FILENAME=MERQO Retail Suite -DAPP_FILENAME=merqo-retail-suite -DAPP_DESCRIPTION=MERQO Retail Suite — A production-grade Windows desktop business management system for grocery stores, super shops, mini marts, general stores, and modern retail businesses. -DVERSION=1.0.0 -DPROJECT_DIR=D:\a\merqo-retail-suite\merqo-retail-suite -DBUILD_RESOURCES_DIR=D:\a\merqo-retail-suite\merqo-retail-suite\installer -DAPP_PACKAGE_NAME=merqo-retail-suite -DAPP_64=D:\a\merqo-retail-suite\merqo-retail-suite\release\merqo-retail-suite-1.0.0-x64.nsis.7z -DAPP_64_NAME=merqo-retail-suite-1.0.0-x64.nsis.7z -DAPP_64_HASH=7F1DA68C1A327F45FE2DB2A7AE86E500F52232CD135D8E7D7EC68C65B15B63D669CD98081110967A46FB2BDC4B06F0D9B761D06A23AE999CC7C5D393C91499A9 -DAPP_64_UNPACKED_SIZE=314908 -DCOMPANY_NAME=MERQO. -DAPP_PRODUCT_FILENAME=MERQO Retail Suite -DAPP_INSTALLER_STORE_FILE=merqo-retail-suite-updater\installer.exe -DCOMPRESSION_METHOD=7z -DREQUEST_EXECUTION_LEVEL=user -DUNPACK_DIR_NAME=3JOyfdRahNl8LgjFT44x31HPCrk -DESTIMATED_SIZE=314908 -DCOMPRESS=auto -DUNINSTALLER_OUT_FILE -XOutFile "D:\a\merqo-retail-suite\merqo-retail-suite\release\MERQO Retail Suite-Portable-1.0.0.exe" -XVIProductVersion 1.0.0.0 -XVIAddVersionKey /LANG=1033 ProductName "MERQO Retail Suite" -XVIAddVersionKey /LANG=1033 ProductVersion "1.0.0" -XVIAddVersionKey /LANG=1033 LegalCopyright "Copyright © 2026 MERQO. All rights reserved." -XVIAddVersionKey /LANG=1033 FileDescription "MERQO Retail Suite — A production-grade Windows desktop business management system for grocery stores, super shops, mini marts, general stores, and modern retail businesses." -XVIAddVersionKey /LANG=1033 FileVersion "1.0.0" -XVIAddVersionKey /LANG=1033 CompanyName "MERQO." -XUnicode true -XIcon "D:\a\merqo-retail-suite\merqo-retail-suite\installer\icon.ico" -XSetCompressor zlib - cwd=D:\a\merqo-retail-suite\merqo-retail-suite\node_modules\app-builder-lib\templates\nsis
+Command line defined: "APP_ID=com.merqo.retailsuite"
+Command line defined: "APP_GUID=98b77fbf-b20e-5975-8030-c0fa8b97f7e8"
+Command line defined: "UNINSTALL_APP_KEY=98b77fbf-b20e-5975-8030-c0fa8b97f7e8"
+Command line defined: "PRODUCT_NAME=MERQO Retail Suite"
+Command line defined: "PRODUCT_FILENAME=MERQO Retail Suite"
+Command line defined: "APP_FILENAME=merqo-retail-suite"
+Command line defined: "APP_DESCRIPTION=MERQO Retail Suite � A production-grade Windows desktop business management system for grocery stores, super shops, mini marts, general stores, and modern retail businesses."
+Command line defined: "VERSION=1.0.0"
+Command line defined: "PROJECT_DIR=D:\a\merqo-retail-suite\merqo-retail-suite"
+Command line defined: "BUILD_RESOURCES_DIR=D:\a\merqo-retail-suite\merqo-retail-suite\installer"
+Command line defined: "APP_PACKAGE_NAME=merqo-retail-suite"
+Command line defined: "APP_64=D:\a\merqo-retail-suite\merqo-retail-suite\release\merqo-retail-suite-1.0.0-x64.nsis.7z"
+Command line defined: "APP_64_NAME=merqo-retail-suite-1.0.0-x64.nsis.7z"
+Command line defined: "APP_64_HASH=7F1DA68C1A327F45FE2DB2A7AE86E500F52232CD135D8E7D7EC68C65B15B63D669CD98081110967A46FB2BDC4B06F0D9B761D06A23AE999CC7C5D393C91499A9"
+Command line defined: "APP_64_UNPACKED_SIZE=314908"
+Command line defined: "COMPANY_NAME=MERQO."
+Command line defined: "APP_PRODUCT_FILENAME=MERQO Retail Suite"
+Command line defined: "APP_INSTALLER_STORE_FILE=merqo-retail-suite-updater\installer.exe"
+Command line defined: "COMPRESSION_METHOD=7z"
+Command line defined: "REQUEST_EXECUTION_LEVEL=user"
+Command line defined: "UNPACK_DIR_NAME=3JOyfdRahNl8LgjFT44x31HPCrk"
+Command line defined: "ESTIMATED_SIZE=314908"
+Command line defined: "COMPRESS=auto"
+Command line defined: "UNINSTALLER_OUT_FILE"
+Processing config: C:\Users\runneradmin\AppData\Local\electron-builder\Cache\nsis\nsis-3.0.4.1\nsisconf.nsh
+Processing script file: "<stdin>" (UTF8)
+
+Processed 1 file, 11 command line commands, writing output (x86-unicode):
+
+Output: "D:\a\merqo-retail-suite\merqo-retail-suite\release\MERQO Retail Suite-Portable-1.0.0.exe"
+Install: 1 page (64 bytes), 1 section (16408 bytes), 259 instructions (7252 bytes), 863 strings (10738 bytes), 26 language tables (5460 bytes).
+
+Using zlib compression.
+
+EXE header size:              156672 / 39424 bytes
+Install code:                   5175 / 40314 bytes
+Install data:               89369110 / 89623053 bytes
+
+Total size:                 89530957 / 89702791 bytes (99.8%)
+  • exited          command=makensis.exe code=0 pid=7148
+  • signing with signtool.exe  path=release\MERQO Retail Suite-Portable-1.0.0.exe
+  • no signing info identified, signing is skipped  signHook=false cscInfo=null
+2026-09-16T08:15:14.373Z electron-builder:publish artifactCreated (isPublish: false): {
+  "file": "D:\\a\\merqo-retail-suite\\merqo-retail-suite\\release\\MERQO Retail Suite-Portable-1.0.0.exe",
+  "target": {
+    "name": "portable",
+    "isAsyncSupported": false,
+    "packager": "<stripped sensitive data>",
+    "outDir": "D:\\a\\merqo-retail-suite\\merqo-retail-suite\\release",
+    "packageHelper": {
+      "elevateHelper": {
+        "copied": {}
+      },
+      "archToResult": {},
+      "infoToIsDelete": {},
+      "refCount": 1
+    },
+    "archs": {},
+    "options": {
+      "artifactName": "${productName}-Portable-${version}.${ext}"
+    }
+  },
+  "packager": "<stripped sensitive data>",
+  "arch": 1,
+  "safeArtifactName": "MERQO-Retail-Suite-Portable-1.0.0.exe",
+  "isWriteUpdateInfo": false
+},
+  publishConfigs: []

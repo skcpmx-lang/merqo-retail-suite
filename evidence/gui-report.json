@@ -1,0 +1,180 @@
+{
+  "mode": "gui",
+  "ok": true,
+  "version": "1.0.0",
+  "platform": "win32-x64",
+  "steps": [
+    {
+      "name": "setup.run",
+      "ok": true
+    },
+    {
+      "name": "seed.accounts",
+      "ok": true,
+      "detail": "8"
+    },
+    {
+      "name": "party.create",
+      "ok": true
+    },
+    {
+      "name": "product.create",
+      "ok": true
+    },
+    {
+      "name": "purchase.total",
+      "ok": true,
+      "detail": "50000"
+    },
+    {
+      "name": "purchase.due",
+      "ok": true,
+      "detail": "20000"
+    },
+    {
+      "name": "sale.total",
+      "ok": true,
+      "detail": "21000"
+    },
+    {
+      "name": "sale.due",
+      "ok": true,
+      "detail": "11000"
+    },
+    {
+      "name": "saleReturn.refund",
+      "ok": true,
+      "detail": "7000"
+    },
+    {
+      "name": "customer.remainingDue",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "name": "purchaseReturn.credit",
+      "ok": true,
+      "detail": "10000"
+    },
+    {
+      "name": "supplier.remainingPayable",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "name": "money.expense+transfer+mfs",
+      "ok": true
+    },
+    {
+      "name": "recon.stock",
+      "ok": true,
+      "detail": "11000"
+    },
+    {
+      "name": "recon.customerDue",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "name": "recon.supplierPayable",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "name": "recon.cash",
+      "ok": true,
+      "detail": "4972400"
+    },
+    {
+      "name": "recon.bank",
+      "ok": true,
+      "detail": "10000"
+    },
+    {
+      "name": "recon.revenue",
+      "ok": true,
+      "detail": "14000"
+    },
+    {
+      "name": "recon.cogs",
+      "ok": true,
+      "detail": "10000"
+    },
+    {
+      "name": "recon.gross",
+      "ok": true,
+      "detail": "4000"
+    },
+    {
+      "name": "recon.expenses",
+      "ok": true,
+      "detail": "5000"
+    },
+    {
+      "name": "recon.mfsCommission",
+      "ok": true,
+      "detail": "100"
+    },
+    {
+      "name": "recon.net",
+      "ok": true,
+      "detail": "-900"
+    },
+    {
+      "name": "backup.create",
+      "ok": true,
+      "detail": "372736 bytes"
+    },
+    {
+      "name": "db.integrity",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "gui.seed",
+      "ok": true
+    },
+    {
+      "name": "gui.rendererReady",
+      "ok": true
+    },
+    {
+      "name": "gui.shot.login",
+      "ok": true
+    },
+    {
+      "name": "gui.login",
+      "ok": true
+    },
+    {
+      "name": "gui.shot.dashboard.png",
+      "ok": true
+    },
+    {
+      "name": "gui.shot.pos.png",
+      "ok": true
+    },
+    {
+      "name": "gui.shot.products.png",
+      "ok": true
+    },
+    {
+      "name": "gui.shot.reports.png",
+      "ok": true
+    },
+    {
+      "name": "gui.shot.settings.png",
+      "ok": true
+    },
+    {
+      "name": "gui.pdf",
+      "ok": true,
+      "detail": "34546 bytes"
+    },
+    {
+      "name": "gui.noConsoleErrors",
+      "ok": true
+    }
+  ],
+  "finishedAt": "2026-09-16T08:15:39.005Z"
+}

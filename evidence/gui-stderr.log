@@ -1,0 +1,6 @@
+Error occurred in handler for 'merqo:invoke': Error: No handler registered for 'merqo:invoke'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:87136)
+    at WebContents.emit (node:events:518:28)
+Error occurred in handler for 'merqo:invoke': Error: No handler registered for 'merqo:invoke'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:87136)
+    at WebContents.emit (node:events:518:28)
