@@ -88,6 +88,8 @@ export function bnError(codeOrMessage: string): string {
     BARCODE_DUPLICATE: 'এই বারকোডটি ইতিমধ্যে অন্য একটি পণ্যের সাথে যুক্ত আছে।',
     SKU_DUPLICATE: 'এই SKU-টি ইতিমধ্যে ব্যবহার করা হয়েছে। অন্য একটি SKU দিন।',
     PHONE_DUPLICATE: 'এই মোবাইল নম্বরটি ইতিমধ্যে ব্যবহার করা হয়েছে।',
+    INVALID_PHONE: 'মোবাইল নম্বরটি সঠিক নয়। উদাহরণ: 017XXXXXXXX অথবা +88017XXXXXXXX।',
+    INVALID_EMAIL: 'ইমেইল ঠিকানাটি সঠিক নয়। যাচাই করে আবার চেষ্টা করুন।',
     USERNAME_DUPLICATE: 'এই ইউজারনামটি ইতিমধ্যে ব্যবহার করা হয়েছে।',
     INSUFFICIENT_STOCK: 'স্টকে পর্যাপ্ত পণ্য নেই।',
     NEGATIVE_STOCK_BLOCKED: 'স্টক শূন্যের নিচে নেওয়া যাবে না। সেটিংস থেকে নীতি পরিবর্তন করুন অথবা স্টক যোগ করুন।',

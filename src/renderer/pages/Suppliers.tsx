@@ -7,6 +7,7 @@ import { useDateRange } from '../components/DateRange';
 import { call, api } from '../api';
 import { useApp, useMoney } from '../store';
 import { PAYMENT_METHOD_BN, PaymentMethod } from '@shared/constants';
+import { isValidPhoneBD, isValidEmail } from '@shared/validators';
 import type { FinancialAccount, LedgerEntry, Paged, Supplier } from '@shared/types';
 import { paymentReceiptHtml, reportPrintHtml } from '../components/PrintDocs';
 
@@ -115,6 +116,8 @@ function SupplierForm({ initial, onClose, onSaved }: { initial: Supplier | null;
 
   const submit = async (): Promise<void> => {
     if (!f.name.trim()) { setError('সরবরাহকারীর নাম আবশ্যক।'); return; }
+    if (f.phone.trim() && !isValidPhoneBD(f.phone.trim())) { setError('মোবাইল নম্বরটি সঠিক নয়। উদাহরণ: 017XXXXXXXX অথবা +88017XXXXXXXX।'); return; }
+    if (f.email.trim() && !isValidEmail(f.email.trim())) { setError('ইমেইল ঠিকানাটি সঠিক নয়। যাচাই করে আবার চেষ্টা করুন।'); return; }
     setBusy(true);
     try {
       if (initial) {

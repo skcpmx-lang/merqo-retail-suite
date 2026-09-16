@@ -1,7 +1,7 @@
 import type { Db } from '../db';
 import { AppError, Ctx, audit, requirePerm, paginate, nextReference, addMoneyMovement, addCustomerLedger, addSupplierLedger, customerDue, supplierPayable } from './_helpers';
 import { nowIso } from '../../shared/dates';
-import { sanitizeText } from '../../shared/validators';
+import { sanitizeText, isValidPhoneBD, isValidEmail } from '../../shared/validators';
 import type { Customer, LedgerEntry, Paged, Supplier } from '../../shared/types';
 
 // ---------- Customers ----------
@@ -12,6 +12,13 @@ export function createCustomer(db: Db, ctx: Ctx, input: { name: string; phone?: 
   if (!name) throw new AppError('REQUIRED');
   const opening = input.opening_due ?? 0;
   if (!Number.isInteger(opening) || opening < 0) throw new AppError('INVALID_AMOUNT');
+  if (!isValidPhoneBD(input.phone)) throw new AppError('INVALID_PHONE');
+  if (!isValidEmail(input.email)) throw new AppError('INVALID_EMAIL');
+  const phoneNorm = sanitizeText(input.phone, 20);
+  if (phoneNorm) {
+    const dup = db.prepare('SELECT id FROM customers WHERE business_id = ? AND phone = ?').get(ctx.businessId, phoneNorm);
+    if (dup) throw new AppError('PHONE_DUPLICATE');
+  }
   const now = nowIso();
   const txn = db.transaction(() => {
     const r = db.prepare(
@@ -54,7 +61,7 @@ export function listCustomers(db: Db, ctx: Ctx, opts: { q?: string; status?: str
   if (opts.has_due) where.push('COALESCE((SELECT SUM(debit - credit) FROM customer_ledger l WHERE l.customer_id = c.id), 0) > 0');
   const w = where.join(' AND ');
   const total = (db.prepare(`SELECT COUNT(*) AS c FROM customers c WHERE ${w}`).get(...params) as { c: number }).c;
-  const order = opts.sort === 'due' ? 'due DESC, c.name ASC' : 'c.name ASC';
+  const order = opts.sort === 'due' ? 'current_due DESC, c.name ASC' : 'c.name ASC';
   const rows = db.prepare(
     `SELECT c.*, COALESCE((SELECT SUM(debit - credit) FROM customer_ledger l WHERE l.customer_id = c.id), 0) AS current_due
      FROM customers c WHERE ${w} ORDER BY ${order} LIMIT ? OFFSET ?`,
@@ -139,6 +146,13 @@ export function createSupplier(db: Db, ctx: Ctx, input: { name: string; phone?: 
   if (!name) throw new AppError('REQUIRED');
   const opening = input.opening_payable ?? 0;
   if (!Number.isInteger(opening) || opening < 0) throw new AppError('INVALID_AMOUNT');
+  if (!isValidPhoneBD(input.phone)) throw new AppError('INVALID_PHONE');
+  if (!isValidEmail(input.email)) throw new AppError('INVALID_EMAIL');
+  const phoneNorm = sanitizeText(input.phone, 20);
+  if (phoneNorm) {
+    const dup = db.prepare('SELECT id FROM suppliers WHERE business_id = ? AND phone = ?').get(ctx.businessId, phoneNorm);
+    if (dup) throw new AppError('PHONE_DUPLICATE');
+  }
   const now = nowIso();
   const txn = db.transaction(() => {
     const r = db.prepare(
@@ -181,7 +195,7 @@ export function listSuppliers(db: Db, ctx: Ctx, opts: { q?: string; status?: str
   if (opts.has_payable) where.push('COALESCE((SELECT SUM(credit - debit) FROM supplier_ledger l WHERE l.supplier_id = s.id), 0) > 0');
   const w = where.join(' AND ');
   const total = (db.prepare(`SELECT COUNT(*) AS c FROM suppliers s WHERE ${w}`).get(...params) as { c: number }).c;
-  const order = opts.sort === 'payable' ? 'payable DESC, s.name ASC' : 's.name ASC';
+  const order = opts.sort === 'payable' ? 'current_payable DESC, s.name ASC' : 's.name ASC';
   const rows = db.prepare(
     `SELECT s.*, COALESCE((SELECT SUM(credit - debit) FROM supplier_ledger l WHERE l.supplier_id = s.id), 0) AS current_payable
      FROM suppliers s WHERE ${w} ORDER BY ${order} LIMIT ? OFFSET ?`,
