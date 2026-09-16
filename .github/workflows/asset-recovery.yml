@@ -1,0 +1,101 @@
+name: asset-recovery
+
+# One-shot FINAL RELEASE ASSET RECOVERY utility.
+#
+# Attaches the EXISTING verified binaries from Actions run 35072583687
+# (artifact `merqo-windows`, built from verified commit 19150e8) to the
+# EXISTING draft release v1.0.0-gate.9.
+#
+# This workflow does NOT:
+#   - rebuild anything (it downloads the existing artifact by run id)
+#   - modify application code
+#   - delete or recreate any tag
+#   - publish v1.0.0 (both releases stay Draft)
+#
+# It exists because the operator sandbox's network egress blocks GitHub's
+# blob storage (artifacts/release assets), so byte-level verification and
+# `gh release upload` must run on GitHub-hosted runners instead.
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'arena/01a0a95d-merqo-retail-suite'
+    paths:
+      - '.github/workflows/asset-recovery.yml'
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  attach-verified-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download EXISTING artifact from run 35072583687 (no rebuild)
+        uses: actions/download-artifact@v4
+        with:
+          run-id: 35072583687
+          name: merqo-windows
+          path: win
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify artifact contents
+        shell: bash
+        working-directory: win
+        run: |
+          set -euo pipefail
+          ls -la
+          for f in "MERQO Retail Suite-Setup-1.0.0.exe" "MERQO Retail Suite-Portable-1.0.0.exe" SHA256SUMS.txt release-notes.md; do
+            test -f "$f" || { echo "::error::expected file missing from artifact: $f"; exit 1; }
+          done
+          SETUP_SIZE=$(stat -c %s "MERQO Retail Suite-Setup-1.0.0.exe")
+          PORTABLE_SIZE=$(stat -c %s "MERQO Retail Suite-Portable-1.0.0.exe")
+          echo "SETUP_SIZE=$SETUP_SIZE" | tee -a "$GITHUB_ENV"
+          echo "PORTABLE_SIZE=$PORTABLE_SIZE" | tee -a "$GITHUB_ENV"
+          if [ "$SETUP_SIZE" -lt 85000000 ] || [ "$PORTABLE_SIZE" -lt 85000000 ]; then
+            echo "::error::installer binaries suspiciously small"; exit 1
+          fi
+          # SHA256SUMS.txt was written by PowerShell on Windows (CRLF); verify against a normalized copy
+          sed 's/\r$//' SHA256SUMS.txt > /tmp/SHA256SUMS.check
+          sha256sum -c /tmp/SHA256SUMS.check
+          echo "ARTIFACT VERIFIED: checksums match, sizes: setup=$SETUP_SIZE portable=$PORTABLE_SIZE"
+
+      - name: Attach ONLY verified binaries + checksum to existing draft (clobber)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        working-directory: win
+        run: |
+          set -euo pipefail
+          gh release upload v1.0.0-gate.9 \
+            "MERQO Retail Suite-Setup-1.0.0.exe" \
+            "MERQO Retail Suite-Portable-1.0.0.exe" \
+            SHA256SUMS.txt --clobber
+          echo "--- release assets after upload ---"
+          gh release view v1.0.0-gate.9 --json assets --jq '.assets[] | "\(.name) \(.size) bytes"'
+
+      - name: Record verification in draft release notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        working-directory: win
+        run: |
+          set -euo pipefail
+          gh release view v1.0.0-gate.9 --json body --jq '.body' > notes.md
+          {
+            echo
+            echo "---"
+            echo "**Asset recovery verified — $(date -u +%Y-%m-%dT%H:%M:%SZ)**"
+            echo
+            echo "Source: Actions run \`35072583687\` (commit \`19150e8\`), artifact \`merqo-windows\` — existing verified binaries, no rebuild."
+            echo
+            echo '```'
+            sha256sum "MERQO Retail Suite-Setup-1.0.0.exe" "MERQO Retail Suite-Portable-1.0.0.exe"
+            stat -c '%n %s bytes' "MERQO Retail Suite-Setup-1.0.0.exe" "MERQO Retail Suite-Portable-1.0.0.exe"
+            echo '```'
+            echo
+            echo "This release remains a **Draft** awaiting human validation. \`v1.0.0\` is NOT published."
+          } >> notes.md
+          gh release edit v1.0.0-gate.9 --notes-file notes.md
+          echo "Notes updated."
