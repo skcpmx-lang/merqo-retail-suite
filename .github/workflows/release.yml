@@ -9,6 +9,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   build-windows:
     runs-on: windows-latest
@@ -127,6 +130,25 @@ jobs:
         with:
           name: merqo-verification
           path: ${{ env.SMOKE_OUT }}
+      - name: Publish evidence to repo
+        if: always()
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          git config user.name 'merqo-gate'
+          git config user.email 'merqo-gate@local'
+          $branch = "evidence/${{ github.ref_name }}"
+          git checkout -B $branch
+          New-Item -ItemType Directory -Force -Path evidence | Out-Null
+          if (Test-Path builder.log) { Copy-Item builder.log evidence/builder.log }
+          if ($env:SMOKE_OUT -and (Test-Path $env:SMOKE_OUT)) { Copy-Item "$env:SMOKE_OUT/*" evidence/ -Recurse }
+          git add -f evidence/builder.log evidence/*.json evidence/*.png evidence/*.pdf 2>$null
+          if (git status --porcelain) {
+            git commit -m "evidence for ${{ github.ref_name }} run ${{ github.run_id }}"
+            git push -f origin $branch
+          } else {
+            Write-Host 'no evidence to publish'
+          }
       - name: Checksums
         shell: pwsh
         run: |
