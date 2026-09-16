@@ -293,7 +293,7 @@ kbd.mq-kbd { font-family: inherit; font-size: 11px; background: var(--mq-surface
 
 /* ---------- POS ---------- */
 .mq-pos { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 14px; align-items: start; }
-@media (max-width: 1200px) { .mq-pos { grid-template-columns: 1fr; } }
+@media (max-width: 1280px) { .mq-pos { grid-template-columns: 1fr; } }
 .mq-pos-search { position: relative; }
 .mq-pos-results { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: var(--mq-surface); border: 1px solid var(--mq-border-strong); border-radius: 12px; box-shadow: var(--mq-shadow-3); z-index: 50; max-height: 340px; overflow-y: auto; }
 .mq-pos-result { display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; border-bottom: 1px solid var(--mq-border); }
@@ -375,3 +375,43 @@ kbd.mq-kbd { font-family: inherit; font-size: 11px; background: var(--mq-surface
 .mq-list-row:last-child { border-bottom: none; }
 .mq-progress { height: 8px; border-radius: 5px; background: var(--mq-surface-3); overflow: hidden; }
 .mq-progress > div { height: 100%; border-radius: 5px; background: var(--mq-accent); transition: width 0.3s; }
+
+/* ---------- Form sections ---------- */
+.mq-formsec { margin-bottom: 16px; }
+.mq-formsec:last-child { margin-bottom: 0; }
+.mq-formsec-title { display: flex; align-items: center; gap: 8px; font-size: 11.5px; font-weight: 800; color: var(--mq-text-2); letter-spacing: 0.5px; margin: 0 0 10px; text-transform: uppercase; }
+.mq-formsec-title::after { content: ""; flex: 1; border-top: 1px solid var(--mq-border); }
+.mq-formsec-title svg { width: 14px; height: 14px; color: var(--mq-accent); }
+
+/* ---------- Skeleton loading ---------- */
+.mq-skel { position: relative; overflow: hidden; background: var(--mq-surface-3); border-radius: 6px; }
+.mq-skel::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.75), transparent); animation: mq-shimmer 1.1s infinite; }
+@keyframes mq-shimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+.mq-skel-table { padding: 6px 0; }
+.mq-skel-row { display: flex; gap: 12px; padding: 11px 14px; }
+.mq-skel-row > .mq-skel { height: 13px; flex: 1; }
+
+/* ---------- Payment buttons: compact, brand-tinted ---------- */
+.mq-paygrid { grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); }
+.mq-paybtn { flex-direction: row; justify-content: flex-start; align-items: center; gap: 7px; padding: 8px 10px; }
+.mq-paybtn span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mq-paybtn svg { width: 15px; height: 15px; color: var(--mq-text-3); flex-shrink: 0; }
+.mq-paybtn.active svg { color: inherit; }
+.mq-paybtn[data-m="cash"].active { background: var(--mq-green-soft); border-color: #bfe6d2; color: var(--mq-green); }
+.mq-paybtn[data-m="bank"].active { background: var(--mq-accent-soft); border-color: #c9def3; color: var(--mq-accent-ink); }
+.mq-paybtn[data-m="bkash"].active { background: #fdeef5; border-color: #f3c2d8; color: #d1206f; }
+.mq-paybtn[data-m="nagad"].active { background: #fef3e8; border-color: #f6d3ae; color: #e05f00; }
+.mq-paybtn[data-m="rocket"].active { background: #f3edfb; border-color: #d9c6f2; color: #6b2fb8; }
+.mq-paybtn[data-m="upay"].active { background: #e9f6ee; border-color: #bfe3cc; color: #0a7d40; }
+.mq-paybtn[data-m="card"].active { background: var(--mq-teal-soft); border-color: #bde4ef; color: var(--mq-teal); }
+.mq-paybtn[data-m="other"].active { background: var(--mq-surface-3); border-color: var(--mq-border-strong); color: var(--mq-text-2); }
+
+/* ---------- Account card chips / stat line ---------- */
+.mq-acc-ic { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.mq-acc-ic svg { width: 19px; height: 19px; }
+.mq-statline { display: flex; gap: 14px; margin-top: 10px; font-size: 12px; color: var(--mq-text-3); flex-wrap: wrap; }
+.mq-statline .in b { color: var(--mq-green); font-weight: 700; }
+.mq-statline .out b { color: var(--mq-red); font-weight: 700; }
+
+/* ---------- Keyboard hint strip ---------- */
+.mq-hints { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; font-size: 11.5px; color: var(--mq-text-3); align-items: center; }
