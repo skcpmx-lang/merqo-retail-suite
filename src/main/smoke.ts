@@ -178,8 +178,43 @@ function finish(report: SmokeReport, outDir: string, e?: unknown): number {
   }
   fs.mkdirSync(outDir, { recursive: true });
   fs.writeFileSync(path.join(outDir, report.mode === 'gui' ? 'gui-report.json' : 'smoke-report.json'), JSON.stringify(report, null, 2));
-  console.log(JSON.stringify(report));
+  // Windows GUI-subsystem exe has a detached stdout; a bare console.log can
+  // raise EPIPE or leave stdout buffered when we immediately call app.exit.
+  // We use a best-effort synchronous write and explicitly swallow EPIPE so the
+  // process exit code reflects the scenario result, not a broken pipe.
+  try {
+    const out = JSON.stringify(report);
+    if (process.stdout.writable) {
+      try {
+        // Write synchronously if possible; on some Electron builds stdout is non-blocking.
+        process.stdout.write(out + '\n');
+      } catch (err) {
+        // Swallow EPIPE/EBADF which is expected for detached GUI stdout on Windows
+        const code = (err as NodeJS.ErrnoException)?.code;
+        if (code !== 'EPIPE' && code !== 'EBADF' && code !== 'ERR_STREAM_WRITE_AFTER_END') {
+          try { console.log(out); } catch { /* noop */ }
+        }
+      }
+    } else {
+      try { console.log(out); } catch { /* noop */ }
+    }
+  } catch { /* never fail report due to logging */ }
   return report.ok ? 0 : 1;
+}
+
+async function gracefulExit(code: number): Promise<void> {
+  // Give Node/Electron a tick to flush file descriptors and the logger before terminating.
+  // `app.exit` is immediate and bypasses before-quit, so we close DB ourselves first (caller does).
+  await new Promise<void>((resolve) => setTimeout(resolve, 120));
+  try {
+    app.exit(code);
+  } catch {
+    process.exit(code);
+  }
+  // Belt-and-suspenders: if app.exit didn't terminate (e.g., in unit harness), force after a short timeout.
+  setTimeout(() => process.exit(code), 900);
+  // Keep event loop alive until exit fires.
+  await new Promise(() => { /* never resolves; process will exit via app.exit/process.exit above */ });
 }
 
 export async function runHeadlessSmoke(outDir: string): Promise<void> {
@@ -199,10 +234,11 @@ export async function runHeadlessSmoke(outDir: string): Promise<void> {
     code = finish(report, outDir);
   } catch (e) {
     try { logger.error('smoke', 'headless smoke failed', String(e)); } catch { /* noop */ }
+    try { console.error('[headless-smoke] failed', String(e)); } catch { /* noop */ }
     code = finish(report, outDir, e);
   }
   try { closeDatabase(); } catch { /* noop */ }
-  app.exit(code);
+  await gracefulExit(code);
 }
 
 const GUI_ROUTES: { hash: string; shot: string }[] = [
@@ -294,10 +330,11 @@ export async function runGuiSmoke(outDir: string): Promise<void> {
     if (!win.isDestroyed()) win.close();
     code = finish(report, outDir);
   } catch (e) {
+    try { console.error('[gui-smoke] failed', String(e)); } catch { /* noop */ }
     code = finish(report, outDir, e);
   }
   try { closeDatabase(); } catch { /* noop */ }
-  app.exit(code);
+  await gracefulExit(code);
 }
 
 async function saveShot(win: BrowserWindow, file: string): Promise<void> {
