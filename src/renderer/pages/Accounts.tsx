@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Wallet, Plus, ArrowLeftRight, Receipt, Eye, Pencil, Trash2, Search } from 'lucide-react';
+import { Wallet, Plus, ArrowLeftRight, Receipt, Eye, Pencil, Trash2, Search, Banknote, Landmark, Smartphone, CreditCard } from 'lucide-react';
 import { Layout } from '../components/Layout';
 import { PageHeader, Modal, EmptyState, Pagination, Field, Spinner, useDebouncedValue, Confirm } from '../components/ui';
 import { useDateRange } from '../components/DateRange';
@@ -29,6 +29,21 @@ export function Accounts(): React.ReactElement {
   );
 }
 
+const ACC_META: Record<string, { icon: React.ReactNode; color: string; soft: string }> = {
+  CASH: { icon: <Banknote />, color: '#12805c', soft: '#e5f5ec' },
+  BANK: { icon: <Landmark />, color: '#0e63b6', soft: '#e7f1fb' },
+  BKASH: { icon: <Smartphone />, color: '#d1206f', soft: '#fdeef5' },
+  NAGAD: { icon: <Smartphone />, color: '#e05f00', soft: '#fef3e8' },
+  ROCKET: { icon: <Smartphone />, color: '#6b2fb8', soft: '#f3edfb' },
+  UPAY: { icon: <Smartphone />, color: '#0a7d40', soft: '#e9f6ee' },
+  CARD: { icon: <CreditCard />, color: '#0e7490', soft: '#e0f4fa' },
+  cash: { icon: <Banknote />, color: '#12805c', soft: '#e5f5ec' },
+  bank: { icon: <Landmark />, color: '#0e63b6', soft: '#e7f1fb' },
+  mfs: { icon: <Smartphone />, color: '#6b2fb8', soft: '#f3edfb' },
+  card: { icon: <CreditCard />, color: '#0e7490', soft: '#e0f4fa' },
+  other: { icon: <Wallet />, color: '#46566f', soft: '#eef1f7' },
+};
+
 function AccountList(): React.ReactElement {
   const { can, fail, notify } = useApp();
   const { fmt } = useMoney();
@@ -37,6 +52,30 @@ function AccountList(): React.ReactElement {
   const [detail, setDetail] = useState<FinancialAccount | null>(null);
   const [newOpen, setNewOpen] = useState(false);
   const [transferOpen, setTransferOpen] = useState(false);
+  const [stats, setStats] = useState<Record<number, { inn: number; out: number; last: string | null }>>({});
+
+  useEffect(() => {
+    if (!rows.length) return;
+    const now = new Date();
+    const from = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+    const to = now.toISOString();
+    (async () => {
+      const map: Record<number, { inn: number; out: number; last: string | null }> = {};
+      await Promise.all(rows.map(async (acc) => {
+        try {
+          const r = await call<Paged<Record<string, unknown>>>('account.txns', { id: acc.id, opts: { from, to, page: 1, pageSize: 500 } });
+          let inn = 0, out = 0, last: string | null = null;
+          for (const t of r.rows) {
+            if (t.direction === 'IN') inn += Number(t.amount); else out += Number(t.amount);
+            const at = String(t.occurred_at);
+            if (!last || at > last) last = at;
+          }
+          map[acc.id] = { inn, out, last };
+        } catch { /* keep card without stats */ }
+      }));
+      setStats(map);
+    })();
+  }, [rows]);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -57,19 +96,31 @@ function AccountList(): React.ReactElement {
       </PageHeader>
       {loading ? <Spinner /> : (
         <div className="mq-grid cols-3">
-          {rows.map((a) => (
-            <div key={a.id} className="mq-card mq-card-pad">
-              <div className="mq-between">
-                <div>
-                  <p className="mq-card-title">{a.name}</p>
-                  <p className="mq-card-sub">প্রারম্ভিক: {fmt(a.opening_balance)}</p>
+          {rows.map((a) => {
+            const st = stats[a.id];
+            const meta = ACC_META[a.code] || ACC_META[a.type] || ACC_META.other;
+            return (
+              <div key={a.id} className="mq-card mq-card-pad">
+                <div className="mq-between">
+                  <div className="mq-flex">
+                    <div className="mq-acc-ic" style={{ background: meta.soft, color: meta.color }}>{meta.icon}</div>
+                    <div>
+                      <p className="mq-card-title" style={{ margin: 0 }}>{a.name}</p>
+                      <p className="mq-card-sub" style={{ marginBottom: 0 }}>প্রারম্ভিক: {fmt(a.opening_balance)}</p>
+                    </div>
+                  </div>
+                  <button className="mq-mini-btn" title="লেনদেন দেখুন" onClick={() => setDetail(a)}><Eye /></button>
                 </div>
-                <button className="mq-mini-btn" title="লেনদেন দেখুন" onClick={() => setDetail(a)}><Eye /></button>
+                <div style={{ fontSize: 24, fontWeight: 800, marginTop: 12 }}>{fmt(a.current_balance ?? 0)}</div>
+                <div className="mq-small mq-muted">বর্তমান ব্যালেন্স</div>
+                <div className="mq-statline">
+                  <span className="in">জমা <b>{st ? fmt(st.inn) : '—'}</b></span>
+                  <span className="out">ব্যয় <b>{st ? fmt(st.out) : '—'}</b></span>
+                  <span>শেষ: {st?.last ? new Date(st.last).toLocaleDateString('bn-BD') : '—'}</span>
+                </div>
               </div>
-              <div style={{ fontSize: 24, fontWeight: 800 }}>{fmt(a.current_balance ?? 0)}</div>
-              <div className="mq-small mq-muted">বর্তমান ব্যালেন্স</div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
       {detail && <AccountDetail account={detail} onClose={() => { setDetail(null); load(); }} />}
@@ -175,10 +226,13 @@ export function TransferModal({ accounts, onClose, onDone }: { accounts: Financi
   const [amount, setAmount] = useState('');
   const [notes, setNotes] = useState('');
   const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState('');
 
   const submit = async (): Promise<void> => {
     const amt = Math.round((parseFloat(amount) || 0) * 100);
-    if (amt <= 0 || !from || !to) return;
+    if (from === to) { setErr('উৎস ও গন্তব্য হিসাব একই হতে পারবে না।'); return; }
+    if (amt <= 0) { setErr('সঠিক টাকার পরিমাণ দিন।'); return; }
+    setErr('');
     setBusy(true);
     try {
       await call('account.transfer', { input: { from_account_id: from, to_account_id: to, amount: amt, notes: notes.trim() || null } });
@@ -191,24 +245,25 @@ export function TransferModal({ accounts, onClose, onDone }: { accounts: Financi
     <Modal title="হিসাব স্থানান্তর" sub="এক হিসাব থেকে অন্য হিসাবে টাকা পাঠান" onClose={onClose} footer={(
       <>
         <button className="mq-btn" onClick={onClose}>বাতিল করুন</button>
-        <button className="mq-btn primary" onClick={submit} disabled={busy}>স্থানান্তর করুন</button>
+        <button className="mq-btn primary" onClick={submit} disabled={busy || from === to}>স্থানান্তর করুন</button>
       </>
     )}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <div className="mq-form-grid">
           <Field label="যেখান থেকে" required>
-            <select className="mq-select" value={from} onChange={(e) => setFrom(Number(e.target.value))}>
+            <select className="mq-select" value={from} onChange={(e) => { setFrom(Number(e.target.value)); setErr(''); }}>
               {accounts.map((a) => <option key={a.id} value={a.id}>{a.name} ({fmt(a.current_balance ?? 0)})</option>)}
             </select>
           </Field>
           <Field label="যেখানে যাবে" required>
-            <select className="mq-select" value={to} onChange={(e) => setTo(Number(e.target.value))}>
+            <select className="mq-select" value={to} onChange={(e) => { setTo(Number(e.target.value)); setErr(''); }}>
               {accounts.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
             </select>
           </Field>
         </div>
-        <Field label="টাকার পরিমাণ (৳)" required><input className="mq-input" inputMode="decimal" value={amount} onChange={(e) => setAmount(e.target.value)} autoFocus /></Field>
+        <Field label="টাকার পরিমাণ (৳)" required><input className="mq-input" inputMode="decimal" value={amount} onChange={(e) => { setAmount(e.target.value); setErr(''); }} autoFocus /></Field>
         <Field label="মন্তব্য"><input className="mq-input" value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
+        {err && <div className="mq-alert error">{err}</div>}
       </div>
     </Modal>
   );
