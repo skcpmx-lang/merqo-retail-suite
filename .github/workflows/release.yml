@@ -92,8 +92,17 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          & $env:INSTALLED_EXE --merqo-smoke --smoke-out $env:SMOKE_OUT
-          if ($LASTEXITCODE -ne 0) { throw "headless smoke exited $LASTEXITCODE" }
+          # GUI-subsystem exe has detached stdout/stderr; PowerShell's `&` may lose the exit code.
+          # Use Start-Process with redirect so we capture output and get a reliable ExitCode.
+          # Root cause previously: bare `& $exe` + immediate app.exit before stdout flush caused a
+          # broken-pipe path that surfaced as exit 1 despite smoke-report.json being ok:true.
+          $stdout = Join-Path $env:SMOKE_OUT 'headless-stdout.log'
+          $stderr = Join-Path $env:SMOKE_OUT 'headless-stderr.log'
+          New-Item -ItemType Directory -Force -Path $env:SMOKE_OUT | Out-Null
+          $proc = Start-Process -FilePath $env:INSTALLED_EXE -ArgumentList '--merqo-smoke','--smoke-out', $env:SMOKE_OUT -Wait -PassThru -NoNewWindow -RedirectStandardOutput $stdout -RedirectStandardError $stderr
+          if (Test-Path $stdout) { Write-Host "--- headless stdout ---"; Get-Content $stdout | ForEach-Object { Write-Host $_ } }
+          if (Test-Path $stderr) { Write-Host "--- headless stderr ---"; Get-Content $stderr | ForEach-Object { Write-Host $_ } }
+          if ($proc.ExitCode -ne 0) { throw "headless smoke exited $($proc.ExitCode)" }
           $rep = Get-Content (Join-Path $env:SMOKE_OUT 'smoke-report.json') -Raw | ConvertFrom-Json
           if (-not $rep.ok) { throw "headless smoke report not ok: $($rep.error)" }
           Write-Host "HEADLESS SMOKE OK: $($rep.steps.Count) steps, v$($rep.version) $($rep.platform)"
@@ -102,8 +111,12 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          & $env:INSTALLED_EXE --merqo-smoke-gui --smoke-out $env:SMOKE_OUT
-          if ($LASTEXITCODE -ne 0) { throw "GUI smoke exited $LASTEXITCODE" }
+          $stdout = Join-Path $env:SMOKE_OUT 'gui-stdout.log'
+          $stderr = Join-Path $env:SMOKE_OUT 'gui-stderr.log'
+          $proc = Start-Process -FilePath $env:INSTALLED_EXE -ArgumentList '--merqo-smoke-gui','--smoke-out', $env:SMOKE_OUT -Wait -PassThru -NoNewWindow -RedirectStandardOutput $stdout -RedirectStandardError $stderr
+          if (Test-Path $stdout) { Write-Host "--- gui stdout ---"; Get-Content $stdout | ForEach-Object { Write-Host $_ } }
+          if (Test-Path $stderr) { Write-Host "--- gui stderr ---"; Get-Content $stderr | ForEach-Object { Write-Host $_ } }
+          if ($proc.ExitCode -ne 0) { throw "GUI smoke exited $($proc.ExitCode)" }
           $rep = Get-Content (Join-Path $env:SMOKE_OUT 'gui-report.json') -Raw | ConvertFrom-Json
           if (-not $rep.ok) { throw "GUI smoke report not ok: $($rep.error)" }
           Write-Host "GUI SMOKE OK: $($rep.steps.Count) steps"
@@ -116,8 +129,13 @@ jobs:
           $pdir = Join-Path $env:RUNNER_TEMP 'merqo-portable'
           New-Item -ItemType Directory -Force -Path $pdir | Out-Null
           Copy-Item $env:PORTABLE_PATH (Join-Path $pdir 'merqo-portable.exe')
-          & (Join-Path $pdir 'merqo-portable.exe') --merqo-smoke --smoke-out (Join-Path $pdir 'out')
-          if ($LASTEXITCODE -ne 0) { throw "portable smoke exited $LASTEXITCODE" }
+          $out = Join-Path $pdir 'out'
+          $stdout = Join-Path $pdir 'portable-stdout.log'
+          $stderr = Join-Path $pdir 'portable-stderr.log'
+          $proc = Start-Process -FilePath (Join-Path $pdir 'merqo-portable.exe') -ArgumentList '--merqo-smoke','--smoke-out', $out -Wait -PassThru -NoNewWindow -RedirectStandardOutput $stdout -RedirectStandardError $stderr
+          if (Test-Path $stdout) { Write-Host "--- portable stdout ---"; Get-Content $stdout | ForEach-Object { Write-Host $_ } }
+          if (Test-Path $stderr) { Write-Host "--- portable stderr ---"; Get-Content $stderr | ForEach-Object { Write-Host $_ } }
+          if ($proc.ExitCode -ne 0) { throw "portable smoke exited $($proc.ExitCode)" }
           Write-Host 'PORTABLE SMOKE OK'
 
       - name: Silent uninstall

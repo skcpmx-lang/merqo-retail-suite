@@ -135,18 +135,56 @@ function registerPrintIpc(): void {
 
 // Release smoke modes (see src/main/smoke.ts). Handled before the single-instance
 // lock so CI can run them deterministically on a clean machine.
+// Root cause of prior non-zero exit after 29/29 assertions: the GUI-subsystem
+// executable on Windows detaches stdout, so a bare `console.log` followed by an
+// immediate `app.exit` could fail to flush output or trigger a broken-pipe
+// warning that Electron surfaced as a non-zero exit. The fix is (a) robust
+// stdout capture/flush in smoke.ts, (b) proper async error handling here so
+// an import or unhandled rejection can never leave the process in an
+// ambiguous exit state, and (c) using Start-Process with stdout/stderr capture
+// in the release workflow (see release.yml).
 const smokeOut = (() => {
   const i = process.argv.indexOf('--smoke-out');
   return i >= 0 && process.argv[i + 1] ? process.argv[i + 1] : null;
 })();
-if (process.argv.includes('--merqo-smoke-gui')) {
-  void import('./smoke').then((m) => m.runGuiSmoke(smokeOut ?? process.cwd()));
-} else if (process.argv.includes('--merqo-smoke')) {
-  void import('./smoke').then((m) => m.runHeadlessSmoke(smokeOut ?? process.cwd()));
+const rawArgs = process.argv.slice();
+const isGuiSmoke = rawArgs.includes('--merqo-smoke-gui');
+const isHeadlessSmoke = !isGuiSmoke && rawArgs.includes('--merqo-smoke');
+const isSmokeMode = isGuiSmoke || isHeadlessSmoke;
+
+function handleSmokeImportFailure(mode: string, outDir: string | null, err: unknown): void {
+  const detail = err instanceof Error ? `${err.message}\n${err.stack ?? ''}` : String(err);
+  try { logger.error('smoke', `${mode} import/run failed`, detail); } catch { /* noop */ }
+  try { console.error(`[merqo-smoke] ${mode} failed:`, detail); } catch { /* noop */ }
+  // Ensure a report file exists so the CI step can surface the real cause even if the process exits non-zero.
+  try {
+    const dir = outDir ?? process.cwd();
+    fs.mkdirSync(dir, { recursive: true });
+    const file = path.join(dir, mode === 'gui' ? 'gui-report.json' : 'smoke-report.json');
+    if (!fs.existsSync(file)) {
+      const report = { mode, ok: false, error: detail.slice(0, 2000), steps: [{ name: 'FAILED', ok: false, detail: detail.slice(0, 1000) }], version: app.getVersion(), platform: `${process.platform}-${process.arch}`, finishedAt: new Date().toISOString() };
+      fs.writeFileSync(file, JSON.stringify(report, null, 2));
+    }
+  } catch { /* noop */ }
+  // Flush stderr/stdout briefly before forcing exit so CI log capture is complete.
+  setTimeout(() => {
+    try { app.exit(1); } catch { process.exit(1); }
+  }, 80);
+  setTimeout(() => process.exit(1), 1500);
+}
+
+if (isGuiSmoke) {
+  import('./smoke')
+    .then((m) => m.runGuiSmoke(smokeOut ?? process.cwd()))
+    .catch((e) => handleSmokeImportFailure('gui', smokeOut, e));
+} else if (isHeadlessSmoke) {
+  import('./smoke')
+    .then((m) => m.runHeadlessSmoke(smokeOut ?? process.cwd()))
+    .catch((e) => handleSmokeImportFailure('headless', smokeOut, e));
 }
 
 // Single instance: protects the SQLite database from multi-process writes.
-const gotLock = process.argv.includes('--merqo-smoke') || process.argv.includes('--merqo-smoke-gui') ? true : app.requestSingleInstanceLock();
+const gotLock = isSmokeMode ? true : app.requestSingleInstanceLock();
 if (!gotLock) {
   app.quit();
 } else {
@@ -157,8 +195,6 @@ if (!gotLock) {
     }
   });
 }
-
-const isSmokeMode = process.argv.includes('--merqo-smoke') || process.argv.includes('--merqo-smoke-gui');
 
 app.whenReady().then(() => {
   if (isSmokeMode) return; // smoke harness owns startup sequencing
@@ -219,10 +255,12 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
+  if (isSmokeMode) return;
   if (process.platform !== 'darwin') app.quit();
 });
 
 app.on('before-quit', () => {
+  if (isSmokeMode) return;
   try {
     closeDatabase();
   } catch { /* noop */ }
@@ -230,7 +268,13 @@ app.on('before-quit', () => {
 
 process.on('uncaughtException', (e) => {
   logger.error('process', 'uncaughtException', String(e));
+  if (isSmokeMode) {
+    try { console.error('uncaughtException', String(e)); } catch { /* noop */ }
+  }
 });
 process.on('unhandledRejection', (e) => {
   logger.error('process', 'unhandledRejection', String(e));
+  if (isSmokeMode) {
+    try { console.error('unhandledRejection', String(e)); } catch { /* noop */ }
+  }
 });
