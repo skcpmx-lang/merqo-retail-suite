@@ -35,7 +35,7 @@ jobs:
           DEBUG: electron-builder*
         run: |
           $ErrorActionPreference = 'Continue'
-          npx electron-builder --win nsis portable 2>&1 | Out-File builder.log -Encoding utf8
+          npx electron-builder --win nsis portable -p never 2>&1 | Out-File builder.log -Encoding utf8
           exit $LASTEXITCODE
       - name: Upload builder log
         if: always()
