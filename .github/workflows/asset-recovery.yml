@@ -32,6 +32,9 @@ jobs:
   attach-verified-assets:
     runs-on: ubuntu-latest
     steps:
+      # Needed only so `gh` can resolve the repository; no build is performed.
+      - uses: actions/checkout@v4
+
       - name: Download EXISTING artifact from run 35072583687 (no rebuild)
         uses: actions/download-artifact@v4
         with:
