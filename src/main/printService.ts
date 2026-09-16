@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from 'electron';
 import path from 'node:path';
 import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { logger } from './logger';
 
 let fontCssCache: string | null = null;
@@ -46,7 +47,12 @@ export function isAllowedPage(url: string, allowDevServer: boolean): boolean {
     const appRoot = path.resolve(app.getAppPath());
     const resRoot = process.resourcesPath ? path.resolve(process.resourcesPath) : '';
     try {
-      const filePath = path.resolve(decodeURIComponent(new URL(url).pathname));
+      // fileURLToPath() is the canonical conversion: on Windows it maps
+      // file:///C:/... to C:\... (a bare new URL(url).pathname + path.resolve
+      // yields "\C:\..." — a device-relative path — which never matched
+      // appRoot, so the production request filter cancelled index.html and
+      // every renderer asset: blank window on real installs).
+      const filePath = path.resolve(fileURLToPath(url));
       if (filePath === appRoot || filePath.startsWith(appRoot + path.sep)) return true;
       if (resRoot && (filePath === resRoot || filePath.startsWith(resRoot + path.sep))) return true;
     } catch { return false; }
