@@ -12,9 +12,6 @@ on:
 jobs:
   build-windows:
     runs-on: windows-latest
-    env:
-      SMOKE_OUT: ${{ runner.temp }}\merqo-smoke
-      INSTALL_DIR: ${{ runner.temp }}\merqo-install
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -45,6 +42,8 @@ jobs:
           if ($portable.Length -lt 20MB) { throw 'Portable exe suspiciously small' }
           Get-FileHash $setup.FullName -Algorithm SHA256 | Format-List
           Get-FileHash $portable.FullName -Algorithm SHA256 | Format-List
+          "SMOKE_OUT=$(Join-Path $env:RUNNER_TEMP 'merqo-smoke')" >> $env:GITHUB_ENV
+          "INSTALL_DIR=$(Join-Path $env:RUNNER_TEMP 'merqo-install')" >> $env:GITHUB_ENV
           "SETUP_PATH=$($setup.FullName)" >> $env:GITHUB_ENV
           "PORTABLE_PATH=$($portable.FullName)" >> $env:GITHUB_ENV
 
@@ -116,7 +115,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: merqo-verification
-          path: ${{ runner.temp }}\merqo-smoke
+          path: ${{ env.SMOKE_OUT }}
       - name: Checksums
         shell: pwsh
         run: |
