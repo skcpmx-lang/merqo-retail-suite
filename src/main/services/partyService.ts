@@ -63,7 +63,10 @@ export function listCustomers(db: Db, ctx: Ctx, opts: { q?: string; status?: str
   const total = (db.prepare(`SELECT COUNT(*) AS c FROM customers c WHERE ${w}`).get(...params) as { c: number }).c;
   const order = opts.sort === 'due' ? 'current_due DESC, c.name ASC' : 'c.name ASC';
   const rows = db.prepare(
-    `SELECT c.*, COALESCE((SELECT SUM(debit - credit) FROM customer_ledger l WHERE l.customer_id = c.id), 0) AS current_due
+    `SELECT c.*, COALESCE((SELECT SUM(debit - credit) FROM customer_ledger l WHERE l.customer_id = c.id), 0) AS current_due,
+       COALESCE((SELECT SUM(sl.total) FROM sales sl WHERE sl.customer_id = c.id AND sl.status = 'COMPLETED'), 0) AS total_purchases,
+       COALESCE((SELECT SUM(l.credit) FROM customer_ledger l WHERE l.customer_id = c.id), 0) AS total_payments,
+       (SELECT MAX(l.occurred_at) FROM customer_ledger l WHERE l.customer_id = c.id) AS last_activity_at
      FROM customers c WHERE ${w} ORDER BY ${order} LIMIT ? OFFSET ?`,
   ).all(...params, limit, offset) as Customer[];
   return { rows, total, page, pageSize };
@@ -197,7 +200,10 @@ export function listSuppliers(db: Db, ctx: Ctx, opts: { q?: string; status?: str
   const total = (db.prepare(`SELECT COUNT(*) AS c FROM suppliers s WHERE ${w}`).get(...params) as { c: number }).c;
   const order = opts.sort === 'payable' ? 'current_payable DESC, s.name ASC' : 's.name ASC';
   const rows = db.prepare(
-    `SELECT s.*, COALESCE((SELECT SUM(credit - debit) FROM supplier_ledger l WHERE l.supplier_id = s.id), 0) AS current_payable
+    `SELECT s.*, COALESCE((SELECT SUM(credit - debit) FROM supplier_ledger l WHERE l.supplier_id = s.id), 0) AS current_payable,
+       COALESCE((SELECT SUM(p.total) FROM purchases p WHERE p.supplier_id = s.id AND p.status = 'COMPLETED'), 0) AS total_purchases,
+       COALESCE((SELECT SUM(l.debit) FROM supplier_ledger l WHERE l.supplier_id = s.id), 0) AS total_payments,
+       (SELECT MAX(l.occurred_at) FROM supplier_ledger l WHERE l.supplier_id = s.id) AS last_activity_at
      FROM suppliers s WHERE ${w} ORDER BY ${order} LIMIT ? OFFSET ?`,
   ).all(...params, limit, offset) as Supplier[];
   return { rows, total, page, pageSize };

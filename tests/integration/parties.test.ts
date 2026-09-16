@@ -20,7 +20,7 @@ import {
   createCustomer, createSupplier, updateCustomer, listCustomers, listSuppliers,
   receiveCustomerPayment, paySupplier, customerLedger, supplierLedger,
 } from '../../src/main/services/partyService';
-import { listAccounts } from '../../src/main/services/accountService';
+import { listAccounts, transfer } from '../../src/main/services/accountService';
 import { PAYMENT_METHOD_BN, PERMISSIONS } from '../../src/shared/constants';
 
 let db: Db;
@@ -138,5 +138,31 @@ describe('professional payment terminology (spec §5)', () => {
     expect(PAYMENT_METHOD_BN.bank).toBe('ব্যাংক');
     expect(PAYMENT_METHOD_BN.card).toBe('কার্ড');
     expect(PAYMENT_METHOD_BN.other).toBe('অন্যান্য');
+  });
+});
+
+describe('phase 5: list enrichment + transfer guard', () => {
+  it('customer list exposes totals and last activity for the enriched columns', () => {
+    const id = createCustomer(db, ctx, { name: 'এনরিচড কাস্টমার', phone: null, address: null, email: null, opening_due: 0, notes: null });
+    receiveCustomerPayment(db, ctx, { customer_id: id, account_id: cashId, method: 'cash', amount: 50000, notes: null });
+    const row = listCustomers(db, ctx, { q: 'এনরিচড', page: 1, pageSize: 10 }).rows[0];
+    expect(row).toBeTruthy();
+    expect(typeof row.total_purchases).toBe('number');
+    expect(row.total_payments).toBe(50000);
+    expect(row.last_activity_at).toBeTruthy();
+  });
+
+  it('supplier list exposes payable-side totals and last activity', () => {
+    const id = createSupplier(db, ctx, { name: 'এনরিচড সরবরাহকারী', phone: null, address: null, email: null, opening_payable: 0, notes: null });
+    paySupplier(db, ctx, { supplier_id: id, account_id: cashId, method: 'cash', amount: 30000, notes: null });
+    const row = listSuppliers(db, ctx, { q: 'এনরিচড', page: 1, pageSize: 10 }).rows[0];
+    expect(row).toBeTruthy();
+    expect(typeof row.total_purchases).toBe('number');
+    expect(row.total_payments).toBe(30000);
+    expect(row.last_activity_at).toBeTruthy();
+  });
+
+  it('rejects same-account transfer at the service layer (UI also blocks it)', () => {
+    expect(codeOf(() => transfer(db, ctx, { from_account_id: cashId, to_account_id: cashId, amount: 10000 }))).toBe('SAME_ACCOUNT');
   });
 });

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Truck, Plus, Search, Eye, Pencil, Handshake, FileText, Printer } from 'lucide-react';
 import { Layout } from '../components/Layout';
-import { PageHeader, Modal, EmptyState, Badge, Pagination, Field, Spinner, useDebouncedValue } from '../components/ui';
+import { PageHeader, Modal, EmptyState, Badge, Pagination, Field, Spinner, useDebouncedValue, PayMethodGrid, FormSection, TableSkeleton } from '../components/ui';
 import { useDateRange } from '../components/DateRange';
 import { call, api } from '../api';
 import { useApp, useMoney } from '../store';
@@ -76,14 +76,17 @@ export function Suppliers(): React.ReactElement {
       ) : (
         <div className="mq-table-wrap">
           <table className="mq-table">
-            <thead><tr><th>নাম</th><th>মোবাইল</th><th>ঠিকানা</th><th className="num">দেনা</th><th className="center">কার্যক্রম</th></tr></thead>
+            <thead><tr><th>নাম</th><th>মোবাইল</th><th className="num">মোট ক্রয়</th><th className="num">মোট পেমেন্ট</th><th className="num">দেনা</th><th>শেষ লেনদেন</th><th>অবস্থা</th><th className="center">কার্যক্রম</th></tr></thead>
             <tbody>
               {data.rows.map((s) => (
                 <tr key={s.id}>
                   <td><strong>{s.name}</strong></td>
-                  <td>{s.phone || '—'}</td>
-                  <td>{s.address || '—'}</td>
+                  <td className="mq-mono">{s.phone || '—'}</td>
+                  <td className="num">{fmt(s.total_purchases ?? 0)}</td>
+                  <td className="num">{fmt(s.total_payments ?? 0)}</td>
                   <td className="num">{(s.current_payable ?? 0) > 0 ? <Badge tone="red">{fmt(s.current_payable ?? 0)}</Badge> : <span className="mq-muted">০</span>}</td>
+                  <td className="mq-small">{s.last_activity_at ? new Date(s.last_activity_at).toLocaleDateString('bn-BD') : '—'}</td>
+                  <td>{s.status === 'active' ? <Badge tone="green">সক্রিয়</Badge> : <Badge tone="gray">নিষ্ক্রিয়</Badge>}</td>
                   <td><div className="mq-row-actions">
                     <button className="mq-mini-btn" title="প্রোফাইল" onClick={() => openProfile(s.id)}><Eye /></button>
                     {can('supplier.edit') && <button className="mq-mini-btn" title="সম্পাদনা" onClick={() => { setEditing(s); setFormOpen(true); }}><Pencil /></button>}
@@ -112,17 +115,20 @@ function SupplierForm({ initial, onClose, onSaved }: { initial: Supplier | null;
     status: initial?.status || 'active',
   });
   const [busy, setBusy] = useState(false);
-  const [error, setError] = useState('');
+  const [errs, setErrs] = useState<{ name?: string; phone?: string; email?: string }>({});
 
   const submit = async (): Promise<void> => {
-    if (!f.name.trim()) { setError('সরবরাহকারীর নাম আবশ্যক।'); return; }
-    if (f.phone.trim() && !isValidPhoneBD(f.phone.trim())) { setError('মোবাইল নম্বরটি সঠিক নয়। উদাহরণ: 017XXXXXXXX অথবা +88017XXXXXXXX।'); return; }
-    if (f.email.trim() && !isValidEmail(f.email.trim())) { setError('ইমেইল ঠিকানাটি সঠিক নয়। যাচাই করে আবার চেষ্টা করুন।'); return; }
+    const next: { name?: string; phone?: string; email?: string } = {};
+    if (!f.name.trim()) next.name = 'সরবরাহকারীর নাম আবশ্যক।';
+    if (f.phone.trim() && !isValidPhoneBD(f.phone.trim())) next.phone = 'মোবাইল নম্বরটি সঠিক নয়। উদাহরণ: 017XXXXXXXX অথবা +88017XXXXXXXX।';
+    if (f.email.trim() && !isValidEmail(f.email.trim())) next.email = 'ইমেইল ঠিকানাটি সঠিক নয়। যাচাই করে আবার চেষ্টা করুন।';
+    setErrs(next);
+    if (Object.keys(next).length) return;
     setBusy(true);
     try {
       if (initial) {
         await call('supplier.update', { id: initial.id, input: { name: f.name.trim(), phone: f.phone.trim() || null, address: f.address.trim() || null, email: f.email.trim() || null, notes: f.notes.trim() || null, status: f.status } });
-        notify('success', 'তথ্য সংরক্ষণ করা হয়েছে।');
+        notify('success', 'সরবরাহকারীর তথ্য সংরক্ষণ করা হয়েছে।');
       } else {
         await call('supplier.create', {
           input: {
@@ -131,7 +137,7 @@ function SupplierForm({ initial, onClose, onSaved }: { initial: Supplier | null;
             notes: f.notes.trim() || null,
           },
         });
-        notify('success', 'নতুন সরবরাহকারী যোগ করা হয়েছে।');
+        notify('success', 'সরবরাহকারী সফলভাবে যোগ হয়েছে।');
       }
       onSaved();
     } catch (e) { fail(e); }
@@ -145,16 +151,19 @@ function SupplierForm({ initial, onClose, onSaved }: { initial: Supplier | null;
         <button className="mq-btn primary" onClick={submit} disabled={busy}>{busy ? 'সংরক্ষণ হচ্ছে…' : 'সংরক্ষণ করুন'}</button>
       </>
     )}>
-      <div className="mq-form-grid">
-        <Field label="নাম" required><input className="mq-input" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} autoFocus /></Field>
-        <Field label="মোবাইল"><input className="mq-input" value={f.phone} onChange={(e) => setF({ ...f, phone: e.target.value })} /></Field>
+      <FormSection title="মৌলিক তথ্য">
+        <Field label="নাম" required error={errs.name}><input className={`mq-input${errs.name ? ' error' : ''}`} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} autoFocus /></Field>
+        <Field label="মোবাইল" error={errs.phone}><input className={`mq-input${errs.phone ? ' error' : ''}`} value={f.phone} onChange={(e) => setF({ ...f, phone: e.target.value })} placeholder="01XXXXXXXXX" /></Field>
+      </FormSection>
+      <FormSection title="যোগাযোগ ও ঠিকানা">
         <Field label="ঠিকানা"><input className="mq-input" value={f.address} onChange={(e) => setF({ ...f, address: e.target.value })} /></Field>
-        <Field label="ইমেইল"><input className="mq-input" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} /></Field>
+        <Field label="ইমেইল" error={errs.email}><input className={`mq-input${errs.email ? ' error' : ''}`} value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} placeholder="name@example.com" /></Field>
+      </FormSection>
+      <FormSection title="আর্থিক ও অন্যান্য">
         {!initial && <Field label="প্রারম্ভিক দেনা (৳)"><input className="mq-input" inputMode="decimal" value={f.opening_payable} onChange={(e) => setF({ ...f, opening_payable: e.target.value })} placeholder="০" /></Field>}
         {initial && <Field label="অবস্থা"><select className="mq-select" value={f.status} onChange={(e) => setF({ ...f, status: e.target.value as 'active' | 'inactive' })}><option value="active">সক্রিয়</option><option value="inactive">নিষ্ক্রিয়</option></select></Field>}
         <Field label="মন্তব্য"><input className="mq-input" value={f.notes} onChange={(e) => setF({ ...f, notes: e.target.value })} /></Field>
-      </div>
-      {error && <div className="mq-alert error mq-mt">{error}</div>}
+      </FormSection>
     </Modal>
   );
 }
@@ -314,16 +323,7 @@ export function SupplierPayModal({ preset, suppliers, onClose, onDone }: {
         <Field label="টাকার পরিমাণ (৳)" required>
           <input className="mq-input" inputMode="decimal" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="০" autoFocus />
         </Field>
-        <div className="mq-paygrid">
-          {(Object.keys(PAYMENT_METHOD_BN) as PaymentMethod[]).map((m) => (
-            <button key={m} className={`mq-paybtn${method === m ? ' active' : ''}`} onClick={() => {
-              setMethod(m);
-              const map: Record<string, string> = { cash: 'CASH', bank: 'BANK', bkash: 'BKASH', nagad: 'NAGAD', rocket: 'ROCKET', upay: 'UPAY', card: 'CARD', other: 'OTHER' };
-              const a = accounts.find((x) => x.code === map[m]);
-              if (a) setAccountId(String(a.id));
-            }}>{PAYMENT_METHOD_BN[m]}</button>
-          ))}
-        </div>
+        <PayMethodGrid value={method} onChange={setMethod} accounts={accounts} onAutoAccount={(id) => setAccountId(String(id))} />
         <Field label="হিসাব" required>
           <select className="mq-select" value={accountId} onChange={(e) => setAccountId(e.target.value)}>
             {accounts.map((a) => <option key={a.id} value={a.id}>{a.name} ({fmt(a.current_balance ?? 0)})</option>)}
