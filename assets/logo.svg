@@ -1,11 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- MERQO authoritative brand mark.
+       Single source of truth for app icon (ICO/PNG set), sidebar, login,
+       setup and About. Font-independent geometry (no <text>): renders
+       identically on every platform/DPI.
+       Artwork bounds: 16..496 on both axes (balanced 16-unit optical padding).
+       M glyph bbox: x 136..376, y 150..362 -> mathematically centered at 256,256. -->
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0e63b6"/>
+      <stop offset="0" stop-color="#1173cc"/>
+      <stop offset="0.55" stop-color="#0e63b6"/>
       <stop offset="1" stop-color="#0a3f73"/>
     </linearGradient>
   </defs>
   <rect x="16" y="16" width="480" height="480" rx="110" fill="url(#g)"/>
-  <text x="256" y="352" text-anchor="middle" font-family="Segoe UI, Verdana, sans-serif" font-weight="800" font-size="280" fill="#ffffff" letter-spacing="-8">M</text>
-  <circle cx="418" cy="386" r="26" fill="#5eeaa0"/>
+  <path fill="#ffffff" d="M136 362 L136 150 L200 150 L256 234 L312 150 L376 150 L376 362 L324 362 L324 244 L278 312 L234 312 L188 244 L188 362 Z"/>
+  <circle cx="416" cy="382" r="26" fill="#5eeaa0"/>
 </svg>
