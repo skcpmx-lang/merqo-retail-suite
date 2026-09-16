@@ -80,10 +80,16 @@ jobs:
         shell: bash
         working-directory: stage
         run: |
-          set -euo pipefail
+          set -uo pipefail
+          ls -la
           SETUP=$(ls *Setup*.exe | head -n1)
           PORTABLE=$(ls *Portable*.exe | head -n1)
-          gh release upload v1.0.0-gate.9 "$SETUP" "$PORTABLE" SHA256SUMS.txt --clobber
+          echo "uploading: [$SETUP] [$PORTABLE] [SHA256SUMS.txt]"
+          if ! OUT=$(gh release upload v1.0.0-gate.9 "$SETUP" "$PORTABLE" SHA256SUMS.txt --clobber 2>&1); then
+            echo "::error::gh release upload failed: $(echo "$OUT" | tr '\n' ' ')"
+            exit 1
+          fi
+          echo "$OUT"
           echo "--- release assets after upload ---"
           gh release view v1.0.0-gate.9 --json assets --jq '.assets[] | "\(.name) \(.size) bytes"'
 
