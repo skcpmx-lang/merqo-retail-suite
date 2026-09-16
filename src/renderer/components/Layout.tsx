@@ -9,20 +9,31 @@ import { useApp } from '../store';
 import { call } from '../api';
 import { roleName } from '@shared/constants';
 import { Modal } from './ui';
+import logoUrl from '../../../assets/logo.svg';
 
-const NAV = [
-  { to: '/', label: 'ড্যাশবোর্ড', icon: <LayoutDashboard />, end: true },
-  { to: '/sales', label: 'বিক্রয়', icon: <ShoppingCart /> },
-  { to: '/purchases', label: 'ক্রয়', icon: <ShoppingBag /> },
-  { to: '/products', label: 'পণ্য ও স্টক', icon: <Package /> },
-  { to: '/customers', label: 'কাস্টমার', icon: <Users /> },
-  { to: '/suppliers', label: 'সরবরাহকারী', icon: <Truck /> },
-  { to: '/accounts', label: 'হিসাব', icon: <Wallet /> },
-  { to: '/agent', label: 'এজেন্ট ব্যাংকিং', icon: <Landmark /> },
-  { to: '/reports', label: 'রিপোর্ট', icon: <BarChart3 /> },
-  { to: '/notifications', label: 'নোটিফিকেশন', icon: <Bell /> },
-  { to: '/employees', label: 'কর্মচারী', icon: <UserCog /> },
-  { to: '/settings', label: 'সেটিংস', icon: <Settings /> },
+const NAV_GROUPS: { label: string; items: { to: string; label: string; icon: React.ReactNode; end?: boolean }[] }[] = [
+  { label: 'ওভারভিউ', items: [
+    { to: '/', label: 'ড্যাশবোর্ড', icon: <LayoutDashboard />, end: true },
+  ] },
+  { label: 'অপারেশন', items: [
+    { to: '/sales', label: 'বিক্রয়', icon: <ShoppingCart /> },
+    { to: '/purchases', label: 'ক্রয়', icon: <ShoppingBag /> },
+    { to: '/products', label: 'পণ্য ও স্টক', icon: <Package /> },
+    { to: '/customers', label: 'কাস্টমার', icon: <Users /> },
+    { to: '/suppliers', label: 'সরবরাহকারী', icon: <Truck /> },
+  ] },
+  { label: 'ফাইন্যান্স', items: [
+    { to: '/accounts', label: 'হিসাব', icon: <Wallet /> },
+    { to: '/agent', label: 'এজেন্ট ব্যাংকিং', icon: <Landmark /> },
+  ] },
+  { label: 'ইনসাইট', items: [
+    { to: '/reports', label: 'রিপোর্ট', icon: <BarChart3 /> },
+    { to: '/notifications', label: 'নোটিফিকেশন', icon: <Bell /> },
+  ] },
+  { label: 'অ্যাডমিন', items: [
+    { to: '/employees', label: 'কর্মচারী', icon: <UserCog /> },
+    { to: '/settings', label: 'সেটিংস', icon: <Settings /> },
+  ] },
 ];
 
 export function Layout({ children, title, sub }: { children: React.ReactNode; title: string; sub?: string }): React.ReactElement {
@@ -32,11 +43,6 @@ export function Layout({ children, title, sub }: { children: React.ReactNode; ti
   const [unread, setUnread] = useState(0);
   const navigate = useNavigate();
 
-  const visibleNav = NAV.filter((n) => {
-    if (n.to === '/employees') return can('user.manage') || can('audit.view');
-    if (n.to === '/settings') return true;
-    return true;
-  });
 
   useEffect(() => {
     let alive = true;
@@ -55,10 +61,19 @@ export function Layout({ children, title, sub }: { children: React.ReactNode; ti
     return () => { alive = false; clearInterval(t); };
   }, []);
 
+  // Responsive shell: auto-collapse on narrow viewports (1366x768 class laptops)
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 1440px)');
+    const apply = (): void => setCollapsed(mq.matches);
+    apply();
+    mq.addEventListener('change', apply);
+    return () => mq.removeEventListener('change', apply);
+  }, []);
+
   // Global keyboard shortcuts
   useEffect(() => {
     const onKey = (e: KeyboardEvent): void => {
-      if (e.key === 'F1') { e.preventDefault(); setSearchOpen(true); }
+      if (e.key === 'F1' || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k')) { e.preventDefault(); setSearchOpen(true); }
       else if (e.key === 'F2') { e.preventDefault(); navigate('/sales'); }
       else if (e.key === 'F3') { e.preventDefault(); navigate('/products?new=1'); }
       else if (e.key === 'F4') { e.preventDefault(); navigate('/customers'); }
@@ -74,19 +89,28 @@ export function Layout({ children, title, sub }: { children: React.ReactNode; ti
     <div className="mq-shell">
       <aside className={`mq-sidebar${collapsed ? ' collapsed' : ''}`}>
         <div className="mq-brand">
-          <div className="mq-brand-mark">M</div>
+          <img className="mq-brand-img" src={logoUrl} alt="MERQO" />
           <div className="mq-brand-text">
             <div className="mq-brand-name">MERQO.</div>
             <div className="mq-brand-sub">Retail Suite</div>
           </div>
         </div>
         <nav className="mq-nav">
-          {visibleNav.map((n) => (
-            <NavLink key={n.to} to={n.to} end={n.end} title={n.label} className={({ isActive }) => `mq-nav-item${isActive ? ' active' : ''}`}>
-              {n.icon}
-              <span>{n.label}</span>
-            </NavLink>
-          ))}
+          {NAV_GROUPS.map((g) => {
+            const items = g.items.filter((n) => n.to !== '/employees' || can('user.manage') || can('audit.view'));
+            if (items.length === 0) return null;
+            return (
+              <div key={g.label}>
+                <div className="mq-nav-group">{g.label}</div>
+                {items.map((n) => (
+                  <NavLink key={n.to} to={n.to} end={n.end} title={n.label} className={({ isActive }) => `mq-nav-item${isActive ? ' active' : ''}`}>
+                    {n.icon}
+                    <span>{n.label}</span>
+                  </NavLink>
+                ))}
+              </div>
+            );
+          })}
         </nav>
         <div className="mq-sidebar-foot">
           <div className="mq-user-chip" title={user?.name}>
@@ -113,7 +137,7 @@ export function Layout({ children, title, sub }: { children: React.ReactNode; ti
             <div className="mq-topbar-sub">{title}{sub ? ` • ${sub}` : ''} • {todayStr}</div>
           </div>
           <div className="mq-topbar-spacer" />
-          <button className="mq-icon-btn" title="খুঁজুন (F1)" onClick={() => setSearchOpen(true)}>
+          <button className="mq-icon-btn" title="খুঁজুন (Ctrl+K)" onClick={() => setSearchOpen(true)}>
             <Search />
           </button>
           <button className="mq-icon-btn" title="নোটিফিকেশন" onClick={() => navigate('/notifications')}>

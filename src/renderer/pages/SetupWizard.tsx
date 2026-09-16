@@ -1,3 +1,4 @@
+import logoUrl from '../../../assets/logo.svg';
 import React, { useState } from 'react';
 import { Store, Banknote, Receipt, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { call } from '../api';
@@ -68,7 +69,7 @@ export function SetupWizard(): React.ReactElement {
     <div className="mq-wizard">
       <div className="mq-wizard-card">
         <div className="mq-wizard-head">
-          <div className="mq-brand-mark" style={{ margin: '0 auto' }}>M</div>
+          <img src={logoUrl} alt="MERQO" style={{ width: 52, height: 52, display: "block", margin: "0 auto" }} />
           <h2 style={{ margin: '10px 0 2px' }}>MERQO Retail Suite সেটআপ</h2>
           <p className="mq-muted" style={{ margin: 0 }}>{STEPS[step].label} — ধাপ {step + 1} / 5</p>
         </div>
