@@ -26,7 +26,18 @@ jobs:
       # Re-target native modules to the Electron ABI *after* node-based
       # verification, then package the installer + portable builds.
       - run: npm run rebuild
-      - run: npx electron-builder --win nsis portable
+      - name: Package (electron-builder)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          npx electron-builder --win nsis portable --log-level verbose 2>&1 | Out-File builder.log -Encoding utf8
+          exit $LASTEXITCODE
+      - name: Upload builder log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: builder-log
+          path: builder.log
 
       - name: Verify artifacts
         shell: pwsh
