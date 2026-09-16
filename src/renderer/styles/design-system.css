@@ -257,11 +257,11 @@ kbd.mq-kbd { font-family: inherit; font-size: 11px; background: var(--mq-surface
 @keyframes mq-slidein { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: none; } }
 
 /* ---------- Empty / loading ---------- */
-.mq-empty { text-align: center; padding: 44px 20px; color: var(--mq-text-2); }
-.mq-empty-icon { width: 56px; height: 56px; border-radius: 16px; background: var(--mq-surface-3); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px; }
-.mq-empty-icon svg { width: 26px; height: 26px; color: var(--mq-text-3); }
-.mq-empty-title { font-size: 14.5px; font-weight: 800; color: var(--mq-text); margin: 0 0 4px; }
-.mq-empty-sub { font-size: 13px; margin: 0 0 14px; }
+.mq-empty { text-align: center; padding: 28px 16px; color: var(--mq-text-2); }
+.mq-empty-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--mq-surface-3); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+.mq-empty-icon svg { width: 21px; height: 21px; color: var(--mq-text-3); }
+.mq-empty-title { font-size: 14px; font-weight: 800; color: var(--mq-text); margin: 0 0 3px; }
+.mq-empty-sub { font-size: 12.5px; margin: 0 0 12px; }
 .mq-spinner { width: 34px; height: 34px; border-radius: 50%; border: 3px solid var(--mq-border); border-top-color: var(--mq-accent); animation: mq-spin 0.8s linear infinite; margin: 30px auto; }
 @keyframes mq-spin { to { transform: rotate(360deg); } }
 .mq-loading-inline { display: flex; align-items: center; gap: 10px; color: var(--mq-text-3); font-size: 13px; padding: 18px; justify-content: center; }
