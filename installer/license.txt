@@ -1,0 +1,15 @@
+MERQO Retail Suite - End User License Notice
+=============================================
+
+Copyright (c) 2026 MERQO. All rights reserved.
+
+This installer delivers the MERQO Retail Suite desktop application.
+The product owner applies the commercial/proprietary license under
+which the software is sold and used. If you received this software
+without a license agreement, contact your vendor before use.
+
+Third-party open-source components bundled with this application
+are listed in THIRD_PARTY_LICENSES.md and remain under their own
+licenses.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.

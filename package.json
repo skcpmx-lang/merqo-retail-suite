@@ -1,0 +1,97 @@
+{
+  "name": "merqo-retail-suite",
+  "productName": "MERQO Retail Suite",
+  "version": "1.0.0",
+  "description": "MERQO Retail Suite — A production-grade Windows desktop business management system for grocery stores, super shops, mini marts, general stores, and modern retail businesses.",
+  "author": "MERQO.",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "dist/main/main.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "concurrently -k \"npm run dev:renderer\" \"npm run dev:main\"",
+    "dev:renderer": "vite --config vite.renderer.config.ts",
+    "dev:main": "tsc -p tsconfig.main.json --watch",
+    "build": "npm run build:renderer && npm run build:main",
+    "build:renderer": "vite build --config vite.renderer.config.ts",
+    "build:main": "tsc -p tsconfig.main.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "electron": "electron .",
+    "start": "npm run build && npm run electron",
+    "dist": "npm run build && electron-builder --win nsis portable",
+    "dist:dir": "npm run build && electron-builder --win --dir",
+    "rebuild": "electron-builder install-app-deps",
+    "lint": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.main.json",
+    "smoke": "node scripts/smoke-build.js",
+    "release:notes": "node scripts/release-notes.js"
+  },
+  "dependencies": {
+    "@fontsource/noto-sans-bengali": "^5.1.0",
+    "exceljs": "^4.4.0",
+    "jsbarcode": "^3.8.0",
+    "lucide-react": "^0.454.0",
+    "qrcode": "^1.5.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.27.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/jsbarcode": "^3.6.2",
+    "@types/node": "^20.16.0",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "better-sqlite3": "^11.6.0",
+    "concurrently": "^9.0.1",
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10",
+    "vitest": "^2.1.5"
+  },
+  "overrides": {},
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "build": {
+    "appId": "com.merqo.retailsuite",
+    "productName": "MERQO Retail Suite",
+    "copyright": "Copyright © 2026 MERQO. All rights reserved.",
+    "asar": true,
+    "directories": {
+      "output": "release",
+      "buildResources": "installer"
+    },
+    "files": [
+      "dist/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "assets/fonts",
+        "to": "assets/fonts"
+      },
+      "installer/license.txt"
+    ],
+    "win": {
+      "icon": "installer/icon.ico",
+      "target": ["nsis", "portable"]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "MERQO Retail Suite",
+      "license": "installer/license.txt",
+      "artifactName": "${productName}-Setup-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "${productName}-Portable-${version}.${ext}"
+    }
+  }
+}
