@@ -57,10 +57,30 @@ beforeAll(() => {
   });
 });
 
-afterAll(() => {
+afterAll(async () => {
   try { db.close(); } catch { /* noop */ }
   try { closeDatabase(); } catch { /* noop */ }
-  fs.rmSync(tmpRoot, { recursive: true, force: true });
+  // Windows holds SQLite file locks briefly after close (WAL checkpoint). Retry deletion.
+  for (let attempt = 0; attempt < 6; attempt++) {
+    try {
+      fs.rmSync(tmpRoot, { recursive: true, force: true });
+      break;
+    } catch (e) {
+      const code = (e as NodeJS.ErrnoException)?.code;
+      if ((code === 'EBUSY' || code === 'EPERM' || code === 'ENOTEMPTY') && attempt < 5) {
+        try { closeDatabase(); } catch { /* noop */ }
+        await new Promise((r) => setTimeout(r, 250 * (attempt + 1)));
+        continue;
+      }
+      // Last attempt: log but don't fail the suite if the OS still holds the dir (Windows temp cleanup)
+      if (attempt === 5) {
+        // eslint-disable-next-line no-console
+        console.warn(`afterAll gate cleanup: ${code} ${tmpRoot} still busy after retries, ignoring`);
+        break;
+      }
+      throw e;
+    }
+  }
 });
 
 describe('error matrix (§13)', () => {

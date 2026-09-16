@@ -31,9 +31,21 @@ beforeAll(() => {
   expect(permissionsFor(db, ctx.businessId, 'owner')).toContain('sale.create');
 });
 
-afterAll(() => {
-  db.close();
-  try { fs.rmSync(path.dirname(tmpFile), { recursive: true, force: true }); } catch { /* noop */ }
+afterAll(async () => {
+  try { db.close(); } catch { /* noop */ }
+  for (let attempt = 0; attempt < 4; attempt++) {
+    try {
+      fs.rmSync(path.dirname(tmpFile), { recursive: true, force: true });
+      break;
+    } catch (e) {
+      const code = (e as NodeJS.ErrnoException)?.code;
+      if ((code === 'EBUSY' || code === 'EPERM' || code === 'ENOTEMPTY') && attempt < 3) {
+        await new Promise((r) => setTimeout(r, 200));
+        continue;
+      }
+      break;
+    }
+  }
 });
 
 function acct(code: string): number {
