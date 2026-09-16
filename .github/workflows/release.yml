@@ -1,12 +1,13 @@
-name: Release (Windows)
+name: release-windows
 
 # Final release gate: clean Windows build -> install -> packaged-exe verification
 # (headless business scenario + GUI screenshots + Bengali PDF) -> uninstall.
 # Artifacts + reports are uploaded for human review before any GitHub Release.
+# Triggered by version tags only (e.g. v1.0.0, v1.0.0-gate.1).
 on:
   push:
-    tags: ['v*']
-  workflow_dispatch:
+    tags:
+      - 'v*'
 
 jobs:
   build-windows:
