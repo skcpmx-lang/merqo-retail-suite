@@ -7,7 +7,7 @@ import {
   ClipboardList, History, CalendarClock, Printer,
 } from 'lucide-react';
 import { Layout } from '../components/Layout';
-import { PageHeader, Modal, EmptyState, Badge, Pagination, Field, Spinner, useDebouncedValue, Confirm } from '../components/ui';
+import { PageHeader, Modal, EmptyState, Badge, Pagination, Field, Spinner, useDebouncedValue, Confirm, FormSection } from '../components/ui';
 import { call, api } from '../api';
 import { useApp, useMoney } from '../store';
 import { formatQty, toMilli, fromMilli } from '@shared/qty';
@@ -242,7 +242,7 @@ function ProductForm({ initial, onClose, onSaved }: { initial: Product | null; o
         <button className="mq-btn primary" onClick={submit} disabled={busy}>{busy ? 'সংরক্ষণ হচ্ছে…' : 'সংরক্ষণ করুন'}</button>
       </>
     )}>
-      <div className="mq-form-grid">
+      <FormSection title="পণ্যের পরিচিতি" icon={<Package />}>
         <Field label="পণ্যের নাম" required><input className="mq-input" value={f.name} onChange={(e) => set('name', e.target.value)} placeholder="যেমন: চিনি (১ কেজি)" autoFocus /></Field>
         <Field label="SKU"><input className="mq-input" value={f.sku} onChange={(e) => set('sku', e.target.value)} placeholder="যেমন: SGR-001" /></Field>
         <Field label="বারকোড" hint="স্ক্যানার দিয়ে স্ক্যান করুন বা তৈরি করুন">
@@ -251,12 +251,8 @@ function ProductForm({ initial, onClose, onSaved }: { initial: Product | null; o
             <button className="mq-btn sm" onClick={genBarcode}>তৈরি</button>
           </div>
         </Field>
-        <Field label="একক">
-          <select className="mq-select" value={f.unit_id} onChange={(e) => set('unit_id', e.target.value)}>
-            <option value="">নির্বাচন করুন</option>
-            {units.map((u) => <option key={u.id} value={u.id}>{u.name}</option>)}
-          </select>
-        </Field>
+      </FormSection>
+      <FormSection title="শ্রেণিবিন্যাস" icon={<Tags />}>
         <Field label="ক্যাটাগরি">
           <select className="mq-select" value={f.category_id} onChange={(e) => set('category_id', e.target.value)}>
             <option value="">নির্বাচন করুন</option>
@@ -269,34 +265,46 @@ function ProductForm({ initial, onClose, onSaved }: { initial: Product | null; o
             {brands.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
           </select>
         </Field>
-        {can('product.view_cost') && (
-          <Field label="ক্রয়মূল্য (৳)" required><input className="mq-input" inputMode="decimal" value={f.purchase_price} onChange={(e) => set('purchase_price', e.target.value)} placeholder="০" /></Field>
-        )}
-        <Field label="বিক্রয়মূল্য (৳)" required><input className="mq-input" inputMode="decimal" value={f.selling_price} onChange={(e) => set('selling_price', e.target.value)} placeholder="০" /></Field>
-        <Field label="পাইকারি মূল্য (৳)"><input className="mq-input" inputMode="decimal" value={f.wholesale_price} onChange={(e) => set('wholesale_price', e.target.value)} placeholder="০" /></Field>
-        <Field label="সর্বনিম্ন বিক্রয়মূল্য (৳)"><input className="mq-input" inputMode="decimal" value={f.min_selling_price} onChange={(e) => set('min_selling_price', e.target.value)} placeholder="০" /></Field>
-        <Field label="সর্বনিম্ন স্টক"><input className="mq-input" inputMode="decimal" value={f.min_stock} onChange={(e) => set('min_stock', e.target.value)} placeholder="০" /></Field>
-        <Field label="সর্বোচ্চ স্টক"><input className="mq-input" inputMode="decimal" value={f.max_stock} onChange={(e) => set('max_stock', e.target.value)} placeholder="০" /></Field>
-        <Field label="সরবরাহকারী">
-          <select className="mq-select" value={f.supplier_id} onChange={(e) => set('supplier_id', e.target.value)}>
+        <Field label="একক">
+          <select className="mq-select" value={f.unit_id} onChange={(e) => set('unit_id', e.target.value)}>
             <option value="">নির্বাচন করুন</option>
-            {suppliers.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+            {units.map((u) => <option key={u.id} value={u.id}>{u.name}</option>)}
           </select>
         </Field>
-        <Field label="ভ্যাট % (পণ্য-ভিত্তিক)"><input className="mq-input" inputMode="decimal" value={f.tax_bp} onChange={(e) => set('tax_bp', e.target.value)} placeholder="০" /></Field>
-        {!initial && <Field label="প্রারম্ভিক স্টক"><input className="mq-input" inputMode="decimal" value={f.opening_stock} onChange={(e) => set('opening_stock', e.target.value)} placeholder="০" /></Field>}
         <Field label="অবস্থা">
           <select className="mq-select" value={f.status} onChange={(e) => set('status', e.target.value)}>
             <option value="active">সক্রিয়</option>
             <option value="inactive">নিষ্ক্রিয়</option>
           </select>
         </Field>
-        <Field label="মন্তব্য"><input className="mq-input" value={f.notes} onChange={(e) => set('notes', e.target.value)} placeholder="ঐচ্ছিক" /></Field>
+      </FormSection>
+      <FormSection title="মূল্য" icon={<ClipboardList />}>
+        {can('product.view_cost') && (
+          <Field label="ক্রয়মূল্য (৳)" required><input className="mq-input" inputMode="decimal" value={f.purchase_price} onChange={(e) => set('purchase_price', e.target.value)} placeholder="০" /></Field>
+        )}
+        <Field label="বিক্রয়মূল্য (৳)" required><input className="mq-input" inputMode="decimal" value={f.selling_price} onChange={(e) => set('selling_price', e.target.value)} placeholder="০" /></Field>
+        <Field label="পাইকারি মূল্য (৳)"><input className="mq-input" inputMode="decimal" value={f.wholesale_price} onChange={(e) => set('wholesale_price', e.target.value)} placeholder="০" /></Field>
+        <Field label="সর্বনিম্ন বিক্রয়মূল্য (৳)"><input className="mq-input" inputMode="decimal" value={f.min_selling_price} onChange={(e) => set('min_selling_price', e.target.value)} placeholder="০" /></Field>
+        <Field label="ভ্যাট % (পণ্য-ভিত্তিক)"><input className="mq-input" inputMode="decimal" value={f.tax_bp} onChange={(e) => set('tax_bp', e.target.value)} placeholder="০" /></Field>
+      </FormSection>
+      <FormSection title="ইনভেন্টরি" icon={<Layers />}>
+        {!initial && <Field label="প্রারম্ভিক স্টক"><input className="mq-input" inputMode="decimal" value={f.opening_stock} onChange={(e) => set('opening_stock', e.target.value)} placeholder="০" /></Field>}
+        <Field label="সর্বনিম্ন স্টক"><input className="mq-input" inputMode="decimal" value={f.min_stock} onChange={(e) => set('min_stock', e.target.value)} placeholder="০" /></Field>
+        <Field label="সর্বোচ্চ স্টক"><input className="mq-input" inputMode="decimal" value={f.max_stock} onChange={(e) => set('max_stock', e.target.value)} placeholder="০" /></Field>
         <div className="mq-flex" style={{ gap: 18, gridColumn: '1 / -1' }}>
           <label className="mq-check"><input type="checkbox" checked={f.batch_tracked} onChange={(e) => set('batch_tracked', e.target.checked)} /> ব্যাচ ট্র্যাকিং</label>
           <label className="mq-check"><input type="checkbox" checked={f.expiry_tracked} onChange={(e) => set('expiry_tracked', e.target.checked)} /> মেয়াদ ট্র্যাকিং</label>
         </div>
-      </div>
+      </FormSection>
+      <FormSection title="সরবরাহকারী ও নোট" icon={<History />}>
+        <Field label="সরবরাহকারী">
+          <select className="mq-select" value={f.supplier_id} onChange={(e) => set('supplier_id', e.target.value)}>
+            <option value="">নির্বাচন করুন</option>
+            {suppliers.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+          </select>
+        </Field>
+        <Field label="মন্তব্য"><input className="mq-input" value={f.notes} onChange={(e) => set('notes', e.target.value)} placeholder="ঐচ্ছিক" /></Field>
+      </FormSection>
       {error && <div className="mq-alert error mq-mt">{error}</div>}
     </Modal>
   );

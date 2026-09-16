@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Plus, Search, Eye, Trash2, X, FileText, Printer, Ban, RotateCcw, ShoppingBag, Undo2, CheckCircle2 } from 'lucide-react';
 import { Layout } from '../components/Layout';
-import { PageHeader, Modal, EmptyState, Badge, Pagination, Field, Spinner, useDebouncedValue, paymentBadge } from '../components/ui';
+import { PageHeader, Modal, EmptyState, Badge, Pagination, Field, Spinner, useDebouncedValue, paymentBadge , PayMethodGrid} from '../components/ui';
 import { useDateRange } from '../components/DateRange';
 import { call, api } from '../api';
 import { useApp, useMoney } from '../store';
@@ -188,16 +188,7 @@ function NewPurchase({ onDone }: { onDone: () => void }): React.ReactElement {
           <Field label="ছাড় (৳)"><input className="mq-input" inputMode="decimal" value={invDiscount} onChange={(e) => setInvDiscount(e.target.value)} placeholder="০" /></Field>
           <div className="row grand"><span>সর্বমোট</span><span>{fmt(totals.total)}</span></div>
           <Field label="পরিশোধ (৳)"><input className="mq-input" inputMode="decimal" value={paid} onChange={(e) => setPaid(e.target.value)} placeholder="০" /></Field>
-          <div className="mq-paygrid">
-            {(Object.keys(PAYMENT_METHOD_BN) as PaymentMethod[]).map((m) => (
-              <button key={m} className={`mq-paybtn${payMethod === m ? ' active' : ''}`} onClick={() => {
-                setPayMethod(m);
-                const map: Record<string, string> = { cash: 'CASH', bank: 'BANK', bkash: 'BKASH', nagad: 'NAGAD', rocket: 'ROCKET', upay: 'UPAY', card: 'CARD', other: 'OTHER' };
-                const a = accounts.find((x) => x.code === map[m]);
-                if (a) setPayAccountId(a.id);
-              }}>{PAYMENT_METHOD_BN[m]}</button>
-            ))}
-          </div>
+          <PayMethodGrid value={payMethod} onChange={setPayMethod} accounts={accounts} onAutoAccount={setPayAccountId} />
           <Field label="হিসাব">
             <select className="mq-select" value={payAccountId ?? ''} onChange={(e) => setPayAccountId(Number(e.target.value))}>
               {accounts.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}

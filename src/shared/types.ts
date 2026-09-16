@@ -73,14 +73,14 @@ export interface Customer {
   id: number; name: string; phone: string | null; address: string | null;
   email: string | null; opening_due: number; notes: string | null;
   status: 'active' | 'inactive'; created_at: string;
-  current_due?: number; total_purchases?: number; total_payments?: number;
+  current_due?: number; total_purchases?: number; total_payments?: number; last_activity_at?: string | null;
 }
 
 export interface Supplier {
   id: number; name: string; phone: string | null; address: string | null;
   email: string | null; opening_payable: number; notes: string | null;
   status: 'active' | 'inactive'; created_at: string;
-  current_payable?: number; total_purchases?: number; total_payments?: number;
+  current_payable?: number; total_purchases?: number; total_payments?: number; last_activity_at?: string | null;
 }
 
 export interface FinancialAccount {

@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Inbox, X } from 'lucide-react';
+import { Inbox, X, Banknote, Landmark, Smartphone, CreditCard, Wallet } from 'lucide-react';
+import { PAYMENT_METHOD_BN, type PaymentMethod } from '@shared/constants';
+import type { FinancialAccount } from '@shared/types';
 
 /* ---------- Modal ---------- */
 export function Modal({ title, sub, onClose, children, footer, size }: {
@@ -148,4 +150,55 @@ export function useOnMount(fn: () => void): void {
     fn();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+}
+
+/* ---------- Payment method grid (compact, brand-tinted) ---------- */
+export const METHOD_ACCOUNT_CODE: Record<PaymentMethod, string> = { cash: 'CASH', bank: 'BANK', bkash: 'BKASH', nagad: 'NAGAD', rocket: 'ROCKET', upay: 'UPAY', card: 'CARD', other: 'OTHER' };
+const METHOD_ICON: Record<PaymentMethod, React.ReactNode> = {
+  cash: <Banknote />, bank: <Landmark />, bkash: <Smartphone />, nagad: <Smartphone />,
+  rocket: <Smartphone />, upay: <Smartphone />, card: <CreditCard />, other: <Wallet />,
+};
+export function PayMethodGrid({ value, onChange, accounts, onAutoAccount }: {
+  value: PaymentMethod; onChange: (m: PaymentMethod) => void;
+  accounts?: FinancialAccount[]; onAutoAccount?: (accountId: number) => void;
+}): React.ReactElement {
+  return (
+    <div className="mq-paygrid">
+      {(Object.keys(PAYMENT_METHOD_BN) as PaymentMethod[]).map((m) => (
+        <button key={m} type="button" data-m={m} className={`mq-paybtn${value === m ? ' active' : ''}`} onClick={() => {
+          onChange(m);
+          const a = accounts?.find((x) => x.code === METHOD_ACCOUNT_CODE[m]);
+          if (a && onAutoAccount) onAutoAccount(a.id);
+        }}>{METHOD_ICON[m]}<span>{PAYMENT_METHOD_BN[m]}</span></button>
+      ))}
+    </div>
+  );
+}
+
+/* ---------- Grouped form section ---------- */
+export function FormSection({ title, icon, children, cols }: {
+  title: string; icon?: React.ReactNode; children: React.ReactNode; cols?: 2 | 3 | 4;
+}): React.ReactElement {
+  return (
+    <div className="mq-formsec">
+      <div className="mq-formsec-title">{icon}{title}</div>
+      <div className={`mq-form-grid${cols ? ' cols-' + cols : ''}`}>{children}</div>
+    </div>
+  );
+}
+
+/* ---------- Table loading skeleton ---------- */
+export function TableSkeleton({ rows = 6 }: { rows?: number }): React.ReactElement {
+  return (
+    <div className="mq-table-wrap mq-skel-table" aria-busy="true">
+      {Array.from({ length: rows }).map((_, i) => (
+        <div className="mq-skel-row" key={i}>
+          <div className="mq-skel" style={{ maxWidth: 150 }} />
+          <div className="mq-skel" />
+          <div className="mq-skel" style={{ maxWidth: 100 }} />
+          <div className="mq-skel" style={{ maxWidth: 70 }} />
+        </div>
+      ))}
+    </div>
+  );
 }

@@ -1,3 +1,4 @@
+import logoUrl from '../../../assets/logo.svg';
 import React, { useState } from 'react';
 import { Zap, ShieldCheck, Receipt, BarChart3, LogIn } from 'lucide-react';
 import { useApp } from '../store';
@@ -33,7 +34,7 @@ export function Login(): React.ReactElement {
   return (
     <div className="mq-login">
       <div className="mq-login-left">
-        <div className="mq-brand-mark" style={{ width: 52, height: 52, fontSize: 28 }}>M</div>
+        <img src={logoUrl} alt="MERQO" style={{ width: 56, height: 56, display: "block", margin: "0 auto" }} />
         <h1>MERQO.</h1>
         <p>আপনার দোকানের সম্পূর্ণ হিসাব — বিক্রয়, স্টক, বকেয়া, খরচ ও লাভ — এখন একটি অ্যাপেই। সম্পূর্ণ অফলাইনে, নিরাপদে।</p>
         <div className="mq-login-feats">

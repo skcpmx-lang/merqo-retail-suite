@@ -134,13 +134,15 @@ export const DEFAULT_ROLE_PERMISSIONS: Record<Role, PermissionKey[]> = {
 
 export type PaymentMethod = 'cash' | 'bank' | 'bkash' | 'nagad' | 'rocket' | 'upay' | 'card' | 'other';
 
+/** Professional, unambiguous payment terminology.
+ *  Physical cash and the Nagad MFS service must NEVER share a label. */
 export const PAYMENT_METHOD_BN: Record<PaymentMethod, string> = {
-  cash: 'নগদ',
+  cash: 'নগদ ক্যাশ',
   bank: 'ব্যাংক',
-  bkash: 'বিকাশ',
-  nagad: 'নগদ',
-  rocket: 'রকেট',
-  upay: 'উপায়',
+  bkash: 'bKash',
+  nagad: 'Nagad MFS',
+  rocket: 'Rocket MFS',
+  upay: 'Upay MFS',
   card: 'কার্ড',
   other: 'অন্যান্য',
 };

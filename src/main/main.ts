@@ -196,20 +196,12 @@ if (!gotLock) {
   });
 }
 
-app.whenReady().then(() => {
-  if (isSmokeMode) return; // smoke harness owns startup sequencing
-  try {
-    getPaths();
-  } catch (e) {
-    logger.error('startup', 'paths init failed', String(e));
-  }
-  try {
-    openDatabase();
-    logger.info('startup', 'database opened');
-  } catch (e) {
-    logger.error('startup', 'database open failed', String(e));
-  }
-  // Block all remote content — offline-first, no CDN at runtime.
+// Offline-first request filter: block ALL remote content; only the app's own
+// files (and data: URLs for print/preview) may load. Registered for smoke
+// modes too so packaged smoke runs exercise the exact production filter
+// (previously smoke skipped it, which is why the Windows file-URL path bug
+// shipped green).
+function installLocalOnlyRequestFilter(): void {
   session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
     const url = details.url;
     if (url.startsWith('data:') || url.startsWith('devtools://') || url.startsWith('chrome-extension://')) {
@@ -232,7 +224,22 @@ app.whenReady().then(() => {
       callback({});
     }
   });
+}
 
+app.whenReady().then(() => {
+  installLocalOnlyRequestFilter();
+  if (isSmokeMode) return; // smoke harness owns startup sequencing
+  try {
+    getPaths();
+  } catch (e) {
+    logger.error('startup', 'paths init failed', String(e));
+  }
+  try {
+    openDatabase();
+    logger.info('startup', 'database opened');
+  } catch (e) {
+    logger.error('startup', 'database open failed', String(e));
+  }
   registerIpc();
   registerPrintIpc();
   createMainWindow();

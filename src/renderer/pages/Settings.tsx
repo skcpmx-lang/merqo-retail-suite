@@ -1,3 +1,4 @@
+import logoUrl from '../../../assets/logo.svg';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   Store, Receipt, Printer as PrinterIcon, ShoppingCart, Boxes, Percent, ShieldCheck,
@@ -98,10 +99,20 @@ function BusinessSection(): React.ReactElement {
   const { can, fail, notify } = useApp();
   const { biz, reload } = useBusiness();
   const [f, setF] = useState({ name: '', owner_name: '', phone: '', email: '', address: '', business_type: '' });
+  const [logo, setLogo] = useState<string | null>(null);
+  const onLogoFile = (file: File | null): void => {
+    if (!file) return;
+    if (!/^image\/(png|jpeg|webp|svg\+xml)$/.test(file.type)) { notify('error', 'PNG/JPG/WebP/SVG ছবির ফাইল দিন।'); return; }
+    if (file.size > 300 * 1024) { notify('error', 'লোগোর আকার খুব বড়। সর্বোচ্চ ৩০০ কেবি।'); return; }
+    const r = new FileReader();
+    r.onload = () => setLogo(typeof r.result === 'string' ? r.result : null);
+    r.readAsDataURL(file);
+  };
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     if (biz) setF({ name: biz.name, owner_name: biz.owner_name || '', phone: biz.phone || '', email: biz.email || '', address: biz.address || '', business_type: biz.business_type || '' });
+    if (biz) setLogo(biz.logo_path || null);
   }, [biz]);
 
   if (!biz) return <Spinner />;
@@ -110,7 +121,7 @@ function BusinessSection(): React.ReactElement {
     if (!f.name.trim()) { notify('error', 'ব্যবসার নাম আবশ্যক।'); return; }
     setBusy(true);
     try {
-      await call('business.update', { input: { name: f.name.trim(), owner_name: f.owner_name.trim() || null, phone: f.phone.trim() || null, email: f.email.trim() || null, address: f.address.trim() || null, business_type: f.business_type || null } });
+      await call('business.update', { input: { name: f.name.trim(), owner_name: f.owner_name.trim() || null, phone: f.phone.trim() || null, email: f.email.trim() || null, address: f.address.trim() || null, business_type: f.business_type || null, logo } });
       notify('success', 'তথ্য সংরক্ষণ করা হয়েছে।');
       reload();
     } catch (e) { fail(e); }
@@ -128,6 +139,18 @@ function BusinessSection(): React.ReactElement {
         <Field label="ইমেইল"><input className="mq-input" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} /></Field>
         <Field label="ঠিকানা"><input className="mq-input" value={f.address} onChange={(e) => setF({ ...f, address: e.target.value })} /></Field>
         <Field label="ব্যবসার ধরন"><input className="mq-input" value={f.business_type} onChange={(e) => setF({ ...f, business_type: e.target.value })} /></Field>
+      </div>
+      <div className="mq-mt" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ width: 56, height: 56, border: '1px solid #d5dce6', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', background: '#fff' }}>
+          {logo ? <img src={logo} alt="ব্যবসার লোগো" style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center' }} /> : <span style={{ fontSize: 11, color: '#667' }}>লোগো নেই</span>}
+        </div>
+        <div>
+          <label className="mq-btn" style={{ cursor: 'pointer' }}>লোগো আপলোড
+            <input type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" style={{ display: 'none' }} onChange={(e) => { onLogoFile(e.target.files?.[0] ?? null); e.currentTarget.value = ''; }} />
+          </label>{' '}
+          {logo && <button className="mq-btn" onClick={() => setLogo(null)}>লোগো মুছুন</button>}
+          <p className="mq-card-sub" style={{ margin: '6px 0 0' }}>ইনভয়েস ও রসিদের হেডারে দেখাবে — PNG/JPG/WebP/SVG, সর্বোচ্চ ৩০০ কেবি</p>
+        </div>
       </div>
       {can('settings.edit') && <button className="mq-btn primary mq-mt" onClick={save} disabled={busy}>{busy ? 'সংরক্ষণ হচ্ছে…' : 'সংরক্ষণ করুন'}</button>}
     </div>
@@ -688,7 +711,7 @@ function SystemSection(): React.ReactElement {
       </div>
       <hr className="mq-divider" />
       <div className="mq-empty" style={{ padding: '20px' }}>
-        <div className="mq-brand-mark" style={{ margin: '0 auto' }}>M</div>
+        <img src={logoUrl} alt="MERQO" style={{ width: 48, height: 48, display: "block", margin: "0 auto" }} />
         <p className="mq-empty-title" style={{ marginTop: 10 }}>MERQO Retail Suite</p>
         <p className="mq-empty-sub">সংস্করণ 1.0.0 • © ২০২৬ MERQO. সর্বস্বত্ব সংরক্ষিত।<br />অফলাইন-ফার্স্ট • বাংলা • লাইট মোড</p>
         <button className="mq-btn sm ghost" onClick={() => notify('success', 'MERQO Retail Suite v1.0.0 — প্রোডাকশন বিল্ড')}>বিল্ড তথ্য</button>

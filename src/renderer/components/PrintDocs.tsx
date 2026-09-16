@@ -55,8 +55,8 @@ td{font-size:13px;padding:8px;border:1px solid #d5dce6;}
 `;
     const rows = items.map((it, i) => `<tr><td class="center">${i + 1}</td><td>${esc(it.product_name)}</td><td class="right num">${formatQty(it.qty_milli)} ${esc(it.unit_name || '')}</td><td class="right num">${m(it.unit_price)}</td><td class="right num">${m(it.discount)}</td><td class="right num">${m(it.line_total)}</td></tr>`).join('');
     const body = `
-<div class="hd"><div><div class="brand">${esc(biz.name)} <small>MERQO.</small></div>
-<div class="meta">${esc(biz.address || '')}<br>ফোন: ${esc(biz.phone || '—')}${biz.email ? ' • ' + esc(biz.email) : ''}</div></div>
+<div class="hd"><div style="display:flex;align-items:flex-start;gap:14px">${/^data:image\//.test(String(biz.logo_path || '')) ? `<img src="${esc(biz.logo_path)}" alt="" style="width:64px;height:64px;object-fit:contain;object-position:center;border-radius:10px" />` : ''}<div><div class="brand">${esc(biz.name)}</div>
+<div class="meta">${esc(biz.address || '')}<br>ফোন: ${esc(biz.phone || '—')}${biz.email ? ' • ' + esc(biz.email) : ''}</div></div></div>
 <div class="right meta"><strong>ইনভয়েস:</strong> ${esc(sale.invoice_no)}<br><strong>তারিখ:</strong> ${esc(dt)}<br><strong>কাস্টমার:</strong> ${esc((sale.customer_name as string) || 'ওয়াক-ইন')}<br><strong>বিক্রেতা:</strong> ${esc((sale.employee_name as string) || '—')}</div></div>
 <div class="inv-title">বিক্রয় ইনভয়েস</div>
 <table><thead><tr><th style="width:40px">ক্র.</th><th>পণ্য</th><th class="right">পরিমাণ</th><th class="right">দর</th><th class="right">ছাড়</th><th class="right">মোট</th></tr></thead><tbody>${rows}</tbody></table>
