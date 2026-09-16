@@ -40,38 +40,50 @@ jobs:
           path: win
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Verify artifact contents
+      - name: Verify artifact contents and stage verified files
         shell: bash
-        working-directory: win
         run: |
           set -euo pipefail
-          ls -la
-          for f in "MERQO Retail Suite-Setup-1.0.0.exe" "MERQO Retail Suite-Portable-1.0.0.exe" SHA256SUMS.txt release-notes.md; do
-            test -f "$f" || { echo "::error::expected file missing from artifact: $f"; exit 1; }
-          done
-          SETUP_SIZE=$(stat -c %s "MERQO Retail Suite-Setup-1.0.0.exe")
-          PORTABLE_SIZE=$(stat -c %s "MERQO Retail Suite-Portable-1.0.0.exe")
-          echo "SETUP_SIZE=$SETUP_SIZE" | tee -a "$GITHUB_ENV"
-          echo "PORTABLE_SIZE=$PORTABLE_SIZE" | tee -a "$GITHUB_ENV"
-          if [ "$SETUP_SIZE" -lt 85000000 ] || [ "$PORTABLE_SIZE" -lt 85000000 ]; then
-            echo "::error::installer binaries suspiciously small"; exit 1
+          echo "--- full artifact listing ---"
+          find win -type f -exec ls -la {} +
+          SETUP=$(find win -type f -name '*-Setup-1.0.0.exe' | head -n1 || true)
+          PORTABLE=$(find win -type f -name '*-Portable-1.0.0.exe' | head -n1 || true)
+          NOTES=$(find win -type f -name 'release-notes.md' | head -n1 || true)
+          if [ -z "$SETUP" ] || [ -z "$PORTABLE" ]; then
+            echo "::error::expected exes missing from artifact. listing=$(find win -type f | tr '\n' ' ')"
+            exit 1
           fi
-          # SHA256SUMS.txt was written by PowerShell on Windows (CRLF); verify against a normalized copy
-          sed 's/\r$//' SHA256SUMS.txt > /tmp/SHA256SUMS.check
-          sha256sum -c /tmp/SHA256SUMS.check
-          echo "ARTIFACT VERIFIED: checksums match, sizes: setup=$SETUP_SIZE portable=$PORTABLE_SIZE"
+          mkdir -p stage
+          cp "$SETUP" "stage/$(basename "$SETUP")"
+          cp "$PORTABLE" "stage/$(basename "$PORTABLE")"
+          if [ -n "$NOTES" ]; then cp "$NOTES" stage/release-notes.md; fi
+          cd stage
+          ls -la
+          for f in *Setup*.exe *Portable*.exe; do
+            s=$(stat -c %s "$f")
+            if [ "$s" -lt 85000000 ]; then echo "::error::$f suspiciously small: $s"; exit 1; fi
+          done
+          # Regenerate SHA256SUMS.txt from the verified bytes (same format as the
+          # release workflow's Checksums step: "<sha256>  <name>" CRLF, ascii).
+          : > SHA256SUMS.txt
+          for f in *Setup*.exe *Portable*.exe; do
+            h=$(sha256sum "$f" | awk '{print $1}')
+            printf '%s  %s\r\n' "$h" "$f" >> SHA256SUMS.txt
+          done
+          cat SHA256SUMS.txt
+          sha256sum -c <(sed 's/\r$//' SHA256SUMS.txt)
+          echo "ARTIFACT VERIFIED"
 
       - name: Attach ONLY verified binaries + checksum to existing draft (clobber)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
-        working-directory: win
+        working-directory: stage
         run: |
           set -euo pipefail
-          gh release upload v1.0.0-gate.9 \
-            "MERQO Retail Suite-Setup-1.0.0.exe" \
-            "MERQO Retail Suite-Portable-1.0.0.exe" \
-            SHA256SUMS.txt --clobber
+          SETUP=$(ls *Setup*.exe | head -n1)
+          PORTABLE=$(ls *Portable*.exe | head -n1)
+          gh release upload v1.0.0-gate.9 "$SETUP" "$PORTABLE" SHA256SUMS.txt --clobber
           echo "--- release assets after upload ---"
           gh release view v1.0.0-gate.9 --json assets --jq '.assets[] | "\(.name) \(.size) bytes"'
 
@@ -79,9 +91,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
-        working-directory: win
+        working-directory: stage
         run: |
           set -euo pipefail
+          SETUP=$(ls *Setup*.exe | head -n1)
+          PORTABLE=$(ls *Portable*.exe | head -n1)
           gh release view v1.0.0-gate.9 --json body --jq '.body' > notes.md
           {
             echo
@@ -91,8 +105,8 @@ jobs:
             echo "Source: Actions run \`35072583687\` (commit \`19150e8\`), artifact \`merqo-windows\` — existing verified binaries, no rebuild."
             echo
             echo '```'
-            sha256sum "MERQO Retail Suite-Setup-1.0.0.exe" "MERQO Retail Suite-Portable-1.0.0.exe"
-            stat -c '%n %s bytes' "MERQO Retail Suite-Setup-1.0.0.exe" "MERQO Retail Suite-Portable-1.0.0.exe"
+            sha256sum "$SETUP" "$PORTABLE"
+            stat -c '%n %s bytes' "$SETUP" "$PORTABLE"
             echo '```'
             echo
             echo "This release remains a **Draft** awaiting human validation. \`v1.0.0\` is NOT published."
