@@ -1,20 +1,23 @@
 name: asset-recovery
 
-# One-shot FINAL RELEASE ASSET RECOVERY utility.
+# One-shot FINAL RELEASE ASSET RECOVERY utility (gate.10).
 #
-# Attaches the EXISTING verified binaries from Actions run 35072583687
-# (artifact `merqo-windows`, built from verified commit 19150e8) to the
-# EXISTING draft release v1.0.0-gate.9.
+# Attaches/verifies the EXISTING verified binaries from Actions run 35079858779
+# (artifact `merqo-windows`, built from verified commit 9b5513e) on the EXACT
+# current release object for tag v1.0.0-gate.10 (resolved by release ID via the
+# GitHub API — not by tag string alone).
 #
 # This workflow does NOT:
-#   - rebuild anything (it downloads the existing artifact by run id)
+#   - rebuild anything (downloads the existing artifact by run id)
 #   - modify application code
-#   - delete or recreate any tag
-#   - publish v1.0.0 (both releases stay Draft)
+#   - create or delete any tag/release
+#   - publish anything (draft state is managed outside this workflow)
+#   - delete any release asset (uploads ONLY when an expected asset is missing
+#     or size-mismatched, using the exact release ID)
 #
-# It exists because the operator sandbox's network egress blocks GitHub's
-# blob storage (artifacts/release assets), so byte-level verification and
-# `gh release upload` must run on GitHub-hosted runners instead.
+# It exists because the operator sandbox's network egress blocks GitHub blob
+# storage (artifact/asset bytes), so byte-level verification must run on
+# GitHub-hosted runners.
 
 on:
   workflow_dispatch:
@@ -28,30 +31,33 @@ permissions:
   contents: write
   actions: read
 
+env:
+  SOURCE_RUN_ID: '35079858779'
+  RELEASE_TAG: v1.0.0-gate.10
+
 jobs:
   attach-verified-assets:
     runs-on: ubuntu-latest
     steps:
-      # Needed only so `gh` can resolve the repository; no build is performed.
+      # Needed only so `gh` can resolve the repository.
       - uses: actions/checkout@v4
 
-      - name: Download EXISTING artifact from run 35072583687 (no rebuild)
+      - name: Download EXISTING artifact (no rebuild)
         uses: actions/download-artifact@v4
         with:
-          run-id: 35072583687
+          run-id: 35079858779
           name: merqo-windows
           path: win
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Verify artifact contents and stage verified files
+      - name: Verify artifact contents and compute SHA256
         shell: bash
         run: |
           set -euo pipefail
           echo "--- full artifact listing ---"
           find win -type f -exec ls -la {} +
-          SETUP=$(find win -type f -name '*-Setup-1.0.0.exe' | head -n1 || true)
-          PORTABLE=$(find win -type f -name '*-Portable-1.0.0.exe' | head -n1 || true)
-          NOTES=$(find win -type f -name 'release-notes.md' | head -n1 || true)
+          SETUP=$(find win -type f -name '*-Setup-1.0.0.exe' | head -n1)
+          PORTABLE=$(find win -type f -name '*-Portable-1.0.0.exe' | head -n1)
           if [ -z "$SETUP" ] || [ -z "$PORTABLE" ]; then
             echo "::error::expected exes missing from artifact. listing=$(find win -type f | tr '\n' ' ')"
             exit 1
@@ -59,6 +65,7 @@ jobs:
           mkdir -p stage
           cp "$SETUP" "stage/$(basename "$SETUP")"
           cp "$PORTABLE" "stage/$(basename "$PORTABLE")"
+          NOTES=$(find win -type f -name 'release-notes.md' | head -n1 || true)
           if [ -n "$NOTES" ]; then cp "$NOTES" stage/release-notes.md; fi
           cd stage
           ls -la
@@ -77,48 +84,67 @@ jobs:
           sha256sum -c <(sed 's/\r$//' SHA256SUMS.txt)
           echo "ARTIFACT VERIFIED"
 
-      - name: Attach ONLY verified binaries + checksum to existing draft (clobber)
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        shell: bash
-        working-directory: stage
-        run: |
-          set -uo pipefail
-          ls -la
-          SETUP=$(ls *Setup*.exe | head -n1)
-          PORTABLE=$(ls *Portable*.exe | head -n1)
-          echo "uploading: [$SETUP] [$PORTABLE] [SHA256SUMS.txt]"
-          if ! OUT=$(gh release upload v1.0.0-gate.9 "$SETUP" "$PORTABLE" SHA256SUMS.txt --clobber 2>&1); then
-            echo "::error::gh release upload failed: $(echo "$OUT" | tr '\n' ' ')"
-            exit 1
-          fi
-          echo "$OUT"
-          echo "--- release assets after upload ---"
-          gh release view v1.0.0-gate.9 --json assets --jq '.assets[] | "\(.name) \(.size) bytes"'
-
-      - name: Record verification in draft release notes
+      - name: Resolve CURRENT release ID and attach to THAT exact object
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
         working-directory: stage
         run: |
           set -euo pipefail
+          REPO=skcpmx-lang/merqo-retail-suite
+          REL_ID=$(gh api "repos/$REPO/releases" --paginate --jq "first(.[] | select(.tag_name==\"$RELEASE_TAG\") | .id)")
+          if [ -z "$REL_ID" ] || [ "$REL_ID" = "null" ]; then
+            echo "::error::no release object found for $RELEASE_TAG"
+            exit 1
+          fi
+          echo "CURRENT RELEASE ID: $REL_ID"
+          echo "REL_ID=$REL_ID" >> "$GITHUB_ENV"
+          for f in *Setup*.exe *Portable*.exe SHA256SUMS.txt; do
+            size=$(stat -c %s "$f")
+            existing=$(gh api "repos/$REPO/releases/$REL_ID/assets" --jq "first(.[] | select(.name==\"${f// /.}\") | .size) // empty")
+            if [ -n "$existing" ] && [ "$existing" = "$size" ]; then
+              echo "present+size-match on release $REL_ID: $f ($size bytes) — no upload needed"
+            else
+              echo "uploading to release ID $REL_ID: $f ($size bytes)"
+              gh api -X POST "repos/$REPO/releases/$REL_ID/assets?name=$(python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1]))" "$f")" \
+                -H "Content-Type: application/octet-stream" --input "$f" --jq '.id' || {
+                  echo "::error::ID-targeted upload failed for $f"; exit 1; }
+            fi
+          done
+
+      - name: Record SHA256 verification in release notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        working-directory: stage
+        run: |
+          set -euo pipefail
+          REPO=skcpmx-lang/merqo-retail-suite
           SETUP=$(ls *Setup*.exe | head -n1)
           PORTABLE=$(ls *Portable*.exe | head -n1)
-          gh release view v1.0.0-gate.9 --json body --jq '.body' > notes.md
+          gh api "repos/$REPO/releases/$REL_ID" --jq '.body' > notes.md
           {
             echo
             echo "---"
             echo "**Asset recovery verified — $(date -u +%Y-%m-%dT%H:%M:%SZ)**"
             echo
-            echo "Source: Actions run \`35072583687\` (commit \`19150e8\`), artifact \`merqo-windows\` — existing verified binaries, no rebuild."
+            echo "Source: Actions run \`35079858779\` (commit \`9b5513e\`), artifact \`merqo-windows\` — existing verified binaries, no rebuild. Attached to release ID \`$REL_ID\`."
             echo
             echo '```'
             sha256sum "$SETUP" "$PORTABLE"
             stat -c '%n %s bytes' "$SETUP" "$PORTABLE"
             echo '```'
-            echo
-            echo "This release remains a **Draft** awaiting human validation. \`v1.0.0\` is NOT published."
           } >> notes.md
-          gh release edit v1.0.0-gate.9 --notes-file notes.md
-          echo "Notes updated."
+          gh api -X PATCH "repos/$REPO/releases/$REL_ID" -F "body=$(cat notes.md)" --jq '.id'
+
+      - name: Final verification from runner
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          REPO=skcpmx-lang/merqo-retail-suite
+          echo "--- by release ID ---"
+          gh api "repos/$REPO/releases/$REL_ID" --jq '{id:.id,tag:.tag_name,draft:.draft,assets:[.assets[]|{name:.name,size:.size,state:.state}]}'
+          echo "--- by tag (drafts are not tag-bound; 404 expected while draft) ---"
+          gh api "repos/$REPO/releases/tags/$RELEASE_TAG" --jq '{id:.id,assets:(.assets|length)}' || echo "(404 as expected for draft)"
