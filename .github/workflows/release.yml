@@ -42,6 +42,20 @@ jobs:
           name: builder-log
           path: builder.log
 
+      - name: Surface builder errors
+        if: failure()
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          if (Test-Path builder.log) {
+            Get-Content builder.log -Tail 30 | ForEach-Object {
+              $m = ($_ -replace '%', '%25' -replace "`r", '%0D' -replace "`n", '%0A').Trim()
+              if ($m) { Write-Host "::error::$m" }
+            }
+          } else {
+            Write-Host '::error::builder.log missing'
+          }
+
       - name: Verify artifacts
         shell: pwsh
         run: |
@@ -142,10 +156,15 @@ jobs:
           New-Item -ItemType Directory -Force -Path evidence | Out-Null
           if (Test-Path builder.log) { Copy-Item builder.log evidence/builder.log }
           if ($env:SMOKE_OUT -and (Test-Path $env:SMOKE_OUT)) { Copy-Item "$env:SMOKE_OUT/*" evidence/ -Recurse }
-          git add -f evidence/builder.log evidence/*.json evidence/*.png evidence/*.pdf 2>$null
+          git add -f evidence/
           if (git status --porcelain) {
             git commit -m "evidence for ${{ github.ref_name }} run ${{ github.run_id }}"
-            git push -f origin $branch
+            try {
+              git push -f origin $branch 2>&1 | Out-String | Write-Host
+              if ($LASTEXITCODE -ne 0) { Write-Host '::error::evidence push failed (see above)' }
+            } catch {
+              Write-Host "::error::evidence push exception: $_"
+            }
           } else {
             Write-Host 'no evidence to publish'
           }
